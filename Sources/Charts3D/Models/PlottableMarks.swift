@@ -33,10 +33,11 @@ public struct PointMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent,
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func customRender(_ env: ChartEnvironment) -> any RealityContent {
+    public func customRender(_ env: ChartEnvironment) -> AnyRealityContent {
         env.symbolShape
             .environment(\.foregroundMaterial, env.foregroundMaterial)
             .frame(size: env.symbolSize)
+            .eraseToAnyReality()
     }
 }
 
@@ -67,9 +68,10 @@ public struct LineMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, 
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func customRender(_ env: ChartEnvironment) -> any RealityContent {
+    public func customRender(_ env: ChartEnvironment) -> AnyRealityContent {
         env.symbolShape
             .environment(\.foregroundMaterial, env.lineMaterial)
+            .eraseToAnyReality()
     }
 }
 

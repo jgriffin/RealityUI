@@ -2,7 +2,7 @@
 // Created by John Griffin on 4/22/24
 //
 
-import Charts3D
+@testable import Charts3D
 import XCTest
 
 final class ChartBuilderTests: XCTestCase {
@@ -17,8 +17,7 @@ final class ChartBuilderTests: XCTestCase {
         }
 
         let content = chart.content
-        XCTAssertEqual(content.contents.count, 1)
-        XCTAssert(content.contents.first.map { type(of: $0) } == PointMark<Int, Int, Int>.self)
+        XCTAssert(type(of: content) == PointMark<Int, Int, Int>.self)
     }
 
     func testPoints() {
@@ -28,7 +27,7 @@ final class ChartBuilderTests: XCTestCase {
         }
 
         let content = chart.content
-        XCTAssertEqual(content.contents.count, 2)
+        XCTAssertEqual(content.contentsCount, 2)
         XCTAssert(content.contents.first.map { type(of: $0) } == PointMark<Int, Int, Int>.self)
         XCTAssert(content.contents.last.map { type(of: $0) } == PointMark<Int, Int, Int>.self)
     }

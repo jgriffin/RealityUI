@@ -49,15 +49,3 @@ public extension RealityContent where Body == Never {
 extension Never: RealityContent {
     public typealias Body = Never
 }
-
-// MARK: - EmptyContent
-
-public struct EmptyContent: RealityContent, BuiltIn {
-    public init() {}
-
-    public func customSizeFor(_: ProposedSize3D) -> Size3D { .zero }
-
-    public func customRender(_: RenderContext, size _: Size3D) -> Entity {
-        makeEntity()
-    }
-}

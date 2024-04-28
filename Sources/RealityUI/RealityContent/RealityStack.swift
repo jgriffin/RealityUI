@@ -5,24 +5,26 @@
 import RealityKit
 import Spatial
 
-public struct RealityStack: RealityContent, BuiltIn {
+public struct RealityStack<Content: RealityContent>: RealityContent, BuiltIn {
     let layout: any RealityLayout
-    let contents: [any RealityContent]
+    let content: Content
 
     public init(
         layout: any RealityLayout,
-        @RealityContentsBuilder contents: () -> [any RealityContent]
+        @RealityContentBuilder content: () -> Content
     ) {
         self.layout = layout
-        self.contents = contents()
+        self.content = content()
     }
 
     public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
-        layout.sizeThatFits(contents: contents, proposal: proposed)
+        let contents = (content as? RealityTupling)?.contents ?? [content]
+        return layout.sizeThatFitsContents(contents, proposal: proposed)
     }
 
     public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
-        let placements = layout.placeContents(contents: contents, in: size)
+        let contents = (content as? RealityTupling)?.contents ?? [content]
+        let placements = layout.placeContents(contents, in: size)
 
         let children = placements.map { placement -> Entity in
             makeEntity(
@@ -44,11 +46,11 @@ public extension RealityStack {
         _ axis: Vector3D,
         alignment: Alignment3D = .center,
         spacing: Size3D = .zero,
-        @RealityContentsBuilder contents: () -> [any RealityContent]
+        @RealityContentBuilder content: () -> Content
     ) {
         self.init(
             layout: StackedLayout(axis: axis, alignment: alignment, spacing: spacing),
-            contents: contents
+            content: content
         )
     }
 }

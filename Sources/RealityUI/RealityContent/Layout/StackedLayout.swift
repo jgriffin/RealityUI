@@ -9,13 +9,20 @@ public struct StackedLayout: RealityLayout {
     public var alignment: Alignment3D
     public var spacing: Size3D
 
-    public init(axis: Vector3D, alignment: Alignment3D, spacing: Size3D) {
+    public init(
+        axis: Vector3D = .right,
+        alignment: Alignment3D = .center,
+        spacing: Size3D = .zero
+    ) {
         self.alignment = alignment
         self.axis = axis
         self.spacing = spacing
     }
 
-    public func sizeThatFits(contents: [any RealityContent], proposal: ProposedSize3D) -> Size3D {
+    public func sizeThatFitsContents(
+        _ contents: [any RealityContent],
+        proposal: ProposedSize3D
+    ) -> Size3D {
         guard !contents.isEmpty else { return .zero }
 
         let resolved = proposal.sizeOrInfinite
@@ -32,7 +39,10 @@ public struct StackedLayout: RealityLayout {
         return StackMath.sizeFromFits(sizes, spacing: spacing, axis: axis)
     }
 
-    public func placeContents(contents: [any RealityContent], in size: Size3D) -> [LayoutContentPlacement] {
+    public func placeContents(
+        _ contents: [any RealityContent],
+        in size: Size3D
+    ) -> [LayoutContentPlacement] {
         guard !contents.isEmpty else { return [] }
 
         let firstProposal = StackMath.initialChildProposalFrom(

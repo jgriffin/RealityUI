@@ -9,13 +9,13 @@ public protocol RealityLayout {
     var alignment: Alignment3D { get }
 
     // Calculate and return the size of the layout container.
-    func sizeThatFits(
-        contents: [any RealityContent],
+    func sizeThatFitsContents(
+        _ contents: [any RealityContent],
         proposal: ProposedSize3D
     ) -> Size3D
 
     func placeContents(
-        contents: [any RealityContent],
+        _ contents: [any RealityContent],
         in size: Size3D
     ) -> [LayoutContentPlacement]
 }

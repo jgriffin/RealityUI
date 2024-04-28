@@ -18,7 +18,7 @@ public extension ChartContent {
         }
     }
 
-    func render(_ env: ChartEnvironment) -> any RealityContent {
+    func render(_ env: ChartEnvironment) -> AnyRealityContent {
         if let custom = self as? CustomChartContent {
             custom.customRender(env)
         } else {
@@ -30,11 +30,9 @@ public extension ChartContent {
 // MARK: - ChartCustomContent
 
 public protocol CustomChartContent {
-    typealias Content = Never
-
     func customPlottableDomains() -> PlottableDomains
 
-    func customRender(_ env: ChartEnvironment) -> any RealityContent
+    func customRender(_ env: ChartEnvironment) -> AnyRealityContent
 }
 
 public extension ChartContent where ChartBody == Never {
@@ -52,7 +50,7 @@ public struct EmptyChartContent: ChartContent, CustomChartContent {
 
     public func customPlottableDomains() -> PlottableDomains { .init() }
 
-    public func customRender(_: ChartEnvironment) -> any RealityContent {
-        EmptyContent()
+    public func customRender(_: ChartEnvironment) -> AnyRealityContent {
+        EmptyContent().eraseToAnyReality()
     }
 }

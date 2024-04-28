@@ -2,21 +2,20 @@
 // Created by John Griffin on 4/18/24
 //
 
-import RealityUI
+@testable import RealityUI
 import XCTest
 
 final class RealityBuilderTests: XCTestCase {
-    typealias Builder = RealityContentsBuilder
+    typealias Builder = RealityContentBuilder
 
     func testEmpty() {
         let result = Builder.build {}
-        XCTAssertEqual(result.count, 0)
+        XCTAssertTrue(type(of: result) == EmptyContent.self)
     }
 
     func testBox() {
         let result = Builder.build { Box() }
-        XCTAssertEqual(result.count, 1)
-        XCTAssertTrue(type(of: result.first!) == Box.self)
+        XCTAssertTrue(type(of: result) == Box.self)
     }
 
     func testMultiple() {
@@ -26,7 +25,7 @@ final class RealityBuilderTests: XCTestCase {
                 .frame(size: .one)
             Sphere()
         }
-        XCTAssertEqual(result.count, 3)
+        XCTAssertEqual(result.contentsCount, 3)
     }
 
     func testIf() {
@@ -41,6 +40,6 @@ final class RealityBuilderTests: XCTestCase {
                 Sphere()
             }
         }
-        XCTAssertEqual(result.count, 1)
+        XCTAssertEqual(result.contentsCount, 3)
     }
 }

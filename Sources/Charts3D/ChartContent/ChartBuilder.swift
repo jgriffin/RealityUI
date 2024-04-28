@@ -6,23 +6,29 @@ import Foundation
 
 @resultBuilder
 public enum ChartBuilder {
+    public typealias Content = ChartContent
+
     public static func buildBlock() -> EmptyChartContent { EmptyChartContent() }
-
-    public static func buildBlock<Content: ChartContent>(_ content: Content) -> Content { content }
-
-    public static func buildBlock(_ contents: any ChartContent...) -> ChartTupleContent {
-        ChartTupleContent(contents: contents)
+    public static func buildBlock<C: Content>(_ content: C) -> C { content }
+    public static func buildBlock<each C: Content>(_ content: repeat each C) -> ChartTuple< repeat (each C)> {
+        ChartTuple((repeat each content))
     }
 
-    public static func buildExpression<Content: ChartContent>(_ expression: Content) -> Content { expression }
+    public static func buildExpression<C: Content>(_ expression: C) -> C {
+        expression
+    }
 
-//    public static func buildArray(_ contents: [Content]) -> Content { contents }
+    public static func buildEither<First: Content, Second: Content>(first content: First) -> ConditionalChartContent<First, Second> {
+        .first(content)
+    }
 
-    public static func buildEither<Content: ChartContent>(first content: Content) -> Content { content }
+    public static func buildEither<First: Content, Second: Content>(second content: Second) -> ConditionalChartContent<First, Second> {
+        .second(content)
+    }
 
-    public static func buildEither<Content: ChartContent>(second content: Content) -> Content { content }
-
-    public static func buildIf<Content: ChartContent>(_ content: Content?) -> Content? { content }
+    public static func buildIf<C: Content>(_ content: C?) -> ConditionalChartContent<C, EmptyChartContent>? {
+        content.map { .first($0) } ?? .second(EmptyChartContent())
+    }
 }
 
 public extension ChartBuilder {
