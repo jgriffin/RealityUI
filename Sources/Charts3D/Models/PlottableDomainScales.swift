@@ -2,6 +2,7 @@
 // Created by John Griffin on 4/23/24
 //
 
+import Charts
 import Spatial
 
 public struct PlotScales {

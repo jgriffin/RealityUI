@@ -2,6 +2,7 @@
 // Created by John Griffin on 4/22/24
 //
 
+import Charts
 import Foundation
 
 // MARK: - PlottableDomains
@@ -124,24 +125,24 @@ public extension PlottableDomain {
     var id: ObjectIdentifier { ObjectIdentifier(Self.self) }
 }
 
-public struct PlottableDomainValues<V: Plottable>: PlottableDomain {
-    public typealias Value = V
+public struct PlottableDomainValues<P: Plottable>: PlottableDomain {
+    public typealias P = P
 
-    public var values: [V]
+    public var values: [P]
 
-    public init(_ values: [V]) {
+    public init(_ values: [P]) {
         self.values = values
     }
 
-    public init(_ values: V...) {
+    public init(_ values: P...) {
         self.init(values)
     }
 
-    public init(_ values: PlottableValue<V>...) {
+    public init(_ values: PlottableValue<P>...) {
         self.init(values.map(\.value))
     }
 
-    public func merging(_ other: any PlottableDomain) -> PlottableDomainValues<V>? {
+    public func merging(_ other: any PlottableDomain) -> PlottableDomainValues<P>? {
         guard let o = other as? Self else { return nil }
         return Self(values + o.values)
     }

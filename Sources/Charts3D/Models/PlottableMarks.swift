@@ -2,6 +2,7 @@
 // Created by John Griffin on 4/21/24
 //
 
+import Charts
 import RealityUI
 
 public protocol PlottableMark {}
