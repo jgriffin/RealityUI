@@ -24,9 +24,7 @@ public extension Chart3D {
     func customRender(_: ChartEnvironment) -> AnyRealityContent {
         content.render(.init())
     }
-}
 
-public extension Chart3D {
     // MARK: - RealityContent
 
     func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {

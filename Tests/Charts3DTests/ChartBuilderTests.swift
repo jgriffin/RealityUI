@@ -13,22 +13,22 @@ final class ChartBuilderTests: XCTestCase {
 
     func testPoint() {
         let chart = Chart3D {
-            PointMark(x: .value("x", 1), y: .value("y", 2), z: .value("z", 3))
+            Point3DMark(x: .value("x", 1), y: .value("y", 2), z: .value("z", 3))
         }
 
         let content = chart.content
-        XCTAssert(type(of: content) == PointMark<Int, Int, Int>.self)
+        XCTAssert(type(of: content) == Point3DMark<Int, Int, Int>.self)
     }
 
     func testPoints() {
         let chart = Chart3D {
-            PointMark(x: .value("x", 1), y: .value("y", 2), z: .value("z", 3))
-            PointMark(x: .value("x", 4), y: .value("y", 5), z: .value("z", 6))
+            Point3DMark(x: .value("x", 1), y: .value("y", 2), z: .value("z", 3))
+            Point3DMark(x: .value("x", 4), y: .value("y", 5), z: .value("z", 6))
         }
 
         let content = chart.content
         XCTAssertEqual(content.contentsCount, 2)
-        XCTAssert(content.contents.first.map { type(of: $0) } == PointMark<Int, Int, Int>.self)
-        XCTAssert(content.contents.last.map { type(of: $0) } == PointMark<Int, Int, Int>.self)
+        XCTAssert(content.contents.first.map { type(of: $0) } == Point3DMark<Int, Int, Int>.self)
+        XCTAssert(content.contents.last.map { type(of: $0) } == Point3DMark<Int, Int, Int>.self)
     }
 }

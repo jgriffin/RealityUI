@@ -7,7 +7,7 @@ import Foundation
 
 // MARK: - Plottable Value
 
-public struct PlottableValue<Value: Plottable> {
+public struct Plottable3DValue<Value: Plottable> {
     public let label: String
     public let value: Value
 

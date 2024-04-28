@@ -14,7 +14,7 @@ final class ChartRenderTests: XCTestCase {
 
     func testPoint() {
         let chart = Chart3D {
-            PointMark(("x", "y", "z"), (0, 0, 0))
+            Point3DMark(("x", "y", "z"), (0, 0, 0))
         }
         let result = chart.render(ChartEnvironment())
 

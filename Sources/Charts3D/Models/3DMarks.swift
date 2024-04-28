@@ -5,18 +5,16 @@
 import Charts
 import RealityUI
 
-public protocol PlottableMark {}
+// MARK: - Point3DMark
 
-// MARK: - PointMark
+public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, CustomChartContent {
+    public let point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)
 
-public struct PointMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, CustomChartContent {
-    public let point: (x: PlottableValue<X>, y: PlottableValue<Y>, z: PlottableValue<Z>)
-
-    public init(_ point: (x: PlottableValue<X>, y: PlottableValue<Y>, z: PlottableValue<Z>)) {
+    public init(_ point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)) {
         self.point = point
     }
 
-    public init(x: PlottableValue<X>, y: PlottableValue<Y>, z: PlottableValue<Z>) {
+    public init(x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>) {
         point = (x, y, z)
     }
 
@@ -44,14 +42,14 @@ public struct PointMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent,
 
 // MARK: - LineMark
 
-public struct LineMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, CustomChartContent {
-    public let point: (x: PlottableValue<X>, y: PlottableValue<Y>, z: PlottableValue<Z>)
+public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, CustomChartContent {
+    public let point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)
 
-    public init(_ point: (x: PlottableValue<X>, y: PlottableValue<Y>, z: PlottableValue<Z>)) {
+    public init(_ point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)) {
         self.point = point
     }
 
-    public init(x: PlottableValue<X>, y: PlottableValue<Y>, z: PlottableValue<Z>) {
+    public init(x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>) {
         point = (x, y, z)
     }
 
@@ -79,11 +77,11 @@ public struct LineMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, 
 // MARK: - BoxMark
 
 // public struct BoxMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, ChartCustomContent {
-//    let min, max: PlottableValuePoint<X, Y, Z>
+//    let min, max: Plottable3DValuePoint<X, Y, Z>
 //
 //    // MARK: - convenience intializers
 //
-//    public init(_ points: PlottableValuePoint<X, Y, Z>...) {
+//    public init(_ points: Plottable3DValuePoint<X, Y, Z>...) {
 //        let xValues = points.map(\.x)
 //        let yValues = points.map(\.y)
 //        let zValues = points.map(\.z)
@@ -110,13 +108,13 @@ public struct LineMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, 
 // MARK: - BarMark
 
 // public struct BarMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, ChartBuiltIn {
-//    let size: PlottableValueSize<X, Y, Z>
+//    let size: Plottable3DValueSize<X, Y, Z>
 //
-//    public init(_ size: PlottableValueSize<X, Y, Z>) {
+//    public init(_ size: Plottable3DValueSize<X, Y, Z>) {
 //        self.size = size
 //    }
 //
-//    public init(width: PlottableValue<X>, height: PlottableValue<Y>, depth: PlottableValue<Z>) {
+//    public init(width: Plottable3DValue<X>, height: Plottable3DValue<Y>, depth: Plottable3DValue<Z>) {
 //        self.init(.init(width: width, height: height, depth: depth))
 //    }
 //

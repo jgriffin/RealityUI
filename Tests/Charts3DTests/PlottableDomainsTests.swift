@@ -7,7 +7,7 @@ import XCTest
 
 final class PlottableDomainsTests: XCTestCase {
     func testPointMark() {
-        let point = PointMark(("x", "y", "z"), (1, 2, 3))
+        let point = Point3DMark(("x", "y", "z"), (1, 2, 3))
 
         let result = point.plottableDomains()
 
@@ -18,8 +18,8 @@ final class PlottableDomainsTests: XCTestCase {
 
     func testPointsMark() {
         let chart = Chart3D {
-            PointMark(("x", "y", "z"), (1, 2, 3))
-            PointMark(("x", "y", "z"), (4, 5, 6))
+            Point3DMark(("x", "y", "z"), (1, 2, 3))
+            Point3DMark(("x", "y", "z"), (4, 5, 6))
         }
 
         let result = chart.plottableDomains()
@@ -30,7 +30,7 @@ final class PlottableDomainsTests: XCTestCase {
     }
 
     func testLineMark() {
-        let point = LineMark(("x", "y", "z"), (1, 2, 3))
+        let point = Line3DMark(("x", "y", "z"), (1, 2, 3))
 
         let result = point.plottableDomains()
 
