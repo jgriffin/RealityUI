@@ -4,7 +4,7 @@
 
 import RealityUI
 
-public struct ChartTuple<each Content: ChartContent>: ChartContent, ChartTupling {
+public struct ChartTuple<each Content: ChartContent>: ChartContent, CustomChartContent, ChartTupling {
     public typealias T = (repeat each Content)
     public let value: T
 
@@ -28,26 +28,22 @@ public struct ChartTuple<each Content: ChartContent>: ChartContent, ChartTupling
     }
 
     // default
-    public func customRender(_: ChartEnvironment) -> AnyRealityContent {
-        fatalError()
-//        let r = renderers(env, value)
-//        let t = tupled(r)
-//
-//        return t.eraseToAnyReality()
+    public func customRender(_ env: ChartEnvironment) -> AnyRealityContent {
+        let r = rendered(env, (repeat each value))
+        return r.eraseToAnyReality()
     }
 
-    func renderers<each C: ChartContent>(
+    func rendered<each C: ChartContent>(
         _ env: ChartEnvironment,
         _ content: (repeat each C)
-    ) -> (repeat Renderer<each C>) {
-        (repeat Renderer(env, each content))
-    }
-
-    func tupled<each R: Rendering>(_ renderer: (repeat each R)) -> AnyRealityContent {
-        RealityTuple(repeat (each renderer).realityContent())
-            .eraseToAnyReality()
+    ) -> RealityTuple< repeat (each C).RenderOutput> {
+        RealityTuple(
+            (repeat (each content).render(env))
+        )
     }
 }
+
+// MARK: - ChartTupling
 
 protocol ChartTupling {
     var contents: [any ChartContent] { get }
@@ -57,31 +53,17 @@ extension ChartTupling {
     var contentsCount: Int { contents.count }
 }
 
-public extension ChartContent {
-    typealias RenderType = AnyRealityContent
-}
+// MARK: - rendering
 
-extension RealityContent {
-    typealias AnyType = AnyRealityContent
+extension ChartContent {
+    typealias RenderOutput = AnyRealityContent
 }
 
 protocol Rendering {
-    associatedtype Content: ChartContent
-    associatedtype Output: RealityContent
-
-    func realityContent() -> Output
+    associatedtype Input: ChartContent
+    typealias Output = AnyRealityContent
 }
 
 struct Renderer<Content: ChartContent>: Rendering {
-    let env: ChartEnvironment
-    let content: Content
-
-    init(_ env: ChartEnvironment, _ content: Content) {
-        self.env = env
-        self.content = content
-    }
-
-    func realityContent() -> AnyRealityContent {
-        content.render(env)
-    }
+    typealias Input = Content
 }

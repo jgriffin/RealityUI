@@ -17,26 +17,26 @@ public protocol RealityContent {
 
 public extension RealityContent {
     func sizeThatFits(_ proposed: ProposedSize3D) -> Size3D {
-        if let builtIn = self as? BuiltIn {
-            builtIn.customSizeFor(proposed)
+        if let custom = self as? CustomRealityContent {
+            custom.customSizeFor(proposed)
         } else {
             body.sizeThatFits(proposed)
         }
     }
 
     func render(_ context: RenderContext, size: Size3D) -> Entity {
-        if let builtIn = self as? BuiltIn {
-            builtIn.customRender(context, size: size)
+        if let custom = self as? CustomRealityContent {
+            custom.customRender(context, size: size)
         } else {
             body.render(context, size: size)
         }
     }
 }
 
-// MARK: - BuiltIn
+// MARK: - CustomRealityContent
 
-public protocol BuiltIn {
-    typealias Body = Never
+public protocol CustomRealityContent {
+//    typealias Body = Never
 
     func customSizeFor(_ proposed: ProposedSize3D) -> Size3D
     func customRender(_ context: RenderContext, size: Size3D) -> Entity

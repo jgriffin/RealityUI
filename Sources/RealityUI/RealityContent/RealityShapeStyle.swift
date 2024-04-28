@@ -19,7 +19,7 @@ public extension RealityShapeStyle {
     }
 }
 
-public struct RealityShapeView<S: RealityShapeStyle>: RealityContent, BuiltIn {
+public struct RealityShapeView<S: RealityShapeStyle>: RealityContent, CustomRealityContent {
     public var shape: S
 
     public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {

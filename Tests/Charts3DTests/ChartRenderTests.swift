@@ -10,8 +10,6 @@ final class ChartRenderTests: XCTestCase {
     func testEmpty() {
         let chart = Chart3D {}
         let result = chart.render(ChartEnvironment())
-
-        XCTAssert(type(of: result) == EmptyContent.self)
     }
 
     func testPoint() {

@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct RealityOffset<Content: RealityContent>: RealityContent, BuiltIn {
+public struct RealityOffset<Content: RealityContent>: RealityContent, CustomRealityContent {
     var content: Content
     var offset: Vector3D
 

@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct AnyRealityContent: RealityContent, BuiltIn {
+public struct AnyRealityContent: RealityContent, CustomRealityContent {
     let content: any RealityContent
 
     public init(_ content: some RealityContent) {

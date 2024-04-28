@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public enum ConditionalRealityContent<First: RealityContent, Second: RealityContent>: RealityContent, BuiltIn {
+public enum ConditionalRealityContent<First: RealityContent, Second: RealityContent>: RealityContent, CustomRealityContent {
     case first(First),
          second(Second)
 

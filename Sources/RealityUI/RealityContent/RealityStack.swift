@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct RealityStack<Content: RealityContent>: RealityContent, BuiltIn {
+public struct RealityStack<Content: RealityContent>: RealityContent, CustomRealityContent {
     let layout: any RealityLayout
     let content: Content
 

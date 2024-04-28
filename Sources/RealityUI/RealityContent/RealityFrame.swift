@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct RealityFrame<Content: RealityContent>: RealityContent, BuiltIn {
+public struct RealityFrame<Content: RealityContent>: RealityContent, CustomRealityContent {
     var content: Content
     var width: Double?
     var height: Double?

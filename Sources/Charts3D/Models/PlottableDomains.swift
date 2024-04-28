@@ -98,21 +98,15 @@ public struct PlottableDomains: CustomStringConvertible {
     }
 
     public func xDomain<P: Plottable>(_: P.Type) -> [P] {
-        x.values
-            .compactMap { $0 as? any PlottableDomain<P> }
-            .flatMap(\.values)
+        x.values.flatMap { ($0 as? any PlottableDomain<P>)?.values ?? [] }
     }
 
     public func yDomain<P: Plottable>(_: P.Type) -> [P] {
-        y.values
-            .compactMap { $0 as? any PlottableDomain<P> }
-            .flatMap(\.values)
+        y.values.flatMap { ($0 as? any PlottableDomain<P>)?.values ?? [] }
     }
 
     public func zDomain<P: Plottable>(_: P.Type) -> [P] {
-        z.values
-            .compactMap { $0 as? any PlottableDomain<P> }
-            .flatMap(\.values)
+        z.values.flatMap { ($0 as? any PlottableDomain<P>)?.values ?? [] }
     }
 }
 

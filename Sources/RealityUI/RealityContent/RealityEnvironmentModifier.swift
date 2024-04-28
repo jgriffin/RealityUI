@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct RealityEnvironmentModifier<Content: RealityContent, V>: RealityContent, BuiltIn {
+public struct RealityEnvironmentModifier<Content: RealityContent, V>: RealityContent, CustomRealityContent {
     let content: Content
     let keyPath: WritableKeyPath<RealityEnvironment, V>
     let value: V

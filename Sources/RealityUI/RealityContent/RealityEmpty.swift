@@ -7,7 +7,7 @@ import Spatial
 
 // MARK: - EmptyContent
 
-public struct EmptyContent: RealityContent, BuiltIn {
+public struct EmptyContent: RealityContent, CustomRealityContent {
     public init() {}
 
     public func customSizeFor(_: ProposedSize3D) -> Size3D { .zero }

@@ -6,7 +6,7 @@ import RealityKit
 import RealityUI
 import Spatial
 
-public struct Chart3D<Content: ChartContent>: ChartContent, CustomChartContent, RealityContent, BuiltIn {
+public struct Chart3D<Content: ChartContent>: ChartContent, CustomChartContent, RealityContent, CustomRealityContent {
     public var content: Content
 
     public init(@ChartBuilder content: () -> Content) {
