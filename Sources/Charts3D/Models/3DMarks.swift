@@ -32,7 +32,7 @@ public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartConten
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func customRender(_ env: ChartEnvironment) -> AnyRealityContent {
+    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
         env.symbolShape
             .environment(\.foregroundMaterial, env.foregroundMaterial)
             .frame(size: env.symbolSize)
@@ -67,7 +67,7 @@ public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func customRender(_ env: ChartEnvironment) -> AnyRealityContent {
+    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
         env.symbolShape
             .environment(\.foregroundMaterial, env.lineMaterial)
             .eraseToAnyReality()
@@ -97,7 +97,7 @@ public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent
 //        )
 //    }
 //
-//    public func customRender(_ env: ChartEnvironment) -> any RealityContent {
+//    public func customRender(_ env: ChartEnvironment) -> any View3D {
 //        Box()
 //            // size
 //            // position

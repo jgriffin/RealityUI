@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct RealityAspectRatio<Content: RealityContent>: RealityContent, CustomRealityContent {
+public struct _AspectRatioView3D<Content: View3D>: View3D, CustomView3D {
     var content: Content
     var aspectRatio: Size3D?
     var maxScale: Double?

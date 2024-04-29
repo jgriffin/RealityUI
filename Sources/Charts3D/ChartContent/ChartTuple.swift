@@ -28,7 +28,7 @@ public struct ChartTuple<each Content: ChartContent>: ChartContent, CustomChartC
     }
 
     // default
-    public func customRender(_ env: ChartEnvironment) -> AnyRealityContent {
+    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
         let r = rendered(env, (repeat each value))
         return r.eraseToAnyReality()
     }
@@ -36,8 +36,8 @@ public struct ChartTuple<each Content: ChartContent>: ChartContent, CustomChartC
     func rendered<each C: ChartContent>(
         _ env: ChartEnvironment,
         _ content: (repeat each C)
-    ) -> RealityTuple< repeat (each C).RenderOutput> {
-        RealityTuple(
+    ) -> TupleView3D< repeat (each C).RenderOutput> {
+        TupleView3D(
             (repeat (each content).render(env))
         )
     }
@@ -56,12 +56,12 @@ extension ChartTupling {
 // MARK: - rendering
 
 extension ChartContent {
-    typealias RenderOutput = AnyRealityContent
+    typealias RenderOutput = AnyView3D
 }
 
 protocol Rendering {
     associatedtype Input: ChartContent
-    typealias Output = AnyRealityContent
+    typealias Output = AnyView3D
 }
 
 struct Renderer<Content: ChartContent>: Rendering {

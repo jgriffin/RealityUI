@@ -17,7 +17,7 @@ public enum ConditionalChartContent<First: ChartContent, Second: ChartContent>: 
         }
     }
 
-    public func customRender(_ env: ChartEnvironment) -> AnyRealityContent {
+    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
         switch self {
         case let .first(content):
             content.render(env)

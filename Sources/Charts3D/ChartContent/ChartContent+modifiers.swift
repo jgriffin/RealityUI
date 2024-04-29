@@ -10,7 +10,7 @@ extension ChartContent {
         ChartEnvironmentModifier(self, keyPath, value)
     }
 
-//    func foregroundMaterial(_ m: RealityMaterial) -> some ChartContent {
+//    func foregroundMaterial(_ m: RealityUIMaterial) -> some ChartContent {
 //        ChartEnvironmentModifier(self, \.foregroundMaterial, m)
 //    }
 //

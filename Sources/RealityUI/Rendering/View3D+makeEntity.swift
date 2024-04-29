@@ -4,7 +4,7 @@
 
 import RealityKit
 
-public extension RealityContent {
+public extension View3D {
     // core api
     func makeEntity(
         value: some Any,

@@ -26,7 +26,7 @@ public extension Entity {
         set { components[RealityUIComponent.self] = newValue }
     }
 
-    var realityContent: (any RealityContentProtocol)? { realityUI?.content }
+    var View3D: (any RealityContentProtocol)? { realityUI?.content }
 }
 
 // MARK: - RealityContentType
@@ -35,13 +35,13 @@ public struct RealityContentType: Hashable, CustomStringConvertible {
     let id: ObjectIdentifier
     public let description: String
 
-    public init<T: RealityContent>(_: T.Type = T.self) {
+    public init<T: View3D>(_: T.Type = T.self) {
         id = ObjectIdentifier(T.self)
         description = "\(T.self)"
     }
 }
 
-public extension RealityContent {
+public extension View3D {
     static var contentType: RealityContentType { RealityContentType(Self.self) }
     var contentType: RealityContentType { RealityContentType(Self.self) }
 }
@@ -61,7 +61,7 @@ public extension RealityContentProtocol {
 }
 
 public extension RealityContentProtocol {
-    static func value<T: RealityContent, Value>(
+    static func value<T: View3D, Value>(
         _: T.Type = T.self,
         _ value: Value
     ) -> Self where Self == RealityContentValue<Value> {
@@ -81,7 +81,7 @@ public struct RealityContentValue<Value>: RealityContentProtocol, CustomDebugStr
     }
 
     public var debugDescription: String {
-        "RealityContent \(type) \(value)"
+        "View3D \(type) \(value)"
     }
 }
 

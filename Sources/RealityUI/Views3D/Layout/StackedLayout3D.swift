@@ -4,7 +4,7 @@
 
 import Spatial
 
-public struct StackedLayout: RealityLayout {
+public struct StackedLayout3D: Layout3D {
     public var axis: Vector3D
     public var alignment: Alignment3D
     public var spacing: Size3D
@@ -20,7 +20,7 @@ public struct StackedLayout: RealityLayout {
     }
 
     public func sizeThatFitsContents(
-        _ contents: [any RealityContent],
+        _ contents: [any View3D],
         proposal: ProposedSize3D
     ) -> Size3D {
         guard !contents.isEmpty else { return .zero }
@@ -40,7 +40,7 @@ public struct StackedLayout: RealityLayout {
     }
 
     public func placeContents(
-        _ contents: [any RealityContent],
+        _ contents: [any View3D],
         in size: Size3D
     ) -> [LayoutContentPlacement] {
         guard !contents.isEmpty else { return [] }

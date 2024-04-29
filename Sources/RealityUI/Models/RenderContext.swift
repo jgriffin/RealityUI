@@ -6,7 +6,7 @@ import RealityKit
 import Spatial
 
 public struct RenderContext {
-    var environment: RealityEnvironment
+    var environment: Environment3DValues
 }
 
 public extension RenderContext {
@@ -14,7 +14,7 @@ public extension RenderContext {
         RealityUI.modify(self, with: transform)
     }
 
-    func modifyEnvironment(_ transform: (inout RealityEnvironment) -> Void) -> RenderContext {
+    func modifyEnvironment(_ transform: (inout Environment3DValues) -> Void) -> RenderContext {
         modify {
             $0.environment = RealityUI.modify($0.environment, with: transform)
         }

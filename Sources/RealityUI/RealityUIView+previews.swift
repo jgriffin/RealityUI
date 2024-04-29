@@ -8,10 +8,10 @@ import SwiftUI
 
     #Preview(windowStyle: .volumetric) {
         RealityUIView {
-            RealityStack(.right, alignment: .center, spacing: .zero) {
-                Sphere()
-                Box()
-                Sphere()
+            Stack3D(.right, alignment: .center, spacing: .zero) {
+                Sphere3D()
+                Box3D()
+                Sphere3D()
                     .offset(y: -0.1)
             }
             .padding(.init(0.1))
@@ -20,7 +20,7 @@ import SwiftUI
 
     #Preview {
         RealityUIView {
-            Box()
+            Box3D()
                 .padding(.init(0.01))
         }
     }

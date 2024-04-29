@@ -5,10 +5,10 @@
 import RealityKit
 import Spatial
 
-public struct AnyRealityContent: RealityContent, CustomRealityContent {
-    let content: any RealityContent
+public struct AnyView3D: View3D, CustomView3D {
+    public let content: any View3D
 
-    public init(_ content: some RealityContent) {
+    public init(_ content: some View3D) {
         self.content = content
     }
 
@@ -21,8 +21,8 @@ public struct AnyRealityContent: RealityContent, CustomRealityContent {
     }
 }
 
-public extension RealityContent {
-    func eraseToAnyReality() -> AnyRealityContent {
-        (self as? AnyRealityContent) ?? AnyRealityContent(self)
+public extension View3D {
+    func eraseToAnyReality() -> AnyView3D {
+        (self as? AnyView3D) ?? AnyView3D(self)
     }
 }

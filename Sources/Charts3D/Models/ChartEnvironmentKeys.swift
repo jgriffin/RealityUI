@@ -6,12 +6,12 @@ import RealityUI
 import Spatial
 
 public extension ChartEnvironment {
-    var foregroundMaterial: RealityMaterial {
+    var foregroundMaterial: RealityUIMaterial {
         get { self[ChartForegroundMaterialKey.self] }
         set { self[ChartForegroundMaterialKey.self] = newValue }
     }
 
-    var symbolShape: any RealityShapeStyle {
+    var symbolShape: any Shape3DStyle {
         get { self[ChartSymbolShapeKey.self] }
         set { self[ChartSymbolShapeKey.self] = newValue }
     }
@@ -21,7 +21,7 @@ public extension ChartEnvironment {
         set { self[ChartSymbolSizeKey.self] = newValue }
     }
 
-    var lineMaterial: RealityMaterial {
+    var lineMaterial: RealityUIMaterial {
         get { self[ChartLineMaterialKey.self] }
         set { self[ChartLineMaterialKey.self] = newValue }
     }
@@ -30,11 +30,11 @@ public extension ChartEnvironment {
 // MARK: - environment keys
 
 enum ChartForegroundMaterialKey: ChartEnvironmentKey {
-    static var defaultValue: RealityMaterial = .color(.blue)
+    static var defaultValue: RealityUIMaterial = .color(.blue)
 }
 
 enum ChartSymbolShapeKey: ChartEnvironmentKey {
-    static var defaultValue: any RealityShapeStyle = Box()
+    static var defaultValue: any Shape3DStyle = Box3D()
 }
 
 enum ChartSymbolSizeKey: ChartEnvironmentKey {
@@ -42,5 +42,5 @@ enum ChartSymbolSizeKey: ChartEnvironmentKey {
 }
 
 enum ChartLineMaterialKey: ChartEnvironmentKey {
-    static var defaultValue: RealityMaterial = .color(.blue)
+    static var defaultValue: RealityUIMaterial = .color(.blue)
 }

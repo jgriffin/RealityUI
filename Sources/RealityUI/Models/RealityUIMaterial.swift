@@ -8,7 +8,7 @@ public protocol Materializable {
     func makeMaterial() -> RealityKit.Material
 }
 
-public enum RealityMaterial: Materializable {
+public enum RealityUIMaterial: Materializable {
     case simple(color: SimpleMaterial.Color, roughness: Float, isMetalic: Bool)
 
     // MARK: - materializable
@@ -21,13 +21,13 @@ public enum RealityMaterial: Materializable {
     }
 }
 
-public extension RealityMaterial {
+public extension RealityUIMaterial {
     static func color(
         _ color: SimpleMaterial.Color,
         alpha: Double? = nil,
         roughness: Float = 1,
         isMetalic: Bool = false
-    ) -> RealityMaterial {
+    ) -> RealityUIMaterial {
         .simple(
             color: alpha.flatMap { color.withAlphaComponent($0) } ?? color,
             roughness: roughness,

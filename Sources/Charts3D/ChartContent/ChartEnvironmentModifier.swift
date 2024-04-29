@@ -23,7 +23,7 @@ public struct ChartEnvironmentModifier<Content: ChartContent, V>: ChartContent, 
         content.plottableDomains()
     }
 
-    public func customRender(_ env: ChartEnvironment) -> AnyRealityContent {
+    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
         let updatedEnv = modify(env) {
             $0[keyPath: keyPath] = value
         }

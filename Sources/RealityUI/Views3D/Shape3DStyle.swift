@@ -7,19 +7,19 @@ import Spatial
 
 // MARK: - Shape
 
-public protocol RealityShapeStyle: RealityContent {
+public protocol Shape3DStyle: View3D {
     var name: String { get }
     func shapeSizeFor(_ proposed: ProposedSize3D) -> Size3D
     func mesh(in size: Size3D) -> MeshResource
 }
 
-public extension RealityShapeStyle {
-    var body: some RealityContent {
-        RealityShapeView(shape: self)
+public extension Shape3DStyle {
+    var body: some View3D {
+        Shape3DView(shape: self)
     }
 }
 
-public struct RealityShapeView<S: RealityShapeStyle>: RealityContent, CustomRealityContent {
+public struct Shape3DView<S: Shape3DStyle>: View3D, CustomView3D {
     public var shape: S
 
     public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {

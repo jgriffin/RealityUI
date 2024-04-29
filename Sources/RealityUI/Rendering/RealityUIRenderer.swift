@@ -5,22 +5,22 @@
 import RealityKit
 import Spatial
 
-public class RealityContentRenderer {
+public class RealityUIRenderer {
     public let realityRoot: Entity
 
     public init() {
         RealityUIComponent.registerOnce
-        realityRoot = EmptyContent().makeEntity(value: "realityRoot")
+        realityRoot = EmptyView3D().makeEntity(value: "realityRoot")
     }
 
     public func update(
-        with content: any RealityContent,
+        with content: any View3D,
         size: Size3D
     ) {
-        let renderTree = Self.renderTreeFor(content, size: size)
+        let renderTree = RealityUIRenderer.renderTreeFor(content, size: size)
 
         let existingRoot = realityRoot.children.first
-        let updatedRoot = Self.updatedRealityTree(existingRoot, withRenderRoot: renderTree)
+        let updatedRoot = RealityUIRenderer.updatedRealityTree(existingRoot, withRenderRoot: renderTree)
 
         if existingRoot != updatedRoot {
             realityRoot.children.removeAll()
@@ -29,10 +29,10 @@ public class RealityContentRenderer {
     }
 }
 
-extension RealityContentRenderer {
+extension RealityUIRenderer {
     /// returns a whole Entity tree independent of realityRoot
     static func renderTreeFor(
-        _ content: any RealityContent,
+        _ content: any View3D,
         size: Size3D
     ) -> Entity {
         let context = RenderContext(environment: .init())

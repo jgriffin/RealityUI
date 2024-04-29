@@ -5,25 +5,25 @@
 import RealityKit
 import Spatial
 
-public struct RealityStack<Content: RealityContent>: RealityContent, CustomRealityContent {
-    let layout: any RealityLayout
+public struct Stack3D<Content: View3D>: View3D, CustomView3D {
+    let layout: any Layout3D
     let content: Content
 
     public init(
-        layout: any RealityLayout,
-        @RealityContentBuilder content: () -> Content
+        layout: any Layout3D,
+        @View3DBuilder content: () -> Content
     ) {
         self.layout = layout
         self.content = content()
     }
 
     public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
-        let contents = (content as? RealityTupling)?.contents ?? [content]
+        let contents = (content as? View3DTupling)?.contents ?? [content]
         return layout.sizeThatFitsContents(contents, proposal: proposed)
     }
 
     public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
-        let contents = (content as? RealityTupling)?.contents ?? [content]
+        let contents = (content as? View3DTupling)?.contents ?? [content]
         let placements = layout.placeContents(contents, in: size)
 
         let children = placements.map { placement -> Entity in
@@ -41,15 +41,15 @@ public struct RealityStack<Content: RealityContent>: RealityContent, CustomReali
     }
 }
 
-public extension RealityStack {
+public extension Stack3D {
     init(
         _ axis: Vector3D,
         alignment: Alignment3D = .center,
         spacing: Size3D = .zero,
-        @RealityContentBuilder content: () -> Content
+        @View3DBuilder content: () -> Content
     ) {
         self.init(
-            layout: StackedLayout(axis: axis, alignment: alignment, spacing: spacing),
+            layout: StackedLayout3D(axis: axis, alignment: alignment, spacing: spacing),
             content: content
         )
     }

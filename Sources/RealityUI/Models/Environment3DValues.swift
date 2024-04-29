@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct RealityEnvironment {
+public struct Environment3DValues {
     private var values: [ObjectIdentifier: Any]
 
     init(values: [ObjectIdentifier: Any]) {
@@ -16,8 +16,8 @@ public struct RealityEnvironment {
     }
 }
 
-public extension RealityEnvironment {
-    subscript<K: RealityEnvironmentKey>(_: K.Type) -> K.Value {
+public extension Environment3DValues {
+    subscript<K: Environment3DKey>(_: K.Type) -> K.Value {
         get {
             values[ObjectIdentifier(K.Type.self)] as? K.Value ?? K.defaultValue
         }
@@ -26,12 +26,12 @@ public extension RealityEnvironment {
         }
     }
 
-    func merging(_ other: RealityEnvironment) -> RealityEnvironment {
+    func merging(_ other: Environment3DValues) -> Environment3DValues {
         .init(values: values.merging(other.values, uniquingKeysWith: { _, rhs in rhs }))
     }
 }
 
-public protocol RealityEnvironmentKey {
+public protocol Environment3DKey {
     associatedtype Value
 
     static var defaultValue: Self.Value { get }

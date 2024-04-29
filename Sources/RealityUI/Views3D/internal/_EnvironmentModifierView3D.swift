@@ -5,14 +5,14 @@
 import RealityKit
 import Spatial
 
-public struct RealityEnvironmentModifier<Content: RealityContent, V>: RealityContent, CustomRealityContent {
+public struct _EnvironmentModifierView3D<Content: View3D, V>: View3D, CustomView3D {
     let content: Content
-    let keyPath: WritableKeyPath<RealityEnvironment, V>
+    let keyPath: WritableKeyPath<Environment3DValues, V>
     let value: V
 
     public init(
         _ content: Content,
-        _ keyPath: WritableKeyPath<RealityEnvironment, V>,
+        _ keyPath: WritableKeyPath<Environment3DValues, V>,
         _ value: V
     ) {
         self.content = content

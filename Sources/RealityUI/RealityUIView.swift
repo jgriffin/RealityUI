@@ -7,13 +7,13 @@
     import SwiftUI
 
     public struct RealityUIView: View {
-        var realityContent: any RealityContent
+        var View3D: any View3D
 
-        public init(_ realityContent: () -> some RealityContent) {
-            self.realityContent = realityContent()
+        public init(_ View3D: () -> some View3D) {
+            self.View3D = View3D()
         }
 
-        @State private var renderer = RealityContentRenderer()
+        @State private var renderer = RealityUIRenderer()
 
         public var body: some View {
             GeometryReader3D { proxy in
@@ -21,16 +21,16 @@
                     chartBody.add(renderer.realityRoot)
 
                     let sceneBounds = chartBody.convert(proxy.frame(in: .local), from: .local, to: .scene)
-                    renderer.update(with: realityContent, size: Size3D(sceneBounds.extents))
+                    renderer.update(with: View3D, size: Size3D(sceneBounds.extents))
                 } update: { chartBody in
                     let sceneBounds = chartBody.convert(proxy.frame(in: .local), from: .local, to: .scene)
-                    renderer.update(with: realityContent, size: Size3D(sceneBounds.extents))
+                    renderer.update(with: View3D, size: Size3D(sceneBounds.extents))
                 }
             }
         }
     }
 
     #Preview(windowStyle: .volumetric) {
-        RealityUIView { Sphere() }
+        RealityUIView { Sphere3D() }
     }
 #endif

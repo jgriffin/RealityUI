@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct RealityTuple<each Content: RealityContent>: RealityContent, CustomRealityContent, RealityTupling {
+public struct TupleView3D<each Content: View3D>: View3D, CustomView3D, View3DTupling {
     public typealias T = (repeat each Content)
     public let value: (repeat each Content)
 
@@ -17,8 +17,8 @@ public struct RealityTuple<each Content: RealityContent>: RealityContent, Custom
         self.value = (repeat each value)
     }
 
-    public var contents: [any RealityContent] {
-        var contents: [any RealityContent] = []
+    public var contents: [any View3D] {
+        var contents: [any View3D] = []
         repeat contents.append(each value)
         return contents
     }
@@ -26,22 +26,22 @@ public struct RealityTuple<each Content: RealityContent>: RealityContent, Custom
     // MARK: - CustomRealityContent
 
     public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
-        RealityStack(layout: StackedLayout()) {
+        Stack3D(layout: StackedLayout3D()) {
             self
         }.sizeThatFits(proposed)
     }
 
     public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
-        RealityStack(layout: StackedLayout()) {
+        Stack3D(layout: StackedLayout3D()) {
             self
         }.render(context, size: size)
     }
 }
 
-protocol RealityTupling {
-    var contents: [any RealityContent] { get }
+protocol View3DTupling {
+    var contents: [any View3D] { get }
 }
 
-extension RealityTupling {
+extension View3DTupling {
     var contentsCount: Int { contents.count }
 }

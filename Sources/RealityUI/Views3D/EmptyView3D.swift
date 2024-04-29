@@ -5,9 +5,9 @@
 import RealityKit
 import Spatial
 
-// MARK: - EmptyContent
+// MARK: - EmptyView3D
 
-public struct EmptyContent: RealityContent, CustomRealityContent {
+public struct EmptyView3D: View3D, CustomView3D {
     public init() {}
 
     public func customSizeFor(_: ProposedSize3D) -> Size3D { .zero }

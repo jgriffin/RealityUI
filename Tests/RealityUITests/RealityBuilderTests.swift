@@ -6,24 +6,24 @@
 import XCTest
 
 final class RealityBuilderTests: XCTestCase {
-    typealias Builder = RealityContentBuilder
+    typealias Builder = View3DBuilder
 
     func testEmpty() {
         let result = Builder.build {}
-        XCTAssertTrue(type(of: result) == EmptyContent.self)
+        XCTAssertTrue(type(of: result) == EmptyView3D.self)
     }
 
     func testBox() {
-        let result = Builder.build { Box() }
-        XCTAssertTrue(type(of: result) == Box.self)
+        let result = Builder.build { Box3D() }
+        XCTAssertTrue(type(of: result) == Box3D.self)
     }
 
     func testMultiple() {
         let result = Builder.build {
-            Box()
-            Box()
+            Box3D()
+            Box3D()
                 .frame(size: .one)
-            Sphere()
+            Sphere3D()
         }
         XCTAssertEqual(result.contentsCount, 3)
     }
@@ -31,13 +31,13 @@ final class RealityBuilderTests: XCTestCase {
     func testIf() {
         let no = false
         let result = Builder.build {
-            Box()
+            Box3D()
             if no {
-                Box()
+                Box3D()
             }
             if no {
-                Box()
-                Sphere()
+                Box3D()
+                Sphere3D()
             }
         }
         XCTAssertEqual(result.contentsCount, 3)

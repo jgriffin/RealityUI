@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct RealityPadding<Content: RealityContent>: RealityContent, CustomRealityContent {
+public struct _PaddingView3D<Content: View3D>: View3D, CustomView3D {
     var content: Content
     var edgeInsets: EdgeInsets3D
 
