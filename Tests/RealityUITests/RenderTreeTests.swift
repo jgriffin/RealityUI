@@ -2,7 +2,7 @@
 import Spatial
 import XCTest
 
-final class RendererRenderTreeTests: XCTestCase {
+final class RenderTreeTests: XCTestCase {
     typealias Renderer = RealityUIRenderer
 
     var renderer: Renderer!

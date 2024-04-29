@@ -14,6 +14,7 @@ public extension Entity {
         children: [Entity] = []
     ) -> Entity {
         let entity = Entity()
+        entity.name = String(content.type.description.prefix(50))
         entity.realityUI = .init(content)
         entity.components.set(components)
         entity.children.append(contentsOf: children)

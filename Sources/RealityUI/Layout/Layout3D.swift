@@ -35,6 +35,14 @@ public extension Layout3D {
         StackedLayout3D(axis: axis, alignment: alignment, spacing: spacing)
     }
 
+    @inlinable static func stacked(
+        axis: Vector3D,
+        alignment: Alignment3D = .center,
+        spacing: Double
+    ) -> Self where Self == StackedLayout3D {
+        stacked(axis: axis, alignment: alignment, spacing: .one * spacing)
+    }
+
     static func canvas(
         alignment: Alignment3D = .center
     ) -> Self where Self == CanvasLayout3D {
