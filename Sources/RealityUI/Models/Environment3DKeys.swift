@@ -9,10 +9,19 @@ public extension Environment3DValues {
         get { self[RealityForegroundMaterialKey.self] }
         set { self[RealityForegroundMaterialKey.self] = newValue }
     }
+
+    var lineRadius: Double {
+        get { self[RealityLineRadiusKey.self] }
+        set { self[RealityLineRadiusKey.self] = newValue }
+    }
 }
 
 // MARK: - environment keys
 
 enum RealityForegroundMaterialKey: Environment3DKey {
     static var defaultValue: RealityUIMaterial = .color(.blue)
+}
+
+enum RealityLineRadiusKey: Environment3DKey {
+    static var defaultValue: Double = 0.001
 }

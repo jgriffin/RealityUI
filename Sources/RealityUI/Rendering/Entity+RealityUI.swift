@@ -77,6 +77,10 @@ public extension Component where Self == Transform {
         return transform
     }
 
+    @inlinable static func transform(pose: Pose3D) -> Self {
+        transform(AffineTransform3D(pose: pose))
+    }
+
     static func translation(_ translation: Vector3D) -> Self {
         transform(AffineTransform3D(translation: translation))
     }

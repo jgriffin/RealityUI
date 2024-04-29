@@ -1,4 +1,5 @@
 @testable import RealityUI
+import Spatial
 import XCTest
 
 final class RendererRenderTreeTests: XCTestCase {
@@ -62,5 +63,16 @@ final class RendererRenderTreeTests: XCTestCase {
         XCTAssertEqual(result.transform.translation, .init(x: 0.0, y: -0.5, z: 1.0))
         XCTAssertEqual(result.children.count, 1)
         XCTAssertEqual(result.children.first?.View3D?.type, Shape3DView<Sphere3D>.contentType)
+    }
+
+    func testLine() {
+        let points = [
+            Vector3D.bottomLeading, .bottomTrailing, .topTrailing, .topLeading,
+        ].map { Point3D($0 * 0.2) }
+
+        let line = Line3D(points)
+
+        let result = Renderer.renderTreeFor(line, size: .one)
+        print(result)
     }
 }

@@ -34,3 +34,26 @@ public struct Sphere3D: Shape3DStyle {
         .generateSphere(radius: Float(size.vector.min() / 2))
     }
 }
+
+public struct Cylinder3D: Shape3DStyle {
+    public init() {}
+
+    public var name = "Cylinder"
+
+    public func shapeSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+        var size = proposed.sizeOrDefault
+        if size.width < size.depth {
+            size.width = size.depth
+        } else {
+            size.depth = size.width
+        }
+        return size
+    }
+
+    public func mesh(in size: Size3D) -> MeshResource {
+        .generateCylinder(
+            height: Float(size.height),
+            radius: Float(min(size.width, size.depth) / 2)
+        )
+    }
+}
