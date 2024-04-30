@@ -46,10 +46,10 @@ public struct ForEach3D<Data: RandomAccessCollection, ID: Hashable, Content: Vie
         }.sizeThatFits(proposed, env)
     }
 
-    public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         LayoutView3D(.stacked(axis: .right)) {
             self
-        }.render(context, size: size)
+        }.renderWithSize(size, env)
     }
 }
 

@@ -67,10 +67,10 @@ public struct Line3D: View3D, CustomView3D {
         return .init(segment.to - segment.from)
     }
 
-    public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         let segments = segmentsFromPoints() ?? [segmentInSize(size, direction: points.first)]
         let children = viewsForSegments(segments).map {
-            $0.render(context, size: .zero)
+            $0.renderWithSize(.zero, env)
         }
 
         return makeEntity(value: points, children: children)

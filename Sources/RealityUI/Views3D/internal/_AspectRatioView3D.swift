@@ -42,14 +42,14 @@ public struct _AspectRatioView3D<Content: View3D>: View3D, CustomView3D {
         )
     }
 
-    public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
-        let childSize = content.sizeThatFits(.init(size), context.environment)
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+        let childSize = content.sizeThatFits(.init(size), env)
         let scale = AspectRatioMath.scaleToFit(childSize, into: size)
         let scaleSize = Size3D.one * min(scale, maxScale ?? .greatestFiniteMagnitude)
 
         return makeEntity(
             .transform(AffineTransform3D(scale: scaleSize)),
-            children: content.render(context, size: childSize)
+            children: content.renderWithSize(childSize, env)
         )
     }
 }

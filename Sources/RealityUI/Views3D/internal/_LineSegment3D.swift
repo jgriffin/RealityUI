@@ -18,9 +18,9 @@ struct _LineSegment3D: View3D, CustomView3D {
         .zero
     }
 
-    func customRender(_ context: RenderContext, size _: Size3D) -> Entity {
-        let radius = context.environment.lineRadius
-        let material = context.environment.foregroundMaterial.makeMaterial()
+    func customRenderWithSize(_: Size3D, _ env: Environment3D) -> Entity {
+        let radius = env.lineRadius
+        let material = env.foregroundMaterial.makeMaterial()
 
         let length = (to - from).length
         let middle = (from + to) / 2

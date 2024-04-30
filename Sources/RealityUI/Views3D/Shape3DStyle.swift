@@ -26,9 +26,9 @@ public struct Shape3DView<S: Shape3DStyle>: View3D, CustomView3D {
         shape.shapeSizeFor(proposed)
     }
 
-    public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
-        let mesh = shape.mesh(in: customSizeFor(.init(size), context.environment))
-        let material = context.environment.foregroundMaterial.makeMaterial()
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+        let mesh = shape.mesh(in: customSizeFor(.init(size), env))
+        let material = env.foregroundMaterial.makeMaterial()
         let materials = Array(repeating: material, count: mesh.expectedMaterialCount)
         let model = ModelComponent(mesh: mesh, materials: materials)
 

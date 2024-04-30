@@ -22,15 +22,15 @@ public struct LayoutView3D<Layout: Layout3D, Content: View3D>: View3D, CustomVie
         return layout.sizeThatFitsContents(contents, proposal: proposed, env)
     }
 
-    public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         let contents = groupFlattened(content)
-        let placements = layout.placeContents(contents, in: size, context.environment)
+        let placements = layout.placeContents(contents, in: size, env)
 
         let children = placements.map { placement -> Entity in
             makeEntity(
                 value: "stackPosition",
                 .translation(.init(placement.position)),
-                children: placement.content.render(context, size: placement.size)
+                children: placement.content.renderWithSize(placement.size, env)
             )
         }
 

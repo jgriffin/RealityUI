@@ -28,7 +28,7 @@ public struct _PaddingView3D<Content: View3D>: View3D, CustomView3D {
         return childSize + edgeInsets.size
     }
 
-    public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         let translation = Vector3D(
             x: (edgeInsets.trailing - edgeInsets.leading) / 2,
             y: (edgeInsets.top - edgeInsets.bottom) / 2,
@@ -37,7 +37,7 @@ public struct _PaddingView3D<Content: View3D>: View3D, CustomView3D {
         return makeEntity(
             value: edgeInsets,
             .translation(translation),
-            children: content.render(context, size: size - edgeInsets.size)
+            children: content.renderWithSize(size - edgeInsets.size, env)
         )
     }
 }

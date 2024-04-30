@@ -33,10 +33,10 @@ public struct TupleView3D<each Content: View3D>: View3D, CustomView3D {
         }.sizeThatFits(proposed, env)
     }
 
-    public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         LayoutView3D(.stacked(axis: .right)) {
             self
-        }.render(context, size: size)
+        }.renderWithSize(size, env)
     }
 }
 

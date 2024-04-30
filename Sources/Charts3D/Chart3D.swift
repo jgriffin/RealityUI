@@ -31,8 +31,8 @@ public extension Chart3D {
         proposed.sizeOrDefault
     }
 
-    func customRender(_ context: RenderContext, size: Size3D) -> Entity {
+    func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         customRender(ChartEnvironment())
-            .render(context, size: size)
+            .renderWithSize(size, env)
     }
 }

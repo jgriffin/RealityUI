@@ -24,10 +24,10 @@ public struct _EnvironmentModifierView3D<Content: View3D, V>: View3D, CustomView
         content.sizeThatFits(proposed, env)
     }
 
-    public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
-        let updated = modify(context) {
-            $0.environment[keyPath: keyPath] = value
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+        let updated = modify(env) {
+            $0[keyPath: keyPath] = value
         }
-        return content.render(updated, size: size)
+        return content.renderWithSize(size, updated)
     }
 }
