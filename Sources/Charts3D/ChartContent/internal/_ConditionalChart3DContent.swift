@@ -4,7 +4,7 @@
 
 import RealityUI
 
-public enum ConditionalChartContent<First: ChartContent, Second: ChartContent>: ChartContent, CustomChartContent {
+public enum _ConditionalChart3DContent<First: Chart3DContent, Second: Chart3DContent>: Chart3DContent, CustomChart3DContent {
     case first(First),
          second(Second)
 
@@ -17,7 +17,7 @@ public enum ConditionalChartContent<First: ChartContent, Second: ChartContent>: 
         }
     }
 
-    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
+    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
         switch self {
         case let .first(content):
             content.render(env)

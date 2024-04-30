@@ -4,7 +4,7 @@
 
 import RealityUI
 
-public struct ChartTuple<each Content: ChartContent>: ChartContent, CustomChartContent, ChartTupling {
+public struct TupleChart3DContent<each Content: Chart3DContent>: Chart3DContent, CustomChart3DContent, ChartTupling {
     public typealias T = (repeat each Content)
     public let value: T
 
@@ -12,8 +12,8 @@ public struct ChartTuple<each Content: ChartContent>: ChartContent, CustomChartC
         self.value = value
     }
 
-    public var contents: [any ChartContent] {
-        var contents: [any ChartContent] = []
+    public var contents: [any Chart3DContent] {
+        var contents: [any Chart3DContent] = []
         repeat contents.append(each value)
         return contents
     }
@@ -28,13 +28,13 @@ public struct ChartTuple<each Content: ChartContent>: ChartContent, CustomChartC
     }
 
     // default
-    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
+    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
         let r = rendered(env, (repeat each value))
         return r.eraseToAnyReality()
     }
 
-    func rendered<each C: ChartContent>(
-        _ env: ChartEnvironment,
+    func rendered<each C: Chart3DContent>(
+        _ env: Chart3DEnvironment,
         _ content: (repeat each C)
     ) -> TupleView3D< repeat (each C).RenderOutput> {
         TupleView3D(
@@ -46,7 +46,7 @@ public struct ChartTuple<each Content: ChartContent>: ChartContent, CustomChartC
 // MARK: - ChartTupling
 
 protocol ChartTupling {
-    var contents: [any ChartContent] { get }
+    var contents: [any Chart3DContent] { get }
 }
 
 extension ChartTupling {
@@ -55,15 +55,15 @@ extension ChartTupling {
 
 // MARK: - rendering
 
-extension ChartContent {
+extension Chart3DContent {
     typealias RenderOutput = AnyView3D
 }
 
 protocol Rendering {
-    associatedtype Input: ChartContent
+    associatedtype Input: Chart3DContent
     typealias Output = AnyView3D
 }
 
-struct Renderer<Content: ChartContent>: Rendering {
+struct Renderer<Content: Chart3DContent>: Rendering {
     typealias Input = Content
 }

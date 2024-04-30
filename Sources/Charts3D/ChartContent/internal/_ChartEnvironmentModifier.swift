@@ -4,14 +4,14 @@
 
 import RealityUI
 
-public struct ChartEnvironmentModifier<Content: ChartContent, V>: ChartContent, CustomChartContent {
+public struct _ChartEnvironmentModifier<Content: Chart3DContent, V>: Chart3DContent, CustomChart3DContent {
     let content: Content
-    let keyPath: WritableKeyPath<ChartEnvironment, V>
+    let keyPath: WritableKeyPath<Chart3DEnvironment, V>
     let value: V
 
     public init(
         _ content: Content,
-        _ keyPath: WritableKeyPath<ChartEnvironment, V>,
+        _ keyPath: WritableKeyPath<Chart3DEnvironment, V>,
         _ value: V
     ) {
         self.content = content
@@ -23,7 +23,7 @@ public struct ChartEnvironmentModifier<Content: ChartContent, V>: ChartContent, 
         content.plottableDomains()
     }
 
-    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
+    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
         let updatedEnv = modify(env) {
             $0[keyPath: keyPath] = value
         }

@@ -5,12 +5,12 @@
 import Charts
 import Spatial
 
-public struct ChartProxy {
+public struct Chart3DProxy {
     let plotSize: Size3D
     let plottableDomains: PlottableDomains
 }
 
-public extension ChartProxy {
+public extension Chart3DProxy {
     // MARK: - position
 
     func position(for _: (some Plottable, some Plottable, some Plottable)) -> Point3D? { nil }

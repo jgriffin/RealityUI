@@ -8,7 +8,7 @@ import XCTest
 final class ChartBuilderTests: XCTestCase {
     func testEmpty() {
         let chart = Chart3D {}
-        XCTAssert(type(of: chart.content) == EmptyChartContent.self)
+        XCTAssert(type(of: chart.content) == EmptyChart3DContent.self)
     }
 
     func testPoint() {

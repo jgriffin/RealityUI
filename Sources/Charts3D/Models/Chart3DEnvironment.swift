@@ -2,7 +2,7 @@
 // Created by John Griffin on 4/22/24
 //
 
-public struct ChartEnvironment {
+public struct Chart3DEnvironment {
     private var values: [ObjectIdentifier: Any]
 
     init(values: [ObjectIdentifier: Any]) {
@@ -14,7 +14,7 @@ public struct ChartEnvironment {
     }
 }
 
-public extension ChartEnvironment {
+public extension Chart3DEnvironment {
     subscript<K: ChartEnvironmentKey>(_: K.Type) -> K.Value {
         get {
             values[ObjectIdentifier(K.Type.self)] as? K.Value ?? K.defaultValue
@@ -24,7 +24,7 @@ public extension ChartEnvironment {
         }
     }
 
-    func merging(_ other: ChartEnvironment) -> ChartEnvironment {
+    func merging(_ other: Chart3DEnvironment) -> Chart3DEnvironment {
         .init(values: values.merging(other.values, uniquingKeysWith: { _, rhs in rhs }))
     }
 }

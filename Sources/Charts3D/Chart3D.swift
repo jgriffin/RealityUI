@@ -6,10 +6,10 @@ import RealityKit
 import RealityUI
 import Spatial
 
-public struct Chart3D<Content: ChartContent>: ChartContent, CustomChartContent, View3D, CustomView3D {
+public struct Chart3D<Content: Chart3DContent>: Chart3DContent, CustomChart3DContent, View3D, CustomView3D {
     public var content: Content
 
-    public init(@ChartBuilder content: () -> Content) {
+    public init(@Chart3DBuilder content: () -> Content) {
         self.content = content()
     }
 }
@@ -21,7 +21,7 @@ public extension Chart3D {
         content.plottableDomains()
     }
 
-    func customRender(_: ChartEnvironment) -> AnyView3D {
+    func customRender(_: Chart3DEnvironment) -> AnyView3D {
         content.render(.init())
     }
 
@@ -32,7 +32,7 @@ public extension Chart3D {
     }
 
     func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        customRender(ChartEnvironment())
+        customRender(Chart3DEnvironment())
             .renderWithSize(size, env)
     }
 }

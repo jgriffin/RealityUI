@@ -7,7 +7,7 @@ import RealityUI
 
 // MARK: - Point3DMark
 
-public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, CustomChartContent {
+public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DContent, CustomChart3DContent {
     public let point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)
 
     public init(_ point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)) {
@@ -32,7 +32,7 @@ public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartConten
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
+    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
         env.symbolShape
             .environment(\.foregroundMaterial, env.foregroundMaterial)
             .frame(size: env.symbolSize)
@@ -42,7 +42,7 @@ public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartConten
 
 // MARK: - LineMark
 
-public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent, CustomChartContent {
+public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DContent, CustomChart3DContent {
     public let point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)
 
     public init(_ point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)) {
@@ -67,7 +67,7 @@ public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: ChartContent
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func customRender(_ env: ChartEnvironment) -> AnyView3D {
+    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
         env.symbolShape
             .environment(\.foregroundMaterial, env.lineMaterial)
             .eraseToAnyReality()

@@ -5,7 +5,7 @@
 import RealityUI
 import Spatial
 
-public extension ChartEnvironment {
+public extension Chart3DEnvironment {
     var foregroundMaterial: Material3D {
         get { self[ChartForegroundMaterialKey.self] }
         set { self[ChartForegroundMaterialKey.self] = newValue }

@@ -5,9 +5,9 @@
 import RealityUI
 import Spatial
 
-extension ChartContent {
-    func environment<V>(_ keyPath: WritableKeyPath<ChartEnvironment, V>, value: V) -> some ChartContent {
-        ChartEnvironmentModifier(self, keyPath, value)
+extension Chart3DContent {
+    func environment<V>(_ keyPath: WritableKeyPath<Chart3DEnvironment, V>, value: V) -> some Chart3DContent {
+        _ChartEnvironmentModifier(self, keyPath, value)
     }
 
 //    func foregroundMaterial(_ m: RealityUIMaterial) -> some ChartContent {
