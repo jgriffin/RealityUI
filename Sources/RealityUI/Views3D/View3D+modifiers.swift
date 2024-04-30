@@ -99,7 +99,7 @@ public extension View3D {
 
     // MARK: - environment
 
-    func environment<V>(_ keyPath: WritableKeyPath<Environment3DValues, V>, _ value: V) -> some View3D {
+    func environment<V>(_ keyPath: WritableKeyPath<Environment3D, V>, _ value: V) -> some View3D {
         _EnvironmentModifierView3D(self, keyPath, value)
     }
 }

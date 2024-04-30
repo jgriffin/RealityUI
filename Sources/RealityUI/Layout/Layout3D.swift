@@ -11,12 +11,14 @@ public protocol Layout3D {
     // Calculate and return the size of the layout container.
     func sizeThatFitsContents(
         _ contents: [any View3D],
-        proposal: ProposedSize3D
+        proposal: ProposedSize3D,
+        _ env: Environment3D
     ) -> Size3D
 
     func placeContents(
         _ contents: [any View3D],
-        in size: Size3D
+        in size: Size3D,
+        _ env: Environment3D
     ) -> [LayoutContentPlacement]
 }
 

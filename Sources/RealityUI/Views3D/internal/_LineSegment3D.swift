@@ -14,7 +14,7 @@ struct _LineSegment3D: View3D, CustomView3D {
         self.to = to
     }
 
-    func customSizeFor(_: ProposedSize3D) -> Size3D {
+    func customSizeFor(_: ProposedSize3D, _: Environment3D) -> Size3D {
         .zero
     }
 

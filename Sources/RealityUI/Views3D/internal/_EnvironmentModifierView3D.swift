@@ -7,12 +7,12 @@ import Spatial
 
 public struct _EnvironmentModifierView3D<Content: View3D, V>: View3D, CustomView3D {
     let content: Content
-    let keyPath: WritableKeyPath<Environment3DValues, V>
+    let keyPath: WritableKeyPath<Environment3D, V>
     let value: V
 
     public init(
         _ content: Content,
-        _ keyPath: WritableKeyPath<Environment3DValues, V>,
+        _ keyPath: WritableKeyPath<Environment3D, V>,
         _ value: V
     ) {
         self.content = content
@@ -20,8 +20,8 @@ public struct _EnvironmentModifierView3D<Content: View3D, V>: View3D, CustomView
         self.value = value
     }
 
-    public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
-        content.sizeThatFits(proposed)
+    public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
+        content.sizeThatFits(proposed, env)
     }
 
     public func customRender(_ context: RenderContext, size: Size3D) -> Entity {

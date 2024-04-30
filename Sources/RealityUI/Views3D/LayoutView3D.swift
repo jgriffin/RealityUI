@@ -17,14 +17,14 @@ public struct LayoutView3D<Layout: Layout3D, Content: View3D>: View3D, CustomVie
         self.content = content()
     }
 
-    public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+    public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         let contents = groupFlattened(content)
-        return layout.sizeThatFitsContents(contents, proposal: proposed)
+        return layout.sizeThatFitsContents(contents, proposal: proposed, env)
     }
 
     public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
         let contents = groupFlattened(content)
-        let placements = layout.placeContents(contents, in: size)
+        let placements = layout.placeContents(contents, in: size, context.environment)
 
         let children = placements.map { placement -> Entity in
             makeEntity(

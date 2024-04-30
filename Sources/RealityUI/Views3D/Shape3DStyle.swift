@@ -22,12 +22,12 @@ public extension Shape3DStyle {
 public struct Shape3DView<S: Shape3DStyle>: View3D, CustomView3D {
     public var shape: S
 
-    public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+    public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
         shape.shapeSizeFor(proposed)
     }
 
     public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
-        let mesh = shape.mesh(in: customSizeFor(.init(size)))
+        let mesh = shape.mesh(in: customSizeFor(.init(size), context.environment))
         let material = context.environment.foregroundMaterial.makeMaterial()
         let materials = Array(repeating: material, count: mesh.expectedMaterialCount)
         let model = ModelComponent(mesh: mesh, materials: materials)

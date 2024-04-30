@@ -9,12 +9,12 @@ public enum _ConditionalView3D<First: View3D, Second: View3D>: View3D, CustomVie
     case first(First),
          second(Second)
 
-    public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+    public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         switch self {
         case let .first(content):
-            content.sizeThatFits(proposed)
+            content.sizeThatFits(proposed, env)
         case let .second(content):
-            content.sizeThatFits(proposed)
+            content.sizeThatFits(proposed, env)
         }
     }
 

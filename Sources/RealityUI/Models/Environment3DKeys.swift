@@ -4,7 +4,7 @@
 
 import Spatial
 
-public extension Environment3DValues {
+public extension Environment3D {
     var foregroundMaterial: RealityUIMaterial {
         get { self[RealityForegroundMaterialKey.self] }
         set { self[RealityForegroundMaterialKey.self] = newValue }

@@ -20,9 +20,9 @@ public struct _FrameView3D<Content: View3D>: View3D, CustomView3D {
         )
     }
 
-    public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+    public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         let newProposed = newProposedSize(proposed)
-        let childSize = content.sizeThatFits(newProposed)
+        let childSize = content.sizeThatFits(newProposed, env)
 
         return .init(
             width: width ?? childSize.width,
@@ -33,7 +33,7 @@ public struct _FrameView3D<Content: View3D>: View3D, CustomView3D {
 
     public func customRender(_ context: RenderContext, size: Size3D) -> Entity {
         let proposed = newProposedSize(.init(size))
-        let childSize = content.sizeThatFits(proposed)
+        let childSize = content.sizeThatFits(proposed, context.environment)
 
         return makeEntity(
             .translation(

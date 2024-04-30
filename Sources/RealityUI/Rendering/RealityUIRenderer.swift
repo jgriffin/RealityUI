@@ -36,7 +36,7 @@ extension RealityUIRenderer {
         size: Size3D
     ) -> Entity {
         let context = RenderContext(environment: .init())
-        let contentSize = content.sizeThatFits(.init(size))
+        let contentSize = content.sizeThatFits(.init(size), context.environment)
         return content.render(context, size: contentSize)
     }
 

@@ -27,7 +27,7 @@ public extension Chart3D {
 
     // MARK: - View3D
 
-    func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+    func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
         proposed.sizeOrDefault
     }
 

@@ -21,7 +21,8 @@ public struct StackedLayout3D: Layout3D {
 
     public func sizeThatFitsContents(
         _ contents: [any View3D],
-        proposal: ProposedSize3D
+        proposal: ProposedSize3D,
+        _ env: Environment3D
     ) -> Size3D {
         guard !contents.isEmpty else { return .zero }
 
@@ -34,14 +35,15 @@ public struct StackedLayout3D: Layout3D {
         )
 
         let proposed = ProposedSize3D(firstProposal)
-        let sizes = contents.map { $0.sizeThatFits(proposed) }
+        let sizes = contents.map { $0.sizeThatFits(proposed, env) }
 
         return StackMath.sizeFromFits(sizes, spacing: spacing, axis: axis)
     }
 
     public func placeContents(
         _ contents: [any View3D],
-        in size: Size3D
+        in size: Size3D,
+        _ env: Environment3D
     ) -> [LayoutContentPlacement] {
         guard !contents.isEmpty else { return [] }
 
@@ -53,7 +55,7 @@ public struct StackedLayout3D: Layout3D {
         )
 
         let proposed = ProposedSize3D(firstProposal)
-        let fitSizes = contents.map { $0.sizeThatFits(proposed) }
+        let fitSizes = contents.map { $0.sizeThatFits(proposed, env) }
         let centerOffsets = StackMath.centerOffsets(fitSizes: fitSizes, spacing: spacing)
 
         let placements = zip(contents, zip(fitSizes, centerOffsets))

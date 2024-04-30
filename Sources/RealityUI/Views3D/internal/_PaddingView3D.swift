@@ -22,9 +22,9 @@ public struct _PaddingView3D<Content: View3D>: View3D, CustomView3D {
         )
     }
 
-    public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+    public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         let newProposed = newProposedSize(proposed)
-        let childSize = content.sizeThatFits(newProposed)
+        let childSize = content.sizeThatFits(newProposed, env)
         return childSize + edgeInsets.size
     }
 

@@ -9,8 +9,8 @@ public struct _PoseView3D<Content: View3D>: View3D, CustomView3D {
     var content: Content
     var pose: Pose3D
 
-    public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
-        content.sizeThatFits(proposed)
+    public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
+        content.sizeThatFits(proposed, env)
     }
 
     public func customRender(_ context: RenderContext, size: Size3D) -> Entity {

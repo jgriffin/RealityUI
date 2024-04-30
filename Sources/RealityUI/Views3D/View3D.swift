@@ -16,11 +16,11 @@ public protocol View3D {
 // MARK: - layout and render
 
 public extension View3D {
-    func sizeThatFits(_ proposed: ProposedSize3D) -> Size3D {
+    func sizeThatFits(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         if let custom = self as? CustomView3D {
-            custom.customSizeFor(proposed)
+            custom.customSizeFor(proposed, env)
         } else {
-            body.sizeThatFits(proposed)
+            body.sizeThatFits(proposed, env)
         }
     }
 
@@ -36,7 +36,7 @@ public extension View3D {
 // MARK: - CustomRealityContent
 
 public protocol CustomView3D {
-    func customSizeFor(_ proposed: ProposedSize3D) -> Size3D
+    func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D
     func customRender(_ context: RenderContext, size: Size3D) -> Entity
 }
 

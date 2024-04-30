@@ -55,7 +55,7 @@ public struct Line3D: View3D, CustomView3D {
 
     // MARK: - CustomView3D
 
-    public func customSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+    public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
         guard points.count < 2 else {
             // pointed lines have no size
             return .zero
