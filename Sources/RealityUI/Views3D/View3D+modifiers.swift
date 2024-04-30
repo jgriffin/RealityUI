@@ -108,6 +108,14 @@ public extension View3D {
     func environment<V>(_ keyPath: WritableKeyPath<Environment3D, V>, _ value: V) -> some View3D {
         _EnvironmentModifierView3D(self, keyPath, value)
     }
+
+    @inlinable func foreground(_ material: Material3D) -> some View3D {
+        environment(\.foregroundMaterial, material)
+    }
+
+    @inlinable func lineRadius(_ radius: Double) -> some View3D {
+        environment(\.lineRadius, radius)
+    }
 }
 
 public enum ContentMode {

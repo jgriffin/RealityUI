@@ -41,13 +41,14 @@ enum StackMath {
 
     static func sizeFromFits(
         _ sizes: [Size3D],
-        spacing _: Size3D,
+        spacing: Size3D,
         axis: Vector3D
     ) -> Size3D {
         let dims = dimsSumAndMax(sizes)
+        let spacing = spacing * Double(sizes.count - 1)
         let size = mixVectors(
             axis: .init(abs(axis.vector)),
-            onAxis: dims.sum,
+            onAxis: dims.sum + .init(spacing),
             offAxis: dims.max
         )
         return Size3D(size)
