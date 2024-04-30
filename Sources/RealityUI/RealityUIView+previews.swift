@@ -2,6 +2,7 @@
 // Created by John Griffin on 4/18/24
 //
 
+import ColorPalette
 import SwiftUI
 
 #if os(visionOS)
@@ -21,20 +22,11 @@ import SwiftUI
 
     #Preview {
         RealityUIView {
-            Stack3D(axis: -.forward, spacing: 0.1) {
-                ForEach3D(ColorPalette.categoricals, id: \.name) { palette in
-                    Stack3D(axis: .up, spacing: 0.01) {
-                        ForEach3D(palette.uiColors, id: \.self) { color in
-                            Box3D()
-                                .foreground(.color(color))
-                        }
-                    }
-                }
-            }
-            .lineRadius(0.01)
-            .frame(width: 0.5)
-            .scaledToFit()
-            .padding(0.01)
+            Sphere3D()
+                .foreground(.color(.css(basic: .lime)))
+                .frame(width: 0.5)
+                .scaledToFit()
+                .padding(0.01)
         }
     }
 

@@ -14,11 +14,16 @@ let package = Package(
             name: "Charts3D",
             targets: ["Charts3D"]
         ),
+        .library(
+            name: "ColorPalette",
+            targets: ["ColorPalette"]
+        ),
 
     ],
     targets: [
         .target(
-            name: "RealityUI"
+            name: "RealityUI",
+            dependencies: ["ColorPalette"]
         ),
         .testTarget(
             name: "RealityUITests",
@@ -31,6 +36,9 @@ let package = Package(
         .testTarget(
             name: "Charts3DTests",
             dependencies: ["Charts3D"]
+        ),
+        .target(
+            name: "ColorPalette"
         ),
     ]
 )
