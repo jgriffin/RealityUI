@@ -29,6 +29,12 @@ public extension View3D {
         frame(width: size.width, height: size.height, depth: size.depth, alignment: alignment)
     }
 
+    // MARK: - overlay
+
+    func overlay(@View3DBuilder _ content: () -> some View3D) -> some View3D {
+        _OverlayView3D(self, overlay: content())
+    }
+
     // MARK: - padding
 
     func padding(_ insets: EdgeInsets3D) -> some View3D {
