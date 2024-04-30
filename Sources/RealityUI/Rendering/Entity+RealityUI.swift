@@ -57,7 +57,7 @@ public extension Entity {
 public extension Component where Self == ModelComponent {
     static func model(
         mesh: MeshResource,
-        material: RealityUIMaterial
+        material: Material3D
     ) -> Self {
         ModelComponent(
             mesh: mesh,

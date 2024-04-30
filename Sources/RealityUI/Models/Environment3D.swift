@@ -14,9 +14,9 @@ public struct Environment3D {
     public init() {
         values = [:]
     }
-}
 
-public extension Environment3D {
+    // MARK: - API
+
     subscript<K: Environment3DKey>(_: K.Type) -> K.Value {
         get {
             values[ObjectIdentifier(K.Type.self)] as? K.Value ?? K.defaultValue

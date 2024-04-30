@@ -55,7 +55,7 @@ public struct Line3D: View3D, CustomView3D {
 
     // MARK: - CustomView3D
 
-    public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
+    public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         guard points.count < 2 else {
             // pointed lines have no size
             return .zero
@@ -63,8 +63,7 @@ public struct Line3D: View3D, CustomView3D {
 
         // otherwise, extend in a direction, through the space
         let segment = segmentInSize(proposed.sizeOrDefault, direction: points.first)
-        // TODO: line width
-        return .init(segment.to - segment.from)
+        return .init(segment.to - segment.from).union(.one * 2 * env.lineRadius)
     }
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
@@ -75,7 +74,9 @@ public struct Line3D: View3D, CustomView3D {
 
         return makeEntity(value: points, children: children)
     }
+}
 
+public extension Line3D {
     static let boxPoints = [
         Vector3D.bottomLeadingFront, .bottomTrailingFront, .topTrailingFront, .topLeadingFront,
         .topLeadingBack, .topTrailingBack, .bottomTrailingBack, .bottomLeadingBack,
