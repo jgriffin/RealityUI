@@ -4,12 +4,20 @@
 
 import RealityUI
 
-public enum _ConditionalChart3DContent<First: Chart3DContent, Second: Chart3DContent>: Chart3DContent, CustomChart3DContent {
-    case first(First),
-         second(Second)
+public struct _ConditionalChart3DContent<First: Chart3DContent, Second: Chart3DContent>: Chart3DContent {
+    enum Choice { case first(First), second(Second) }
 
-    public func customPlottableDomains() -> PlottableDomains {
-        switch self {
+    let choice: Choice
+
+    init(_ choice: Choice) {
+        self.choice = choice
+    }
+
+    static func first(_ choice: First) -> Self { .init(.first(choice)) }
+    static func second(_ choice: Second) -> Self { .init(.second(choice)) }
+
+    public func plottableDomains() -> PlottableDomains {
+        switch choice {
         case let .first(content):
             content.plottableDomains()
         case let .second(content):
@@ -17,12 +25,13 @@ public enum _ConditionalChart3DContent<First: Chart3DContent, Second: Chart3DCon
         }
     }
 
-    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
-        switch self {
+    @View3DBuilder
+    public func renderView(_ proxy: Chart3DProxy, _ env: Chart3DEnvironment) -> some View3D {
+        switch choice {
         case let .first(content):
-            content.render(env)
+            content.renderView(proxy, env)
         case let .second(content):
-            content.render(env)
+            content.renderView(proxy, env)
         }
     }
 }

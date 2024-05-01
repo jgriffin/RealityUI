@@ -6,7 +6,7 @@ import RealityKit
 import RealityUI
 import Spatial
 
-public struct Chart3D<Content: Chart3DContent>: Chart3DContent, CustomChart3DContent, View3D, CustomView3D {
+public struct Chart3D<Content: Chart3DContent>: Chart3DContent, View3D, CustomView3D {
     public var content: Content
 
     public init(@Chart3DBuilder content: () -> Content) {
@@ -17,12 +17,12 @@ public struct Chart3D<Content: Chart3DContent>: Chart3DContent, CustomChart3DCon
 public extension Chart3D {
     // MARK: - CustomChartContent
 
-    func customPlottableDomains() -> PlottableDomains {
+    func plottableDomains() -> PlottableDomains {
         content.plottableDomains()
     }
 
-    func customRender(_: Chart3DEnvironment) -> AnyView3D {
-        content.render(.init())
+    func renderView(_ proxy: Chart3DProxy, _: Chart3DEnvironment) -> some View3D {
+        content.renderView(proxy, .init())
     }
 
     // MARK: - View3D
@@ -32,7 +32,10 @@ public extension Chart3D {
     }
 
     func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        customRender(Chart3DEnvironment())
+        let domains = plottableDomains()
+        let proxy = Chart3DProxy(plotSize: size, plottableDomains: domains)
+
+        return renderView(proxy, Chart3DEnvironment())
             .renderWithSize(size, env)
     }
 }

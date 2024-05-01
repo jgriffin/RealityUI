@@ -2,14 +2,16 @@
 // Created by John Griffin on 4/22/24
 //
 
-import Charts3D
+@testable import Charts3D
 import RealityUI
 import XCTest
 
 final class ChartRenderTests: XCTestCase {
+    let nullProxy = Chart3DProxy(plotSize: .one, plottableDomains: .init())
+
     func testEmpty() {
         let chart = Chart3D {}
-        let result = chart.render(Chart3DEnvironment())
+        let result = chart.renderView(nullProxy, .init())
         print(result)
     }
 
@@ -17,7 +19,7 @@ final class ChartRenderTests: XCTestCase {
         let chart = Chart3D {
             Point3DMark(("x", "y", "z"), (0, 0, 0))
         }
-        let result = chart.render(Chart3DEnvironment())
+        let result = chart.renderView(nullProxy, .init())
 
         print(result)
     }

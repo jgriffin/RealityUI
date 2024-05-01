@@ -4,13 +4,16 @@
 
 import RealityUI
 
-public struct TupleChart3DContent<each Content: Chart3DContent>: Chart3DContent, CustomChart3DContent, ChartTupling {
-    public typealias T = (repeat each Content)
-    public let value: T
+public struct TupleChart3DContent<each Content: Chart3DContent>: Chart3DContent {
+    public let value: (repeat each Content)
 
     public init(_ value: (repeat each Content)) {
         self.value = value
     }
+
+//    public init(_ value: repeat each Content) {
+//        self.value = (repeat each value)
+//    }
 
     public var contents: [any Chart3DContent] {
         var contents: [any Chart3DContent] = []
@@ -20,28 +23,18 @@ public struct TupleChart3DContent<each Content: Chart3DContent>: Chart3DContent,
 
     // MARK: - ChartContent
 
-    // default
-    public func customPlottableDomains() -> PlottableDomains {
+    public func plottableDomains() -> PlottableDomains {
         contents
             .map { $0.plottableDomains() }
             .reduce(into: PlottableDomains()) { result, next in result.merge(next) }
     }
 
-    // default
-    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
-        let r = rendered(env, (repeat each value))
-        return r.eraseToAnyReality()
-    }
-
-    func rendered<each C: Chart3DContent>(
-        _ env: Chart3DEnvironment,
-        _ content: (repeat each C)
-    ) -> TupleView3D< repeat (each C).RenderOutput> {
-        TupleView3D(
-            (repeat (each content).render(env))
-        )
+    public func renderView(_ proxy: Chart3DProxy, _ env: Chart3DEnvironment) -> TupleView3D< repeat (each Content).View3DBody> {
+        TupleView3D(repeat (each value).renderView(proxy, env))
     }
 }
+
+extension TupleChart3DContent: ChartTupling {}
 
 // MARK: - ChartTupling
 
@@ -51,19 +44,4 @@ protocol ChartTupling {
 
 extension ChartTupling {
     var contentsCount: Int { contents.count }
-}
-
-// MARK: - rendering
-
-extension Chart3DContent {
-    typealias RenderOutput = AnyView3D
-}
-
-protocol Rendering {
-    associatedtype Input: Chart3DContent
-    typealias Output = AnyView3D
-}
-
-struct Renderer<Content: Chart3DContent>: Rendering {
-    typealias Input = Content
 }

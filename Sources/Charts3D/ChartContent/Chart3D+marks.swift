@@ -7,7 +7,7 @@ import RealityUI
 
 // MARK: - Point3DMark
 
-public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DContent, CustomChart3DContent {
+public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DContent {
     public let point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)
 
     public init(_ point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)) {
@@ -26,23 +26,22 @@ public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DCont
         )
     }
 
-    // MARK: - CustomChartContent
+    // MARK: - Chart3DContent
 
-    public func customPlottableDomains() -> PlottableDomains {
+    public func plottableDomains() -> PlottableDomains {
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
-        env.symbolShape
+    public func renderView(_: Chart3DProxy, _ env: Chart3DEnvironment) -> some View3D {
+        AnyShapeStyle(env.symbolShape)
             .environment(\.foregroundMaterial, env.foregroundMaterial)
             .frame(size: env.symbolSize)
-            .eraseToAnyReality()
     }
 }
 
 // MARK: - LineMark
 
-public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DContent, CustomChart3DContent {
+public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DContent {
     public let point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)
 
     public init(_ point: (x: Plottable3DValue<X>, y: Plottable3DValue<Y>, z: Plottable3DValue<Z>)) {
@@ -61,16 +60,15 @@ public struct Line3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DConte
         )
     }
 
-    // MARK: - CustomChartContent
+    // MARK: - Chart3DContent
 
-    public func customPlottableDomains() -> PlottableDomains {
+    public func plottableDomains() -> PlottableDomains {
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func customRender(_ env: Chart3DEnvironment) -> AnyView3D {
-        env.symbolShape
+    public func renderView(_: Chart3DProxy, _ env: Chart3DEnvironment) -> some View3D {
+        AnyShapeStyle(env.symbolShape)
             .environment(\.foregroundMaterial, env.lineMaterial)
-            .eraseToAnyReality()
     }
 }
 

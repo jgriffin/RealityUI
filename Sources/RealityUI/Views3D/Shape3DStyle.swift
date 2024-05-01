@@ -37,3 +37,21 @@ public struct Shape3DView<S: Shape3DStyle>: View3D, CustomView3D {
         )
     }
 }
+
+public struct AnyShapeStyle: Shape3DStyle {
+    let shape: any Shape3DStyle
+
+    public init(_ shape: some Shape3DStyle) {
+        self.shape = shape
+    }
+
+    public var name: String { shape.name }
+
+    public func shapeSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+        shape.shapeSizeFor(proposed)
+    }
+
+    public func mesh(in size: Size3D) -> MeshResource {
+        shape.mesh(in: size)
+    }
+}

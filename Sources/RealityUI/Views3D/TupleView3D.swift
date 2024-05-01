@@ -6,7 +6,6 @@ import RealityKit
 import Spatial
 
 public struct TupleView3D<each Content: View3D>: View3D, CustomView3D {
-    public typealias T = (repeat each Content)
     public let value: (repeat each Content)
 
     public init(_ value: (repeat each Content)) {
