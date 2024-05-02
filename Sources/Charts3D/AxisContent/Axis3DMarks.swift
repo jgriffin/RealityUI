@@ -2,81 +2,72 @@
 // Created by John Griffin on 4/30/24
 //
 
+import Charts
 import RealityUI
 import Spatial
 
-public struct AxisMarks3D {
-//    init(format: some Any, preset: AxisMark3DPreset, position: AxisMark3DPosition, values: AxisMark3DValues, stroke: StrokeStyle3D?) {}
-//
-//    init(format: some Any, preset: AxisMark3DPreset, position: AxisMark3DPosition, values: [some Any], stroke: StrokeStyle3D?) {}
-//
-//    init(preset: AxisMark3DPreset, position: AxisMark3DPosition, values: [some Any], content: (AxisValue) -> Content)
-//
-//    init(preset: AxisMark3DPreset, position: AxisMark3DPosition, values: [some Any], content: () -> Content)
-//
-//    init(preset: AxisMark3DPreset, position: AxisMark3DPosition, values: AxisMark3DValues, content: () -> Content)
-//
-//    init(preset: AxisMark3DPreset, position: AxisMark3DPosition, values: AxisMark3DValues, content: (AxisValue) -> Content)
-//
-//    init(preset: AxisMark3DPreset, position: AxisMark3DPosition, values: AxisMark3DValues, stroke: StrokeStyle3D?)
-//
-//    init(preset: AxisMark3DPreset, position: AxisMark3DPosition, values: [some Plottable], stroke: StrokeStyle3D?)
+/// Represents a set of marks along an axis, e.g. grid lines OR tick marks
+/// There can be multiple Axis3DMarks on the same axis
+public struct Axis3DMarks<Content: Axis3DMark>: Axis3DContent {
+    let preset: Axis3DMarkPreset
+    let position: Axis3DMarkPosition
+    let values: Axis3DMarkValues
+    let content: (Axis3DValue) -> Content
 
-    public func customPlottableDomains() -> PlottableDomains {
-        .init()
+    func resolvedMarks(_ proxy: DimensionProxy) -> [(value: Axis3DValue, content: Content)] {
+        values.resolvedIn(proxy).compactMap { value in
+            (value, content(value))
+        }
     }
 
-    public func customRender(_: Chart3DEnvironment) -> AnyView3D {
-        EmptyView3D().eraseToAnyReality()
+    @View3DBuilder
+    public func renderView(_ proxy: DimensionProxy, env: Chart3DEnvironment) -> some View3D {
+        let marks = resolvedMarks(proxy)
+        ForEach3D(marks, id: \.value.index) { value, content in
+            content.renderView(value, proxy, env)
+        }
     }
 }
 
-public enum AxisMark3DPreset {
-    case automatic, aligned, extended, inset
+public enum Axis3DMarkPreset { case automatic, aligned, extended, inset }
+
+public enum Axis3DMarkPosition { case automatic, bottom, leading, top, trailing }
+
+public struct Axis3DMarkValues {
+    let resolvedIn: (_: DimensionProxy) -> [Axis3DValue]
+
+    static func values(_: [some Plottable]) -> Self {
+        fatalError()
+    }
+
+    static func desiredCount(desiredCount _: Int? = nil, roundLowerBound _: Bool? = nil, roundUpperBound _: Bool? = nil) -> Self {
+        fatalError()
+    }
+
+    static func desiredMinimum(
+        minimumStride _: some Plottable,
+        desiredCount _: Int? = nil,
+        roundLowerBound _: Bool? = nil,
+        roundUpperBound _: Bool? = nil
+    ) -> Self {
+        fatalError()
+    }
+
+    static func strideBy(
+        stepSize _: some Plottable,
+        roundLowerBound _: Bool? = nil,
+        roundUpperBound _: Bool? = nil
+    ) -> Self {
+        fatalError()
+    }
 }
 
-public enum AxisMark3DPosition {
-    case automatic, bottom, leading, top, trailing
-}
-
-public enum AxisMark3DValues {
-//    case desiredCount(desiredCount: Int? = nil, roundLowerBound: Bool? = nil, roundUpperBound: Bool? = nil),
-//         desiredMinium<P>(minimumStride: P, desiredCount: Int? = nil, roundLowerBound: Bool? = nil, roundUpperBound: Bool? = nil),
-//         stride<P>(by stepSize: P, roundLowerBound: Bool? = nil, roundUpperBound: Bool? = nil)
-}
-
-public struct AxisValue3D {
+public struct Axis3DValue {
     let count: Int
     let index: Int
+    let value: any Plottable
 
-//    func `as`<P: Plottable>(P.Type) -> P?
-}
-
-public protocol AxisMark3D {}
-
-public struct AxisTick3D: AxisMark3D {
-    let centered: Bool?
-    let length: Length
-    // let strokeStyle: StrokeStyle?
-
-    init(centered: Bool?, length: Length) {
-        self.centered = centered
-        self.length = length
-    }
-
-    enum Length {
-        case automatic,
-             length(Double),
-             label(extendBy: Double = 0),
-             longestLabel(extendBy: Double = 0)
-    }
-}
-
-public struct AxisGridLine3D: AxisMark3D {
-    let centered: Bool?
-    // let strokeStyle: StrokeStyle?
-
-    init(centered: Bool? = nil) {
-        self.centered = centered
+    func `as`<P: Plottable>(_: P.Type) -> P? {
+        value as? P
     }
 }

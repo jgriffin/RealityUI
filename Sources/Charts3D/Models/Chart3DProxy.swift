@@ -11,12 +11,14 @@ public struct Chart3DProxy {
 }
 
 public extension Chart3DProxy {
+    func domainRange() -> (x: Range<Float>, y: Range<Float>, z: Range<Float>)? { nil }
+
     // MARK: - position
 
-    func position(for _: (some Plottable, some Plottable, some Plottable)) -> Point3D? { nil }
-    func position(forX _: some Plottable) -> Double? { nil }
-    func position(forY _: some Plottable) -> Double? { nil }
-    func position(forZ _: some Plottable) -> Double? { nil }
+    func positionFor(_: (some Plottable, some Plottable, some Plottable)) -> Point3D? { nil }
+    func positionFor(x _: some Plottable) -> Double? { nil }
+    func positionFor(y _: some Plottable) -> Double? { nil }
+    func positionFor(z _: some Plottable) -> Double? { nil }
 
     // MARK: - value
 

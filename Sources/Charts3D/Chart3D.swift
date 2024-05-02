@@ -21,8 +21,8 @@ public extension Chart3D {
         content.plottableDomains()
     }
 
-    func renderView(_ proxy: Chart3DProxy, _: Chart3DEnvironment) -> some View3D {
-        content.renderView(proxy, .init())
+    func renderView(_ proxy: Chart3DProxy, _ env: Chart3DEnvironment) -> some View3D {
+        content.renderView(proxy, env)
     }
 
     // MARK: - View3D
