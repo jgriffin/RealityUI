@@ -7,7 +7,7 @@ import RealityUI
 import XCTest
 
 final class ChartRenderTests: XCTestCase {
-    let nullProxy = Chart3DProxy(plotSize: .one, plottableDomains: .init())
+    let nullProxy = Chart3DProxy(plotSize: .one, domains: .init())
 
     func testEmpty() {
         let chart = Chart3D {}

@@ -19,11 +19,7 @@ public struct PlottableDomains: CustomStringConvertible {
         z = [:]
     }
 
-    public init(
-        x: any DimensionDomain,
-        y: any DimensionDomain,
-        z: any DimensionDomain
-    ) {
+    public init(x: some DimensionDomain, y: some DimensionDomain, z: some DimensionDomain) {
         self.x = [x.id: x]
         self.y = [y.id: y]
         self.z = [z.id: z]
@@ -81,40 +77,47 @@ public struct PlottableDomains: CustomStringConvertible {
     }
 
     public var description: String {
-        "TODO"
+        "x: \(xDomains) y:\(yDomains) z:\(zDomains)"
     }
 
     // MARK: - dimension domains
 
-    public func xDomains() -> [any DimensionDomain] {
-        x.values.sorted { lhs, rhs in lhs.id < rhs.id }
+    public var numericRange: (ClosedRange<NumericDimension>, ClosedRange<NumericDimension>, ClosedRange<NumericDimension>)? {
+        guard let xNumeric, let yNumeric, let zNumeric else { return nil }
+        return (xNumeric, yNumeric, zNumeric)
     }
 
-    public func yDomains() -> [any DimensionDomain] {
-        y.values.sorted { lhs, rhs in lhs.id < rhs.id }
+    public var xNumeric: ClosedRange<NumericDimension>? {
+        let xs = xDomains.flatMap { $0.values.compactMap { NumericDimension.from($0) }}
+        guard let xMin = xs.min(), let xMax = xs.max() else { return nil }
+        return xMin ... xMax
     }
 
-    public func zDomains() -> [any DimensionDomain] {
-        z.values.sorted { lhs, rhs in lhs.id < rhs.id }
+    public var yNumeric: ClosedRange<NumericDimension>? {
+        let ys = yDomains.flatMap { $0.values.compactMap { NumericDimension.from($0) } }
+        guard let yMin = ys.min(), let yMax = ys.max() else { return nil }
+        return yMin ... yMax
     }
 
-    public func xDomain<P: Plottable>(_: P.Type) -> [P] {
-        x.values.flatMap { ($0 as? any DimensionDomain<P>)?.values ?? [] }
+    public var zNumeric: ClosedRange<NumericDimension>? {
+        let zs = zDomains.flatMap { $0.values.compactMap { NumericDimension.from($0) } }
+        guard let zMin = zs.min(), let zMax = zs.max() else { return nil }
+        return zMin ... zMax
     }
 
-    public func yDomain<P: Plottable>(_: P.Type) -> [P] {
-        y.values.flatMap { ($0 as? any DimensionDomain<P>)?.values ?? [] }
-    }
+    public var xDomains: [any DimensionDomain] { x.values.sorted { lhs, rhs in lhs.id < rhs.id } }
+    public var yDomains: [any DimensionDomain] { y.values.sorted { lhs, rhs in lhs.id < rhs.id } }
+    public var zDomains: [any DimensionDomain] { z.values.sorted { lhs, rhs in lhs.id < rhs.id } }
 
-    public func zDomain<P: Plottable>(_: P.Type) -> [P] {
-        z.values.flatMap { ($0 as? any DimensionDomain<P>)?.values ?? [] }
-    }
+    public func xDomain<P: Plottable>(_: P.Type) -> [P] { x.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
+    public func yDomain<P: Plottable>(_: P.Type) -> [P] { y.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
+    public func zDomain<P: Plottable>(_: P.Type) -> [P] { z.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
 }
 
 // MARK: - DimensionDomain
 
 /// protocol for generic collections of domains
-public protocol DimensionDomain<Value>: Identifiable where ID == ObjectIdentifier {
+public protocol DimensionDomain<Value>: Identifiable, CustomStringConvertible where ID == ObjectIdentifier {
     associatedtype Value: Plottable
 
     var values: [Value] { get }
@@ -123,9 +126,11 @@ public protocol DimensionDomain<Value>: Identifiable where ID == ObjectIdentifie
 
 public extension DimensionDomain {
     var id: ObjectIdentifier { ObjectIdentifier(Self.self) }
+
+    var description: String { "\(String(describing: Value.self)): \(values)" }
 }
 
-public struct DimensionDomainValues<Value: Plottable>: DimensionDomain {
+public struct DimensionDomainValues<Value: Plottable>: DimensionDomain, CustomStringConvertible {
     public typealias Value = Value
 
     public var values: [Value]

@@ -34,10 +34,37 @@ public enum Axis3DMarkPreset { case automatic, aligned, extended, inset }
 public enum Axis3DMarkPosition { case automatic, bottom, leading, top, trailing }
 
 public struct Axis3DMarkValues {
-    let resolvedIn: (_: DimensionProxy) -> [Axis3DValue]
+    public typealias ResolvedIn = (DimensionProxy) -> [Axis3DValue]
+    public let resolvedIn: ResolvedIn
 
-    static func values(_: [some Plottable]) -> Self {
-        fatalError()
+    public static func values(_ values: [some Plottable]) -> Self {
+        self.init { _ in
+            let numericValues = values.compactMap { NumericDimension.from($0) }
+
+            return numericValues.enumerated().map { index, value in
+                Axis3DValue(count: numericValues.count, index: index, value: value)
+            }
+        }
+    }
+
+    public static func strideBy<S: Plottable & Strideable>(
+        stepSize stepValue: S,
+        roundLowerBound _: Bool? = nil,
+        roundUpperBound _: Bool? = nil
+    ) -> Self where S == S.Stride {
+        self.init { proxy in
+            let range = proxy.positionRange
+            guard let lowerValue = proxy.value(at: range.lowerBound, as: S.self),
+                  let upperValue = proxy.value(at: range.upperBound, as: S.self)
+            else {
+                return []
+            }
+            let numericValues = Array(stride(from: lowerValue, through: upperValue, by: stepValue))
+
+            return numericValues.enumerated().map { index, value in
+                Axis3DValue(count: numericValues.count, index: index, value: value)
+            }
+        }
     }
 
     static func desiredCount(desiredCount _: Int? = nil, roundLowerBound _: Bool? = nil, roundUpperBound _: Bool? = nil) -> Self {
@@ -52,22 +79,10 @@ public struct Axis3DMarkValues {
     ) -> Self {
         fatalError()
     }
-
-    static func strideBy(
-        stepSize _: some Plottable,
-        roundLowerBound _: Bool? = nil,
-        roundUpperBound _: Bool? = nil
-    ) -> Self {
-        fatalError()
-    }
 }
 
 public struct Axis3DValue {
-    let count: Int
-    let index: Int
-    let value: any Plottable
-
-    func `as`<P: Plottable>(_: P.Type) -> P? {
-        value as? P
-    }
+    public let count: Int
+    public let index: Int
+    public let value: any Plottable
 }

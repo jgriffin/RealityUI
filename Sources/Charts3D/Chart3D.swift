@@ -33,7 +33,7 @@ public extension Chart3D {
 
     func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         let domains = plottableDomains()
-        let proxy = Chart3DProxy(plotSize: size, plottableDomains: domains)
+        let proxy = Chart3DProxy(plotSize: size, domains: domains)
 
         return renderView(proxy, Chart3DEnvironment())
             .renderWithSize(size, env)
