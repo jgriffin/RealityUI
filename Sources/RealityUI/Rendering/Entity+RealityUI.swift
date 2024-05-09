@@ -52,6 +52,27 @@ public extension Entity {
         Transform.self,
         ModelComponent.self,
     ]
+
+    var description: String {
+        dump().joined(separator: "\n")
+    }
+
+    func dump() -> [String] {
+        guard let realityUI else { return ["non-realityUI"] }
+
+        let e = [realityUI.description, transformDescription].compactMap { $0 }.joined(separator: " ")
+        return [e] + children.flatMap { $0.dump() }.map { "    \($0)" }
+    }
+
+    var transformDescription: String? {
+        guard transform != .identity else { return nil }
+
+        return [
+            transform.translation == .zero ? nil : "translation: \(transform.translation)",
+            transform.scale == .one ? nil : "scale: \(transform.scale)",
+            transform.rotation.angle == 0 ? nil : "rotatation angle: \(transform.rotation.angle) axis: \(transform.rotation.axis)",
+        ].compactMap { $0 }.joined(separator: " ")
+    }
 }
 
 public extension Component where Self == ModelComponent {

@@ -22,6 +22,10 @@ public extension Shape3DStyle {
 public struct Shape3DView<S: Shape3DStyle>: View3D, CustomView3D {
     public var shape: S
 
+    public var description: String {
+        "\(contentType)"
+    }
+
     public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
         shape.shapeSizeFor(proposed)
     }
@@ -33,6 +37,7 @@ public struct Shape3DView<S: Shape3DStyle>: View3D, CustomView3D {
         let model = ModelComponent(mesh: mesh, materials: materials)
 
         return makeEntity(
+            value: size,
             model
         )
     }

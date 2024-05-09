@@ -7,10 +7,14 @@ import Spatial
 
 // MARK: - View3D
 
-public protocol View3D {
+public protocol View3D: CustomStringConvertible {
     associatedtype Body: View3D
 
     var body: Body { get }
+}
+
+public extension View3D {
+    var description: String { "\(contentType)" }
 }
 
 // MARK: - layout and render

@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct _EnvironmentModifierView3D<Content: View3D, V>: View3D, CustomView3D {
+public struct _Environment3D<Content: View3D, V>: View3D, CustomView3D {
     let content: Content
     let keyPath: WritableKeyPath<Environment3D, V>
     let value: V
@@ -18,6 +18,10 @@ public struct _EnvironmentModifierView3D<Content: View3D, V>: View3D, CustomView
         self.content = content
         self.keyPath = keyPath
         self.value = value
+    }
+
+    public var description: String {
+        "\(contentType) \(keyPath) \(value)"
     }
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {

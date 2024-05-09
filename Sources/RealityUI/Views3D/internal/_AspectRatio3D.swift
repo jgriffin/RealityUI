@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct _AspectRatioView3D<Content: View3D>: View3D, CustomView3D {
+public struct _AspectRatio3D<Content: View3D>: View3D, CustomView3D {
     var content: Content
     var aspectRatio: Size3D?
     var maxScale: Double?
@@ -21,6 +21,14 @@ public struct _AspectRatioView3D<Content: View3D>: View3D, CustomView3D {
         self.aspectRatio = aspectRatio
         self.maxScale = maxScale
         self.contentMode = contentMode
+    }
+
+    public var description: String {
+        [
+            "\(contentType)",
+            aspectRatio.map { "aspectRatio: \($0)" },
+            maxScale.map { "maxScale: \($0)" },
+        ].compactMap { $0 }.joined(separator: " ")
     }
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {

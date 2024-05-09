@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct _OffsetView3D<Content: View3D>: View3D, CustomView3D {
+public struct _Offset3D<Content: View3D>: View3D, CustomView3D {
     var content: Content
     var offset: Vector3D
 

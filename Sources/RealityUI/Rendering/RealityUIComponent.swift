@@ -6,7 +6,7 @@ import RealityKit
 
 // MARK: - RealityUIComponent
 
-public struct RealityUIComponent: Component, CustomDebugStringConvertible {
+public struct RealityUIComponent: Component, CustomStringConvertible {
     public static let registerOnce: Void = { RealityUIComponent.registerComponent() }()
 
     public var content: any RealityContentProtocol
@@ -15,8 +15,7 @@ public struct RealityUIComponent: Component, CustomDebugStringConvertible {
         self.content = content
     }
 
-    public var debugDescription: String { "RealityUI: \(content.type)" }
-
+    public var description: String { "\(content.description)" }
     public static let componentName = "RealityUI"
 }
 
@@ -48,7 +47,7 @@ public extension View3D {
 
 // MARK: - RealityUIContentComponentProtocol
 
-public protocol RealityContentProtocol {
+public protocol RealityContentProtocol: CustomStringConvertible {
     var type: RealityContentType { get }
     func isEqual(_ other: Self) -> Bool
 }
@@ -71,7 +70,7 @@ public extension RealityContentProtocol {
 
 // MARK: - RealityContentValue
 
-public struct RealityContentValue<Value>: RealityContentProtocol, CustomDebugStringConvertible {
+public struct RealityContentValue<Value>: RealityContentProtocol, CustomStringConvertible {
     public let type: RealityContentType
     public let value: Value
 
@@ -80,8 +79,11 @@ public struct RealityContentValue<Value>: RealityContentProtocol, CustomDebugStr
         self.value = value
     }
 
-    public var debugDescription: String {
-        "View3D \(type) \(value)"
+    public var description: String {
+        [
+            "\(type)",
+            value is Void ? nil : "\(value)",
+        ].compactMap { $0 }.joined(separator: " ")
     }
 }
 

@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct _PoseView3D<Content: View3D>: View3D, CustomView3D {
+public struct _Pose3D<Content: View3D>: View3D, CustomView3D {
     var content: Content
     var pose: Pose3D
 

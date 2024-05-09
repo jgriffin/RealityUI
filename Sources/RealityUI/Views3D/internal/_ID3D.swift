@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-struct _IDView3D<Content: View3D, ID: Hashable>: View3D, CustomView3D {
+struct _ID3D<Content: View3D, ID: Hashable>: View3D, CustomView3D {
     let content: Content
     let id: ID
 
@@ -19,6 +19,6 @@ struct _IDView3D<Content: View3D, ID: Hashable>: View3D, CustomView3D {
     }
 
     func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        makeEntity(value: id.hashValue, children: content.renderWithSize(size, env))
+        makeEntity(value: id, children: content.renderWithSize(size, env))
     }
 }

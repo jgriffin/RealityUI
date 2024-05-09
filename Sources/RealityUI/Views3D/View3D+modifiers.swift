@@ -13,7 +13,7 @@ public extension View3D {
         depth: Double? = nil,
         alignment: Alignment3D = .center
     ) -> some View3D {
-        _FrameView3D(
+        _Frame3D(
             content: self,
             width: width,
             height: height,
@@ -31,14 +31,14 @@ public extension View3D {
 
     // MARK: - overlay
 
-    func overlay(@View3DBuilder _ content: () -> some View3D) -> some View3D {
-        _OverlayView3D(self, overlay: content())
+    func overlay(alignment: Alignment3D = .center, @View3DBuilder _ content: () -> some View3D) -> some View3D {
+        _Overlay3D(self, overlay: content(), alignment: alignment)
     }
 
     // MARK: - padding
 
     func padding(_ insets: EdgeInsets3D) -> some View3D {
-        _PaddingView3D(content: self, edgeInsets: insets)
+        _Padding3D(content: self, edgeInsets: insets)
     }
 
     @inlinable func padding(_ all: Double) -> some View3D {
@@ -48,7 +48,7 @@ public extension View3D {
     // MARK: - offset
 
     func offset(_ offset: Vector3D) -> some View3D {
-        _OffsetView3D(content: self, offset: offset)
+        _Offset3D(content: self, offset: offset)
     }
 
     @inlinable func offset(x: Double = 0, y: Double = 0, z: Double = 0) -> some View3D {
@@ -58,7 +58,7 @@ public extension View3D {
     // MARK: - pose
 
     func pose(_ pose: Pose3D) -> some View3D {
-        _PoseView3D(content: self, pose: pose)
+        _Pose3D(content: self, pose: pose)
     }
 
     @inlinable func position(_ position: Point3D) -> some View3D {
@@ -92,21 +92,25 @@ public extension View3D {
         maxScale: Double? = nil,
         contentMode: ContentMode = .fit
     ) -> some View3D {
-        _AspectRatioView3D(content: self, aspectRatio: ratio, maxScale: maxScale, contentMode: contentMode)
+        _AspectRatio3D(content: self, aspectRatio: ratio, maxScale: maxScale, contentMode: contentMode)
     }
 
     @inlinable func scaledToFit() -> some View3D { aspectRatio(maxScale: 1) }
 
+    func scale(_ scale: Size3D) -> some View3D {
+        _Scale3D(content: self, scale: scale)
+    }
+
     // MARK: - ID
 
     func id(_ id: some Hashable) -> some View3D {
-        _IDView3D(self, id)
+        _ID3D(self, id)
     }
 
     // MARK: - environment
 
     func environment<V>(_ keyPath: WritableKeyPath<Environment3D, V>, _ value: V) -> some View3D {
-        _EnvironmentModifierView3D(self, keyPath, value)
+        _Environment3D(self, keyPath, value)
     }
 
     @inlinable func foreground(_ material: Material3D) -> some View3D {

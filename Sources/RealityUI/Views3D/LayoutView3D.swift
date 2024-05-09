@@ -17,6 +17,10 @@ public struct LayoutView3D<Layout: Layout3D, Content: View3D>: View3D, CustomVie
         self.content = content()
     }
 
+    public var description: String {
+        "\(contentType) \(layout)"
+    }
+
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         let contents = groupFlattened(content)
         return layout.sizeThatFitsContents(contents, proposal: proposed, env)

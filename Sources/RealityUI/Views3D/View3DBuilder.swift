@@ -18,19 +18,19 @@ public enum View3DBuilder {
 
     public static func buildEither<First: View3D, Second: View3D>(
         first content: First
-    ) -> _ConditionalView3D<First, Second> {
+    ) -> _Conditional3D<First, Second> {
         .first(content)
     }
 
     public static func buildEither<First: View3D, Second: View3D>(
         second content: Second
-    ) -> _ConditionalView3D<First, Second> {
+    ) -> _Conditional3D<First, Second> {
         .second(content)
     }
 
     public static func buildIf<Content: View3D>(
         _ content: Content?
-    ) -> _ConditionalView3D<Content, EmptyView3D> {
+    ) -> _Conditional3D<Content, EmptyView3D> {
         content.map { .first($0) } ?? .second(EmptyView3D())
     }
 }

@@ -5,20 +5,34 @@
 import RealityKit
 import Spatial
 
-public struct Canvas3D<Content: View3D>: View3D {
-    let layoutView: LayoutView3D<CanvasLayout3D, Content>
+/// Doesn't do any layout, just returns the proposed size and draws things where they are
+/// The canvas size itself does get aligned so it plays well with other stuff.
+public struct Canvas3D<Content: View3D>: View3D, CustomView3D {
+    let content: Content
+    let alignment: Alignment3D
 
     public init(
-        alignment: Alignment3D = .center,
-        @View3DBuilder content: () -> Content
+        @View3DBuilder content: () -> Content,
+        alignment: Alignment3D = .center
     ) {
-        layoutView = LayoutView3D(
-            .canvas(alignment: alignment),
-            content: content
-        )
+        self.content = content()
+        self.alignment = alignment
     }
 
-    public var body: some View3D {
-        layoutView
+    public var description: String { "\(contentType)" }
+
+    public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
+        proposed.sizeOrDefault
+    }
+
+    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+        let contents = groupFlattened(content)
+
+        return makeEntity(
+            .translation(
+                alignment.offset(parent: size, child: size)
+            ),
+            children: contents.map { $0.renderWithSize(size, env) }
+        )
     }
 }

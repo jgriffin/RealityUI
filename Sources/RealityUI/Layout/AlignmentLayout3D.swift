@@ -4,7 +4,7 @@
 
 import Spatial
 
-public struct CanvasLayout3D: Layout3D {
+public struct AlignmentLayout3D: Layout3D {
     public let alignment: Alignment3D
 
     public init(alignment: Alignment3D = .center) {
@@ -31,12 +31,12 @@ public struct CanvasLayout3D: Layout3D {
         let proposed = ProposedSize3D(size)
 
         return contents.map { content -> LayoutContentPlacement in
-            let size = content.sizeThatFits(proposed, env)
+            let childSize = content.sizeThatFits(proposed, env)
 
             return LayoutContentPlacement(
                 content: content,
-                size: size,
-                position: .zero
+                size: childSize,
+                position: Point3D(alignment.offset(parent: size, child: childSize))
             )
         }
     }

@@ -7,10 +7,10 @@
     import SwiftUI
 
     public struct RealityUIView: View {
-        var View3D: any View3D
+        var view3D: any View3D
 
-        public init(_ View3D: () -> some View3D) {
-            self.View3D = View3D()
+        public init(_ view3D: () -> some View3D) {
+            self.view3D = view3D()
         }
 
         @State private var renderer = RealityUIRenderer()
@@ -21,10 +21,10 @@
                     chartBody.add(renderer.realityRoot)
 
                     let sceneBounds = chartBody.convert(proxy.frame(in: .local), from: .local, to: .scene)
-                    renderer.update(with: View3D, size: Size3D(sceneBounds.extents))
+                    renderer.update(with: view3D, size: Size3D(sceneBounds.extents))
                 } update: { chartBody in
                     let sceneBounds = chartBody.convert(proxy.frame(in: .local), from: .local, to: .scene)
-                    renderer.update(with: View3D, size: Size3D(sceneBounds.extents))
+                    renderer.update(with: view3D, size: Size3D(sceneBounds.extents))
                 }
             }
         }

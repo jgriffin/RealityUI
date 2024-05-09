@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public struct _FrameView3D<Content: View3D>: View3D, CustomView3D {
+public struct _Frame3D<Content: View3D>: View3D, CustomView3D {
     var content: Content
     var width: Double?
     var height: Double?
@@ -36,10 +36,11 @@ public struct _FrameView3D<Content: View3D>: View3D, CustomView3D {
         let childSize = content.sizeThatFits(proposed, env)
 
         return makeEntity(
+            value: (width: width, height: height, depth: depth),
             .translation(
                 alignment.offset(parent: proposed.sizeOrDefault, child: childSize)
             ),
-            children: content.renderWithSize(size, env)
+            children: content.renderWithSize(childSize, env)
         )
     }
 }
