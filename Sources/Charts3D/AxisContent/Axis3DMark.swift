@@ -23,7 +23,7 @@ public struct Axis3DGridLine: Axis3DMark {
     let centered: Bool?
     // let strokeStyle: StrokeStyle?
 
-    init(centered: Bool? = nil) {
+    public init(centered: Bool? = nil) {
         self.centered = centered
     }
 
@@ -44,7 +44,7 @@ public struct Axis3DTick: Axis3DMark {
     let length: Length
     // let strokeStyle: StrokeStyle?
 
-    init(centered: Bool?, length: Length) {
+    public init(centered: Bool?, length: Length) {
         self.centered = centered
         self.length = length
     }
@@ -59,7 +59,7 @@ public struct Axis3DTick: Axis3DMark {
         }
     }
 
-    enum Length {
+    public enum Length {
         case automatic,
              length(Double),
              label(extendBy: Double = 0),

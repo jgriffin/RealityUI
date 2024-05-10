@@ -25,9 +25,9 @@ public struct ChartAxes3D<XC: Axis3DContent, YC: Axis3DContent, ZC: Axis3DConten
     @View3DBuilder
     public func renderView(_ proxy: Chart3DProxy, _ env: Chart3DEnvironment) -> some View3D {
         Canvas3D {
-            xContent.renderView(proxy.xDimensionProxy, env: env)
-            yContent.renderView(proxy.yDimensionProxy, env: env)
-            zContent.renderView(proxy.zDimensionProxy, env: env)
+            xContent.renderView(proxy.xDimensionProxy, env)
+            yContent.renderView(proxy.yDimensionProxy, env)
+            zContent.renderView(proxy.zDimensionProxy, env)
         }
     }
 }

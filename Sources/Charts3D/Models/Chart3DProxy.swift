@@ -8,16 +8,44 @@ import Spatial
 public struct Chart3DProxy {
     public let plotSize: Size3D
     public let domains: PlottableDomains
-    public let xDomainNumeric: ClosedRange<NumericDimension>?
-    public let yDomainNumeric: ClosedRange<NumericDimension>?
-    public let zDomainNumeric: ClosedRange<NumericDimension>?
+    public let numericDomains: NumericDomains
+    public let numericDomainSize: Size3D?
 
     public init(plotSize: Size3D, domains: PlottableDomains) {
         self.plotSize = plotSize
         self.domains = domains
-        xDomainNumeric = domains.xNumeric
-        yDomainNumeric = domains.yNumeric
-        zDomainNumeric = domains.zNumeric
+        numericDomains = domains.numericDomains
+        numericDomainSize = Self.calculateNumericDomainSize(numericDomains)
+    }
+
+    static func calculateNumericDomainSize(_ domains: NumericDomains) -> Size3D? {
+        guard let xLength = domains.x.map({ $0.upperBound - $0.lowerBound }),
+              let yLength = domains.y.map({ $0.upperBound - $0.lowerBound }),
+              let zLength = domains.z.map({ $0.upperBound - $0.lowerBound })
+        else {
+            return nil
+        }
+
+        return Size3D(
+            width: xLength,
+            height: yLength,
+            depth: zLength
+        )
+    }
+
+    var perMeterScale: Size3D {
+        guard plotSize.width != 0, plotSize.height != 0, plotSize.depth != 0,
+              let domainSize = numericDomainSize
+        else {
+            return .one
+        }
+
+        let scale: SIMD3<NumericDimension> = [
+            domainSize.width / plotSize.width,
+            domainSize.height / plotSize.height,
+            domainSize.depth / plotSize.depth,
+        ]
+        return .one * scale.min()
     }
 }
 
@@ -34,18 +62,18 @@ public extension Chart3DProxy {
     }
 
     func positionFor(x: some Plottable) -> Position? {
-        guard let x = NumericDimension.from(x), let xDomainNumeric else { return nil }
-        return xDomainNumeric.ratioOf(x).map { Position($0) * plotSize.width }
+        guard let x = NumericDimension.from(x) else { return nil }
+        return numericDomains.x?.ratioOf(x).map { Position($0) * plotSize.width }
     }
 
     func positionFor(y: some Plottable) -> Position? {
-        guard let y = NumericDimension.from(y), let yDomainNumeric else { return nil }
-        return yDomainNumeric.ratioOf(y).map { Position($0) * plotSize.height }
+        guard let y = NumericDimension.from(y) else { return nil }
+        return numericDomains.y?.ratioOf(y).map { Position($0) * plotSize.height }
     }
 
     func positionFor(z: some Plottable) -> Position? {
-        guard let z = NumericDimension.from(z), let zDomainNumeric else { return nil }
-        return zDomainNumeric.ratioOf(z).map { Position($0) * plotSize.depth }
+        guard let z = NumericDimension.from(z) else { return nil }
+        return numericDomains.z?.ratioOf(z).map { Position($0) * plotSize.depth }
     }
 
     // MARK: - value
@@ -61,17 +89,17 @@ public extension Chart3DProxy {
     }
 
     func value<X: Plottable>(atX position: Position, as _: X.Type) -> X? {
-        guard let d = xDomainNumeric?.lerp(position, in: 0 ... plotSize.width) else { return nil }
+        guard let d = numericDomains.x?.lerp(position, in: 0 ... plotSize.width) else { return nil }
         return X.from(d)
     }
 
     func value<Y: Plottable>(atY position: Double, as _: Y.Type) -> Y? {
-        guard let d = yDomainNumeric?.lerp(position, in: 0 ... plotSize.height) else { return nil }
+        guard let d = numericDomains.y?.lerp(position, in: 0 ... plotSize.height) else { return nil }
         return Y.from(d)
     }
 
     func value<Z: Plottable>(atZ position: Double, as _: Z.Type) -> Z? {
-        guard let d = zDomainNumeric?.lerp(position, in: 0 ... plotSize.depth) else { return nil }
+        guard let d = numericDomains.z?.lerp(position, in: 0 ... plotSize.depth) else { return nil }
         return Z.from(d)
     }
 
@@ -104,10 +132,10 @@ public struct DimensionProxy {
             othogonal = (min: .zero, max: .bottomLeadingFront)
         case .y:
             positionRange = 0 ... proxy.plotSize.height
-            othogonal = (min: .zero, max: .topLeadingBack)
+            othogonal = (min: .zero, max: .bottomTrailingBack)
         case .z:
             positionRange = 0 ... proxy.plotSize.depth
-            othogonal = (min: .zero, max: .bottomTrailingBack)
+            othogonal = (min: .bottomTrailingBack, max: .bottomLeadingBack)
         default:
             positionRange = 0 ... 0
             othogonal = (min: .zero, max: .zero)

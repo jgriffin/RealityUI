@@ -22,18 +22,45 @@ final class AxisMarkValuesTests: XCTestCase {
     func testDomainNumericRanges() {
         let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
         let proxy = Chart3DProxy(plotSize: .one, domains: domains)
-        let marks = Axis3DMarkValues.strideBy(stepSize: 0.1)
-        let xValues = marks.resolvedIn(proxy.xDimensionProxy)
+        let markValues = Axis3DMarkValues.strideBy(stepSize: 0.2)
 
-        XCTAssertEqual(xValues.count, 11)
-        let floats = xValues.map { Float.from($0.value) }
-        XCTAssertEqual(floats, [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0])
+        let xValues = markValues.resolvedIn(proxy.xDimensionProxy)
+        let yValues = markValues.resolvedIn(proxy.yDimensionProxy)
+        let zValues = markValues.resolvedIn(proxy.zDimensionProxy)
+
+        let xFloats = xValues.compactMap { Float.from($0.value) }
+        let yFloats = yValues.compactMap { Float.from($0.value) }
+        let zFloats = zValues.compactMap { Float.from($0.value) }
+        XCTAssertEqual(xFloats, [1.0, 1.2, 1.4, 1.6, 1.8, 2.0])
+        XCTAssertEqual(yFloats, [3.0, 3.2, 3.4, 3.6, 3.8, 4.0])
+        XCTAssertEqual(zFloats, [5.0, 5.2, 5.4, 5.6, 5.8, 6.0])
     }
 
-    func testPosition() {
+    func testXAxisMarks() {
         let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
         let proxy = Chart3DProxy(plotSize: .one, domains: domains)
-        let position = proxy.positionFor((1.5, 3.5, 5.5))
-        XCTAssertEqual(position, Point3D(x: 0.5, y: 0.5, z: 0.5))
+        let dimensionProxy = proxy.xDimensionProxy
+
+        let axisMarks = Axis3DMarks(values: .strideBy(stepSize: 0.2)) { _ in
+            Axis3DGridLine()
+        }
+
+        let view = axisMarks.renderView(dimensionProxy, .init())
+        let render = view.renderWithSize(.one, .init())
+        print(render)
+    }
+
+    func testYAxisMarks() {
+        let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
+        let proxy = Chart3DProxy(plotSize: .one, domains: domains)
+        let dimensionProxy = proxy.yDimensionProxy
+
+        let axisMarks = Axis3DMarks(values: .strideBy(stepSize: 0.2)) { _ in
+            Axis3DGridLine()
+        }
+
+        let view = axisMarks.renderView(dimensionProxy, .init())
+        let render = view.renderWithSize(.one, .init())
+        print(render)
     }
 }

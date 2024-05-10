@@ -4,11 +4,15 @@
 
 import RealityUI
 
-public protocol Chart3DContent {
+public protocol Chart3DContent: CustomStringConvertible {
     associatedtype View3DBody: View3D
 
     func plottableDomains() -> PlottableDomains
     func renderView(_ proxy: Chart3DProxy, _ env: Chart3DEnvironment) -> View3DBody
+}
+
+public extension Chart3DContent {
+    var description: String { "\(Self.self)" }
 }
 
 // MARK: - EmptyChartContent

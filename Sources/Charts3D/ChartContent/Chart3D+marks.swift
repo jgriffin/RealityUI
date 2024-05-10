@@ -32,10 +32,13 @@ public struct Point3DMark<X: Plottable, Y: Plottable, Z: Plottable>: Chart3DCont
         PlottableDomains(x: point.x, y: point.y, z: point.z)
     }
 
-    public func renderView(_: Chart3DProxy, _ env: Chart3DEnvironment) -> some View3D {
-        AnyShapeStyle(env.symbolShape)
-            .environment(\.foregroundMaterial, env.foregroundMaterial)
-            .frame(size: env.symbolSize)
+    @View3DBuilder
+    public func renderView(_ proxy: Chart3DProxy, _ env: Chart3DEnvironment) -> some View3D {
+        if let position = proxy.positionFor((point.x.value, point.y.value, point.z.value)) {
+            AnyShapeStyle(env.symbolShape)
+                .frame(size: env.symbolSize)
+                .offset(.init(position))
+        }
     }
 }
 

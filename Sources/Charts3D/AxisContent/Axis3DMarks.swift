@@ -14,6 +14,18 @@ public struct Axis3DMarks<Content: Axis3DMark>: Axis3DContent {
     let values: Axis3DMarkValues
     let content: (Axis3DValue) -> Content
 
+    public init(
+        preset: Axis3DMarkPreset = .automatic,
+        position: Axis3DMarkPosition = .automatic,
+        values: Axis3DMarkValues,
+        content: @escaping (Axis3DValue) -> Content
+    ) {
+        self.preset = preset
+        self.position = position
+        self.values = values
+        self.content = content
+    }
+
     func resolvedMarks(_ proxy: DimensionProxy) -> [(value: Axis3DValue, content: Content)] {
         values.resolvedIn(proxy).compactMap { value in
             (value, content(value))
@@ -21,10 +33,13 @@ public struct Axis3DMarks<Content: Axis3DMark>: Axis3DContent {
     }
 
     @View3DBuilder
-    public func renderView(_ proxy: DimensionProxy, env: Chart3DEnvironment) -> some View3D {
+    public func renderView(_ proxy: DimensionProxy, _ env: Chart3DEnvironment) -> some View3D {
         let marks = resolvedMarks(proxy)
-        ForEach3D(marks, id: \.value.index) { value, content in
-            content.renderView(value, proxy, env)
+
+        Canvas3D {
+            ForEach3D(marks, id: \.value.index) { value, content in
+                content.renderView(value, proxy, env)
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
 //
 
 @testable import Charts3D
-import RealityUI
+@testable import RealityUI
 import XCTest
 
 final class ChartRenderTests: XCTestCase {
@@ -12,15 +12,23 @@ final class ChartRenderTests: XCTestCase {
     func testEmpty() {
         let chart = Chart3D {}
         let result = chart.renderView(nullProxy, .init())
-        print(result)
+        print(result.description)
     }
 
     func testPoint() {
         let chart = Chart3D {
             Point3DMark(("x", "y", "z"), (0, 0, 0))
         }
-        let result = chart.renderView(nullProxy, .init())
+        let result = chart.renderWithSize(.one, .init())
+        print(result.description)
+    }
 
-        print(result)
+    func testTwoPoints() {
+        let chart = Chart3D {
+            Point3DMark(("x", "y", "z"), (0, 0, 0))
+            Point3DMark(("x", "y", "z"), (2, 2, 2))
+        }
+        let result = chart.renderWithSize(.one, .init())
+        print(result.description)
     }
 }

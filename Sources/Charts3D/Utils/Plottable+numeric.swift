@@ -5,12 +5,8 @@
 import Charts
 
 public typealias NumericDimension = Double
-
-// public extension Plottable {
-//    func `as`<P: Plottable>(_: P.Type) -> P? {
-//        P.fromPlottable(self)
-//    }
-// }
+public typealias NumericDimensionRange = ClosedRange<NumericDimension>
+public typealias NumericDomains = (x: NumericDimensionRange?, y: NumericDimensionRange?, z: NumericDimensionRange?)
 
 public extension Plottable {
     static func from(_ p: some Plottable) -> Self? where Self: BinaryFloatingPoint {
@@ -54,7 +50,7 @@ public extension Plottable {
 
 extension ClosedRange where Bound: FloatingPoint {
     func ratioOf(_ x: Bound) -> Bound? {
-        guard !isEmpty else { return nil }
+        guard (upperBound - lowerBound) != 0 else { return lowerBound }
         return (x - lowerBound) / (upperBound - lowerBound)
     }
 

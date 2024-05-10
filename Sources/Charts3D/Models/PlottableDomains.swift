@@ -82,29 +82,6 @@ public struct PlottableDomains: CustomStringConvertible {
 
     // MARK: - dimension domains
 
-    public var numericRange: (ClosedRange<NumericDimension>, ClosedRange<NumericDimension>, ClosedRange<NumericDimension>)? {
-        guard let xNumeric, let yNumeric, let zNumeric else { return nil }
-        return (xNumeric, yNumeric, zNumeric)
-    }
-
-    public var xNumeric: ClosedRange<NumericDimension>? {
-        let xs = xDomains.flatMap { $0.values.compactMap { NumericDimension.from($0) }}
-        guard let xMin = xs.min(), let xMax = xs.max() else { return nil }
-        return xMin ... xMax
-    }
-
-    public var yNumeric: ClosedRange<NumericDimension>? {
-        let ys = yDomains.flatMap { $0.values.compactMap { NumericDimension.from($0) } }
-        guard let yMin = ys.min(), let yMax = ys.max() else { return nil }
-        return yMin ... yMax
-    }
-
-    public var zNumeric: ClosedRange<NumericDimension>? {
-        let zs = zDomains.flatMap { $0.values.compactMap { NumericDimension.from($0) } }
-        guard let zMin = zs.min(), let zMax = zs.max() else { return nil }
-        return zMin ... zMax
-    }
-
     public var xDomains: [any DimensionDomain] { x.values.sorted { lhs, rhs in lhs.id < rhs.id } }
     public var yDomains: [any DimensionDomain] { y.values.sorted { lhs, rhs in lhs.id < rhs.id } }
     public var zDomains: [any DimensionDomain] { z.values.sorted { lhs, rhs in lhs.id < rhs.id } }
@@ -112,6 +89,18 @@ public struct PlottableDomains: CustomStringConvertible {
     public func xDomain<P: Plottable>(_: P.Type) -> [P] { x.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
     public func yDomain<P: Plottable>(_: P.Type) -> [P] { y.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
     public func zDomain<P: Plottable>(_: P.Type) -> [P] { z.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
+
+    public var numericDomains: NumericDomains {
+        (x: Self.numericDimensionRangeFrom(x.values),
+         y: Self.numericDimensionRangeFrom(y.values),
+         z: Self.numericDimensionRangeFrom(z.values))
+    }
+
+    static func numericDimensionRangeFrom(_ domains: some Sequence<any DimensionDomain>) -> NumericDimensionRange? {
+        let combined = domains.flatMap { $0.values.compactMap { NumericDimension.from($0) }}
+        guard let min = combined.min(), let max = combined.max() else { return nil }
+        return min ... max
+    }
 }
 
 // MARK: - DimensionDomain

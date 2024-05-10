@@ -14,17 +14,17 @@ final class ChartProxyTests: XCTestCase {
     func testEmpty() {
         let domains = PlottableDomains()
         let proxy = Chart3DProxy(plotSize: .one, domains: domains)
-        XCTAssertNil(proxy.xDomainNumeric)
-        XCTAssertNil(proxy.yDomainNumeric)
-        XCTAssertNil(proxy.zDomainNumeric)
+        XCTAssertNil(proxy.numericDomains.x)
+        XCTAssertNil(proxy.numericDomains.y)
+        XCTAssertNil(proxy.numericDomains.z)
     }
 
     func testDomainNumericRanges() {
         let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
         let proxy = Chart3DProxy(plotSize: .one, domains: domains)
-        XCTAssertEqual(proxy.xDomainNumeric, 1 ... 2)
-        XCTAssertEqual(proxy.yDomainNumeric, 3 ... 4)
-        XCTAssertEqual(proxy.zDomainNumeric, 5 ... 6)
+        XCTAssertEqual(proxy.numericDomains.x, 1 ... 2)
+        XCTAssertEqual(proxy.numericDomains.y, 3 ... 4)
+        XCTAssertEqual(proxy.numericDomains.z, 5 ... 6)
     }
 
     func testPosition() {
