@@ -3,54 +3,52 @@
 //
 
 import Charts
+import RealityUI
 import Spatial
 
 public struct Chart3DProxy {
-    public let plotSize: Size3D
+    public let chartSize: Size3D
     public let domains: PlottableDomains
-    public let numericDomains: NumericDomains
-    public let numericDomainSize: Size3D?
+    public let dimension: (x: PlotDimension, y: PlotDimension, z: PlotDimension)
 
-    public init(plotSize: Size3D, domains: PlottableDomains) {
-        self.plotSize = plotSize
+    public init(
+        chartSize: Size3D,
+        domains: PlottableDomains,
+        domainScale: DomainScaling = .automatic(includesZero: false),
+        positionScale: PlotPositionScaling = .plotDimension(padding: 0.05)
+    ) {
+        self.chartSize = chartSize
         self.domains = domains
-        numericDomains = domains.numericDomains
-        numericDomainSize = Self.calculateNumericDomainSize(numericDomains)
-    }
 
-    static func calculateNumericDomainSize(_ domains: NumericDomains) -> Size3D? {
-        guard let xLength = domains.x.map({ $0.upperBound - $0.lowerBound }),
-              let yLength = domains.y.map({ $0.upperBound - $0.lowerBound }),
-              let zLength = domains.z.map({ $0.upperBound - $0.lowerBound })
-        else {
-            return nil
-        }
-
-        return Size3D(
-            width: xLength,
-            height: yLength,
-            depth: zLength
+        let numericDomains = domains.numericDomains
+        dimension = (
+            x: .init(
+                domain: domainScale.dimensionScaleFor(numericDomains.x),
+                position: positionScale.dimensionScaleFor(-chartSize.width / 2 ... chartSize.width / 2)
+            ),
+            y: .init(
+                domain: domainScale.dimensionScaleFor(numericDomains.y),
+                position: positionScale.dimensionScaleFor(-chartSize.height / 2 ... chartSize.height / 2)
+            ),
+            z: .init(
+                domain: domainScale.dimensionScaleFor(numericDomains.z),
+                position: positionScale.dimensionScaleFor(-chartSize.depth / 2 ... chartSize.depth / 2)
+            )
         )
-    }
-
-    var perMeterScale: Size3D {
-        guard plotSize.width != 0, plotSize.height != 0, plotSize.depth != 0,
-              let domainSize = numericDomainSize
-        else {
-            return .one
-        }
-
-        let scale: SIMD3<NumericDimension> = [
-            domainSize.width / plotSize.width,
-            domainSize.height / plotSize.height,
-            domainSize.depth / plotSize.depth,
-        ]
-        return .one * scale.min()
     }
 }
 
 public extension Chart3DProxy {
-    typealias Position = Double
+    func positionMinMax() -> (min: Point3D, max: Point3D) {
+        (
+            min: Point3D(x: dimension.x.positionRange.lowerBound,
+                         y: dimension.y.positionRange.lowerBound,
+                         z: dimension.z.positionRange.lowerBound),
+            max: Point3D(x: dimension.x.positionRange.upperBound,
+                         y: dimension.y.positionRange.upperBound,
+                         z: dimension.z.positionRange.upperBound)
+        )
+    }
 
     // MARK: - position
 
@@ -61,46 +59,46 @@ public extension Chart3DProxy {
         return Point3D(x: x, y: y, z: z)
     }
 
-    func positionFor(x: some Plottable) -> Position? {
-        guard let x = NumericDimension.from(x) else { return nil }
-        return numericDomains.x?.ratioOf(x).map { Position($0) * plotSize.width }
+    func positionFor(x: some Plottable) -> PlotPosition? {
+        guard let x = PlottableNumeric.from(x) else { return nil }
+        return dimension.x.plotPositionOf(x)
     }
 
-    func positionFor(y: some Plottable) -> Position? {
-        guard let y = NumericDimension.from(y) else { return nil }
-        return numericDomains.y?.ratioOf(y).map { Position($0) * plotSize.height }
+    func positionFor(y: some Plottable) -> PlotPosition? {
+        guard let y = PlottableNumeric.from(y) else { return nil }
+        return dimension.y.plotPositionOf(y)
     }
 
-    func positionFor(z: some Plottable) -> Position? {
-        guard let z = NumericDimension.from(z) else { return nil }
-        return numericDomains.z?.ratioOf(z).map { Position($0) * plotSize.depth }
+    func positionFor(z: some Plottable) -> PlotPosition? {
+        guard let z = PlottableNumeric.from(z) else { return nil }
+        return dimension.z.plotPositionOf(z)
     }
 
     // MARK: - value
 
     func value<X: Plottable, Y: Plottable, Z: Plottable>(
-        atPosition position: (x: Position, y: Position, z: Position),
+        atPosition position: (x: PlotPosition, y: PlotPosition, z: PlotPosition),
         as _: (x: X, y: Y, z: Z).Type
     ) -> (x: X, y: Y, z: Z)? {
         guard let x = value(atX: position.x, as: X.self),
-              let y = value(atX: position.x, as: Y.self),
-              let z = value(atX: position.x, as: Z.self) else { return nil }
+              let y = value(atY: position.y, as: Y.self),
+              let z = value(atZ: position.z, as: Z.self) else { return nil }
         return (x, y, z)
     }
 
-    func value<X: Plottable>(atX position: Position, as _: X.Type) -> X? {
-        guard let d = numericDomains.x?.lerp(position, in: 0 ... plotSize.width) else { return nil }
-        return X.from(d)
+    func value<X: Plottable>(atX position: PlotPosition, as _: X.Type) -> X? {
+        guard let v = dimension.x.valueAt(position) else { return nil }
+        return X.from(v)
     }
 
     func value<Y: Plottable>(atY position: Double, as _: Y.Type) -> Y? {
-        guard let d = numericDomains.y?.lerp(position, in: 0 ... plotSize.height) else { return nil }
-        return Y.from(d)
+        guard let v = dimension.y.valueAt(position) else { return nil }
+        return Y.from(v)
     }
 
     func value<Z: Plottable>(atZ position: Double, as _: Z.Type) -> Z? {
-        guard let d = numericDomains.z?.lerp(position, in: 0 ... plotSize.depth) else { return nil }
-        return Z.from(d)
+        guard let v = dimension.z.valueAt(position) else { return nil }
+        return Z.from(v)
     }
 
     // MARK: - dimension proxies
@@ -111,13 +109,11 @@ public extension Chart3DProxy {
 }
 
 public struct DimensionProxy {
-    typealias Position = Chart3DProxy.Position
-
     let axis: Axis3D
     let proxy: Chart3DProxy
 
-    let positionRange: ClosedRange<Position>
-    let othogonal: (min: Point3D, max: Point3D)
+    let domainRange: PlottableNumericRange?
+    let orthogonal: (min: Point3D, max: Point3D)
 
     init(
         axis: Axis3D,
@@ -126,25 +122,36 @@ public struct DimensionProxy {
         self.axis = axis
         self.proxy = proxy
 
+        let (pMin, pMax) = proxy.positionMinMax()
+
         switch axis {
         case .x:
-            positionRange = 0 ... proxy.plotSize.width
-            othogonal = (min: .zero, max: .bottomLeadingFront)
+            domainRange = proxy.dimension.x.domainNumericRange
+            orthogonal = (
+                min: Point3D(x: pMin.x, y: pMin.y, z: pMin.z),
+                max: Point3D(x: pMin.x, y: pMin.y, z: pMax.z)
+            )
         case .y:
-            positionRange = 0 ... proxy.plotSize.height
-            othogonal = (min: .zero, max: .bottomTrailingBack)
+            domainRange = proxy.dimension.y.domainNumericRange
+            orthogonal = (
+                min: Point3D(x: pMin.x, y: pMin.y, z: pMin.z),
+                max: Point3D(x: pMax.x, y: pMin.y, z: pMin.z)
+            )
         case .z:
-            positionRange = 0 ... proxy.plotSize.depth
-            othogonal = (min: .bottomTrailingBack, max: .bottomLeadingBack)
+            domainRange = proxy.dimension.z.domainNumericRange
+            orthogonal = (
+                min: Point3D(x: pMax.x, y: pMin.y, z: pMin.z),
+                max: Point3D(x: pMax.x, y: pMax.y, z: pMin.z)
+            )
         default:
-            positionRange = 0 ... 0
-            othogonal = (min: .zero, max: .zero)
+            domainRange = nil
+            orthogonal = (min: .zero, max: .zero)
         }
     }
 
     // MARK: - position and values
 
-    func position(for p: some Plottable) -> Position? {
+    func position(for p: some Plottable) -> PlotPosition? {
         switch axis {
         case .x: proxy.positionFor(x: p)
         case .y: proxy.positionFor(y: p)
@@ -153,7 +160,7 @@ public struct DimensionProxy {
         }
     }
 
-    func value<P: Plottable>(at position: Position, as _: P.Type) -> P? {
+    func value<P: Plottable>(at position: PlotPosition, as _: P.Type) -> P? {
         switch axis {
         case .x: proxy.value(atX: position, as: P.self)
         case .y: proxy.value(atY: position, as: P.self)
@@ -167,8 +174,9 @@ public struct DimensionProxy {
         return othogonalForPosition(position)
     }
 
-    func othogonalForPosition(_ position: Position) -> (min: Point3D, max: Point3D) {
-        let offset = axis.asVector * position
-        return (othogonal.min + offset, othogonal.max + offset)
+    func othogonalForPosition(_ position: PlotPosition) -> (min: Point3D, max: Point3D) {
+        let min = axis.mix(onAxis: .init(x: position, y: position, z: position), offAxis: .init(orthogonal.min))
+        let max = axis.mix(onAxis: .init(x: position, y: position, z: position), offAxis: .init(orthogonal.max))
+        return (.init(min), .init(max))
     }
 }

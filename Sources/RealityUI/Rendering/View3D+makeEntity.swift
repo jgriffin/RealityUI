@@ -8,11 +8,12 @@ public extension View3D {
     // core api
     func makeEntity(
         value: some Any,
+        hideChildDescriptions: Bool = false,
         components: [any Component],
         children: [Entity]
     ) -> Entity {
         .make(
-            .value(Self.self, value),
+            .value(Self.self, value, hideChildDescriptions: hideChildDescriptions),
             components: components,
             children: children
         )

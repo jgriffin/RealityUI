@@ -7,29 +7,54 @@ import Spatial
 import XCTest
 
 final class ChartProxyTests: XCTestCase {
-    let oneTwo = DimensionDomainValues(1, 2)
-    let threeFour = DimensionDomainValues(3, 4)
-    let fiveSix = DimensionDomainValues(5, 6)
+    let oneTwo = PlottableDomainValues(1, 2)
+    let threeFour = PlottableDomainValues(3, 4)
+    let fiveSix = PlottableDomainValues(5, 6)
 
     func testEmpty() {
         let domains = PlottableDomains()
-        let proxy = Chart3DProxy(plotSize: .one, domains: domains)
-        XCTAssertNil(proxy.numericDomains.x)
-        XCTAssertNil(proxy.numericDomains.y)
-        XCTAssertNil(proxy.numericDomains.z)
+
+        let proxy = Chart3DProxy(chartSize: .one, domains: domains)
+
+        XCTAssertEqual(proxy.dimension.x.domainNumericRange, 0 ... 1)
+        XCTAssertEqual(proxy.dimension.y.domainNumericRange, 0 ... 1)
+        XCTAssertEqual(proxy.dimension.z.domainNumericRange, 0 ... 1)
     }
 
     func testDomainNumericRanges() {
         let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
-        let proxy = Chart3DProxy(plotSize: .one, domains: domains)
-        XCTAssertEqual(proxy.numericDomains.x, 1 ... 2)
-        XCTAssertEqual(proxy.numericDomains.y, 3 ... 4)
-        XCTAssertEqual(proxy.numericDomains.z, 5 ... 6)
+
+        let proxy = Chart3DProxy(
+            chartSize: .one, domains: domains,
+            domainScale: .automatic(includesZero: false)
+        )
+
+        XCTAssertEqual(proxy.dimension.x.domainNumericRange, 1 ... 2)
+        XCTAssertEqual(proxy.dimension.y.domainNumericRange, 3 ... 4)
+        XCTAssertEqual(proxy.dimension.z.domainNumericRange, 5 ... 6)
+    }
+
+    func testDomainNumericRangesIncludeZero() {
+        let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
+
+        let proxy = Chart3DProxy(
+            chartSize: .one, domains: domains,
+            domainScale: .automatic(includesZero: true)
+        )
+
+        XCTAssertEqual(proxy.dimension.x.domainNumericRange, 0 ... 2)
+        XCTAssertEqual(proxy.dimension.y.domainNumericRange, 0 ... 4)
+        XCTAssertEqual(proxy.dimension.z.domainNumericRange, 0 ... 6)
     }
 
     func testPosition() {
         let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
-        let proxy = Chart3DProxy(plotSize: .one, domains: domains)
+
+        let proxy = Chart3DProxy(
+            chartSize: .one, domains: domains,
+            domainScale: .automatic(includesZero: false)
+        )
+
         let position = proxy.positionFor((1.5, 3.5, 5.5))
         XCTAssertEqual(position, Point3D(x: 0.5, y: 0.5, z: 0.5))
     }

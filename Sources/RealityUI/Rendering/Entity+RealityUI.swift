@@ -60,8 +60,11 @@ public extension Entity {
     func dump() -> [String] {
         guard let realityUI else { return ["non-realityUI"] }
 
-        let e = [realityUI.description, transformDescription].compactMap { $0 }.joined(separator: " ")
-        return [e] + children.flatMap { $0.dump() }.map { "    \($0)" }
+        let e = [realityUI.description, transformDescription]
+            .compactMap { $0 }.joined(separator: " ")
+        let c = realityUI.content.hideChildDescriptions ? [] :
+            children.flatMap { $0.dump() }.map { "    \($0)" }
+        return [e] + c
     }
 
     var transformDescription: String? {

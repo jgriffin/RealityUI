@@ -50,6 +50,8 @@ public extension View3D {
 public protocol RealityContentProtocol: CustomStringConvertible {
     var type: RealityContentType { get }
     func isEqual(_ other: Self) -> Bool
+
+    var hideChildDescriptions: Bool { get }
 }
 
 public extension RealityContentProtocol {
@@ -62,9 +64,10 @@ public extension RealityContentProtocol {
 public extension RealityContentProtocol {
     static func value<T: View3D, Value>(
         _: T.Type = T.self,
-        _ value: Value
+        _ value: Value,
+        hideChildDescriptions: Bool
     ) -> Self where Self == RealityContentValue<Value> {
-        RealityContentValue(T.contentType, value: value)
+        RealityContentValue(T.contentType, value: value, hideChildDescription: hideChildDescriptions)
     }
 }
 
@@ -73,10 +76,12 @@ public extension RealityContentProtocol {
 public struct RealityContentValue<Value>: RealityContentProtocol, CustomStringConvertible {
     public let type: RealityContentType
     public let value: Value
+    public let hideChildDescriptions: Bool
 
-    public init(_ contentType: RealityContentType, value: Value) {
-        type = contentType
+    public init(_ type: RealityContentType, value: Value, hideChildDescription: Bool) {
+        self.type = type
         self.value = value
+        hideChildDescriptions = hideChildDescription
     }
 
     public var description: String {

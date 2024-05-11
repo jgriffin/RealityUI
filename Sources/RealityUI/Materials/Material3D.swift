@@ -34,4 +34,7 @@ public extension Material3D {
             isMetalic: isMetalic
         )
     }
+
+    static let blue100: Material3D = .color(.blue)
+    static let cyan20: Material3D = .color(.cyan, alpha: 0.2)
 }

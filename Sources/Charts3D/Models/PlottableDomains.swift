@@ -9,9 +9,9 @@ import Foundation
 
 /// (Dictionary) collection of domains
 public struct PlottableDomains: CustomStringConvertible {
-    var x: [ObjectIdentifier: any DimensionDomain]
-    var y: [ObjectIdentifier: any DimensionDomain]
-    var z: [ObjectIdentifier: any DimensionDomain]
+    var x: [ObjectIdentifier: any PlottableDomain]
+    var y: [ObjectIdentifier: any PlottableDomain]
+    var z: [ObjectIdentifier: any PlottableDomain]
 
     public init() {
         x = [:]
@@ -19,7 +19,7 @@ public struct PlottableDomains: CustomStringConvertible {
         z = [:]
     }
 
-    public init(x: some DimensionDomain, y: some DimensionDomain, z: some DimensionDomain) {
+    public init(x: some PlottableDomain, y: some PlottableDomain, z: some PlottableDomain) {
         self.x = [x.id: x]
         self.y = [y.id: y]
         self.z = [z.id: z]
@@ -31,17 +31,17 @@ public struct PlottableDomains: CustomStringConvertible {
         z: Plottable3DValue<Z>...
     ) {
         self.init(
-            x: DimensionDomainValues(x.map(\.value)),
-            y: DimensionDomainValues(y.map(\.value)),
-            z: DimensionDomainValues(z.map(\.value))
+            x: PlottableDomainValues(x.map(\.value)),
+            y: PlottableDomainValues(y.map(\.value)),
+            z: PlottableDomainValues(z.map(\.value))
         )
     }
 
     // MARK: merge
 
     static func merge(
-        _ d: inout [ObjectIdentifier: any DimensionDomain],
-        with other: any DimensionDomain
+        _ d: inout [ObjectIdentifier: any PlottableDomain],
+        with other: any PlottableDomain
     ) {
         guard let domain = d[other.id] else {
             d[other.id] = other
@@ -58,8 +58,8 @@ public struct PlottableDomains: CustomStringConvertible {
     }
 
     static func merge(
-        _ d: inout [ObjectIdentifier: any DimensionDomain],
-        with others: some Sequence<any DimensionDomain>
+        _ d: inout [ObjectIdentifier: any PlottableDomain],
+        with others: some Sequence<any PlottableDomain>
     ) {
         others.forEach { merge(&d, with: $0) }
     }
@@ -82,44 +82,44 @@ public struct PlottableDomains: CustomStringConvertible {
 
     // MARK: - dimension domains
 
-    public var xDomains: [any DimensionDomain] { x.values.sorted { lhs, rhs in lhs.id < rhs.id } }
-    public var yDomains: [any DimensionDomain] { y.values.sorted { lhs, rhs in lhs.id < rhs.id } }
-    public var zDomains: [any DimensionDomain] { z.values.sorted { lhs, rhs in lhs.id < rhs.id } }
+    public var xDomains: [any PlottableDomain] { x.values.sorted { lhs, rhs in lhs.id < rhs.id } }
+    public var yDomains: [any PlottableDomain] { y.values.sorted { lhs, rhs in lhs.id < rhs.id } }
+    public var zDomains: [any PlottableDomain] { z.values.sorted { lhs, rhs in lhs.id < rhs.id } }
 
     public func xDomain<P: Plottable>(_: P.Type) -> [P] { x.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
     public func yDomain<P: Plottable>(_: P.Type) -> [P] { y.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
     public func zDomain<P: Plottable>(_: P.Type) -> [P] { z.values.flatMap { ($0.values.compactMap { $0 as? P }) } }
 
-    public var numericDomains: NumericDomains {
-        (x: Self.numericDimensionRangeFrom(x.values),
-         y: Self.numericDimensionRangeFrom(y.values),
-         z: Self.numericDimensionRangeFrom(z.values))
+    public var numericDomains: PlottableNumericRanges {
+        (x: Self.plottableNumericRangeFrom(x.values),
+         y: Self.plottableNumericRangeFrom(y.values),
+         z: Self.plottableNumericRangeFrom(z.values))
     }
 
-    static func numericDimensionRangeFrom(_ domains: some Sequence<any DimensionDomain>) -> NumericDimensionRange? {
-        let combined = domains.flatMap { $0.values.compactMap { NumericDimension.from($0) }}
+    static func plottableNumericRangeFrom(_ domains: some Sequence<any PlottableDomain>) -> PlottableNumericRange? {
+        let combined = domains.flatMap { $0.values.compactMap { PlottableNumeric.from($0) }}
         guard let min = combined.min(), let max = combined.max() else { return nil }
         return min ... max
     }
 }
 
-// MARK: - DimensionDomain
+// MARK: - PlottableDomain
 
 /// protocol for generic collections of domains
-public protocol DimensionDomain<Value>: Identifiable, CustomStringConvertible where ID == ObjectIdentifier {
+public protocol PlottableDomain<Value>: Identifiable, CustomStringConvertible where ID == ObjectIdentifier {
     associatedtype Value: Plottable
 
     var values: [Value] { get }
-    func merging(_ value: any DimensionDomain) -> Self?
+    func merging(_ value: any PlottableDomain) -> Self?
 }
 
-public extension DimensionDomain {
+public extension PlottableDomain {
     var id: ObjectIdentifier { ObjectIdentifier(Self.self) }
 
     var description: String { "\(String(describing: Value.self)): \(values)" }
 }
 
-public struct DimensionDomainValues<Value: Plottable>: DimensionDomain, CustomStringConvertible {
+public struct PlottableDomainValues<Value: Plottable>: PlottableDomain, CustomStringConvertible {
     public typealias Value = Value
 
     public var values: [Value]
@@ -136,7 +136,7 @@ public struct DimensionDomainValues<Value: Plottable>: DimensionDomain, CustomSt
         self.init(values.map(\.value))
     }
 
-    public func merging(_ other: any DimensionDomain) -> DimensionDomainValues<Value>? {
+    public func merging(_ other: any PlottableDomain) -> PlottableDomainValues<Value>? {
         guard let o = other as? Self else { return nil }
         return Self(values + o.values)
     }

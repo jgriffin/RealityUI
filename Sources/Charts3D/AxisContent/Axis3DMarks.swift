@@ -54,7 +54,7 @@ public struct Axis3DMarkValues {
 
     public static func values(_ values: [some Plottable]) -> Self {
         self.init { _ in
-            let numericValues = values.compactMap { NumericDimension.from($0) }
+            let numericValues = values.compactMap { PlottableNumeric.from($0) }
 
             return numericValues.enumerated().map { index, value in
                 Axis3DValue(count: numericValues.count, index: index, value: value)
@@ -62,20 +62,14 @@ public struct Axis3DMarkValues {
         }
     }
 
-    public static func strideBy<S: Plottable & Strideable>(
-        stepSize stepValue: S,
+    public static func strideBy(
+        stepSize stepValue: PlottableNumeric,
         roundLowerBound _: Bool? = nil,
         roundUpperBound _: Bool? = nil
-    ) -> Self where S == S.Stride {
+    ) -> Self {
         self.init { proxy in
-            let range = proxy.positionRange
-            guard let lowerValue = proxy.value(at: range.lowerBound, as: S.self),
-                  let upperValue = proxy.value(at: range.upperBound, as: S.self)
-            else {
-                return []
-            }
-            let numericValues = Array(stride(from: lowerValue, through: upperValue, by: stepValue))
-
+            guard let range = proxy.domainRange else { return [] }
+            let numericValues = Array(stride(from: range.lowerBound, through: range.upperBound, by: stepValue))
             return numericValues.enumerated().map { index, value in
                 Axis3DValue(count: numericValues.count, index: index, value: value)
             }

@@ -55,6 +55,10 @@ public extension View3D {
         offset(.init(x: x, y: y, z: z))
     }
 
+    func alignment(_ alignment: Alignment3D) -> some View3D {
+        _Alignment3D(self, alignment)
+    }
+
     // MARK: - pose
 
     func pose(_ pose: Pose3D) -> some View3D {

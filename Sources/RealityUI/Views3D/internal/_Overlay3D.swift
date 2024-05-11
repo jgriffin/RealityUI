@@ -4,6 +4,7 @@
 
 import RealityKit
 import Spatial
+import SwiftUI
 
 public struct _Overlay3D<Content: View3D, OverlayContent: View3D>: View3D, CustomView3D {
     var content: Content
@@ -25,9 +26,26 @@ public struct _Overlay3D<Content: View3D, OverlayContent: View3D>: View3D, Custo
     }
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        makeEntity(
+        let contentSize = content.sizeThatFits(.init(size), env)
+        let overlaySize = overlay.sizeThatFits(.init(contentSize), env)
+
+        return makeEntity(
             children: content.renderWithSize(size, env),
-            _Alignment3D(overlay, alignment).renderWithSize(size, env)
+            overlay.renderWithSize(contentSize, env)
         )
     }
 }
+
+#if os(visionOS)
+
+    #Preview(windowStyle: .volumetric) {
+        RealityUIView {
+            _Overlay3D(
+                Box3D().foreground(.cyan20),
+                overlay: Sphere3D().foreground(.blue100),
+                alignment: .center
+            )
+        }
+    }
+
+#endif

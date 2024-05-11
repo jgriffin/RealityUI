@@ -9,7 +9,7 @@
     public struct RealityUIView: View {
         var view3D: any View3D
 
-        public init(_ view3D: () -> some View3D) {
+        public init(@View3DBuilder _ view3D: () -> some View3D) {
             self.view3D = view3D()
         }
 

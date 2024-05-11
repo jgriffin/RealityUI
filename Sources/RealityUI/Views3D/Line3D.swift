@@ -67,12 +67,48 @@ public struct Line3D: View3D, CustomView3D {
     }
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+        let radius = env.lineRadius
+        let material = env.foregroundMaterial.makeMaterial()
         let segments = segmentsFromPoints() ?? [segmentInSize(size, direction: points.first)]
-        let children = viewsForSegments(segments).map {
-            $0.renderWithSize(.zero, env)
+
+        let children = segments.map { segment in
+            makeSegmentEntity(
+                from: segment.from,
+                to: segment.to,
+                lineRadius: radius,
+                material: material
+            )
         }
 
-        return makeEntity(value: points, children: children)
+        return makeEntity(
+            value: points,
+            hideChildDescriptions: true,
+            components: [],
+            children: children
+        )
+    }
+
+    private func makeSegmentEntity(
+        from: Vector3D,
+        to: Vector3D,
+        lineRadius radius: Double,
+        material: some Material
+    ) -> Entity {
+        let length = (to - from).length
+        let middle = (from + to) / 2
+
+        let mesh = MeshResource.generateCylinder(height: Float(length), radius: Float(radius))
+        let materials = Array(repeating: material, count: mesh.expectedMaterialCount)
+        let model = ModelComponent(mesh: mesh, materials: materials)
+
+        let rotation = Vector3D.up.rotation(to: to - middle)
+        let pose = Pose3D(position: .init(middle), rotation: rotation)
+
+        return makeEntity(
+            value: (from, to),
+            model,
+            .transform(pose: pose)
+        )
     }
 }
 

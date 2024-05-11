@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "2B71AB05-5962-45DB-AEDD-E17E9F18DC9D",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Charts3DTests",
+        "name" : "Charts3DTests"
+      }
+    }
+  ],
+  "version" : 1
+}

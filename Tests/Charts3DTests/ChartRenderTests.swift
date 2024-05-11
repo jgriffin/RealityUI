@@ -7,7 +7,7 @@
 import XCTest
 
 final class ChartRenderTests: XCTestCase {
-    let nullProxy = Chart3DProxy(plotSize: .one, domains: .init())
+    let nullProxy = Chart3DProxy(chartSize: .one, domains: .init())
 
     func testEmpty() {
         let chart = Chart3D {}

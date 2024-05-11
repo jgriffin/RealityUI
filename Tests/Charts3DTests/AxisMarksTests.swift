@@ -7,21 +7,30 @@ import Spatial
 import XCTest
 
 final class AxisMarkValuesTests: XCTestCase {
-    let oneTwo = DimensionDomainValues(1, 2)
-    let threeFour = DimensionDomainValues(3, 4)
-    let fiveSix = DimensionDomainValues(5, 6)
+    let oneTwo = PlottableDomainValues(1, 2)
+    let threeFour = PlottableDomainValues(3, 4)
+    let fiveSix = PlottableDomainValues(5, 6)
 
     func testEmpty() {
         let domains = PlottableDomains()
-        let proxy = Chart3DProxy(plotSize: .one, domains: domains)
-        let marks = Axis3DMarkValues.strideBy(stepSize: 0.1)
-        let xValues = marks.resolvedIn(proxy.xDimensionProxy)
-        XCTAssertTrue(xValues.isEmpty)
+        let proxy = Chart3DProxy(chartSize: .one, domains: domains)
+        let markValues = Axis3DMarkValues.strideBy(stepSize: 0.2)
+
+        let xValues = markValues.resolvedIn(proxy.xDimensionProxy)
+        let yValues = markValues.resolvedIn(proxy.yDimensionProxy)
+        let zValues = markValues.resolvedIn(proxy.zDimensionProxy)
+        let xFloats = xValues.compactMap { Float.from($0.value) }
+        let yFloats = yValues.compactMap { Float.from($0.value) }
+        let zFloats = zValues.compactMap { Float.from($0.value) }
+
+        XCTAssertEqual(xFloats, [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+        XCTAssertEqual(yFloats, [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+        XCTAssertEqual(zFloats, [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     }
 
     func testDomainNumericRanges() {
         let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
-        let proxy = Chart3DProxy(plotSize: .one, domains: domains)
+        let proxy = Chart3DProxy(chartSize: .one, domains: domains)
         let markValues = Axis3DMarkValues.strideBy(stepSize: 0.2)
 
         let xValues = markValues.resolvedIn(proxy.xDimensionProxy)
@@ -38,7 +47,7 @@ final class AxisMarkValuesTests: XCTestCase {
 
     func testXAxisMarks() {
         let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
-        let proxy = Chart3DProxy(plotSize: .one, domains: domains)
+        let proxy = Chart3DProxy(chartSize: .one, domains: domains)
         let dimensionProxy = proxy.xDimensionProxy
 
         let axisMarks = Axis3DMarks(values: .strideBy(stepSize: 0.2)) { _ in
@@ -52,7 +61,7 @@ final class AxisMarkValuesTests: XCTestCase {
 
     func testYAxisMarks() {
         let domains = PlottableDomains(x: oneTwo, y: threeFour, z: fiveSix)
-        let proxy = Chart3DProxy(plotSize: .one, domains: domains)
+        let proxy = Chart3DProxy(chartSize: .one, domains: domains)
         let dimensionProxy = proxy.yDimensionProxy
 
         let axisMarks = Axis3DMarks(values: .strideBy(stepSize: 0.2)) { _ in

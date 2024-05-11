@@ -4,10 +4,6 @@
 
 import Charts
 
-public typealias NumericDimension = Double
-public typealias NumericDimensionRange = ClosedRange<NumericDimension>
-public typealias NumericDomains = (x: NumericDimensionRange?, y: NumericDimensionRange?, z: NumericDimensionRange?)
-
 public extension Plottable {
     static func from(_ p: some Plottable) -> Self? where Self: BinaryFloatingPoint {
         if let v = (p as? Self) {
@@ -45,20 +41,5 @@ public extension Plottable {
     @_disfavoredOverload
     static func from(_ p: some Plottable) -> Self? {
         (p as? Self)
-    }
-}
-
-extension ClosedRange where Bound: FloatingPoint {
-    func ratioOf(_ x: Bound) -> Bound? {
-        guard (upperBound - lowerBound) != 0 else { return lowerBound }
-        return (x - lowerBound) / (upperBound - lowerBound)
-    }
-
-    func interpolate(_ ratio: Bound) -> Bound {
-        lowerBound + ratio * (upperBound - lowerBound)
-    }
-
-    func lerp(_ x: Bound, in from: ClosedRange<Bound>) -> Bound? {
-        from.ratioOf(x).map(interpolate)
     }
 }
