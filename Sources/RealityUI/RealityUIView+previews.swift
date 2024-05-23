@@ -9,7 +9,7 @@ import SwiftUI
 
     #Preview(windowStyle: .volumetric) {
         RealityUIView {
-            LayoutView3D(.stacked(axis: .right, alignment: .center, spacing: .one * 0.01)) {
+            Stack3D(axis: .right, alignment: .center, spacing: .one * 0.01) {
                 Sphere3D()
                 Box3D()
                 Sphere3D()

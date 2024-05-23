@@ -4,7 +4,8 @@
 
 import Spatial
 
-public struct StackedLayout3D: Layout3D {
+/// Layout that positions content end to end along an axis
+public struct AxisStackedLayout3D: Layout3D {
     public var axis: Vector3D
     public var alignment: Alignment3D
     public var spacing: Size3D

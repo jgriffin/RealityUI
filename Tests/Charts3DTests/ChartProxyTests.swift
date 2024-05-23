@@ -52,10 +52,11 @@ final class ChartProxyTests: XCTestCase {
 
         let proxy = Chart3DProxy(
             chartSize: .one, domains: domains,
-            domainScale: .automatic(includesZero: false)
+            domainScale: .automatic(includesZero: false),
+            positionScale: .plotDimension(padding: 0)
         )
 
         let position = proxy.positionFor((1.5, 3.5, 5.5))
-        XCTAssertEqual(position, Point3D(x: 0.5, y: 0.5, z: 0.5))
+        XCTAssertEqual(position, Point3D(x: 0.0, y: 0.0, z: 0.0))
     }
 }

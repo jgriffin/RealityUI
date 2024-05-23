@@ -29,20 +29,20 @@ public struct LayoutContentPlacement {
 }
 
 public extension Layout3D {
-    static func stacked(
+    static func axisStacked(
         axis: Vector3D,
         alignment: Alignment3D = .center,
         spacing: Size3D = .zero
-    ) -> Self where Self == StackedLayout3D {
-        StackedLayout3D(axis: axis, alignment: alignment, spacing: spacing)
+    ) -> Self where Self == AxisStackedLayout3D {
+        AxisStackedLayout3D(axis: axis, alignment: alignment, spacing: spacing)
     }
 
-    @inlinable static func stacked(
+    @inlinable static func axisStacked(
         axis: Vector3D,
         alignment: Alignment3D = .center,
         spacing: Double
-    ) -> Self where Self == StackedLayout3D {
-        stacked(axis: axis, alignment: alignment, spacing: .one * spacing)
+    ) -> Self where Self == AxisStackedLayout3D {
+        AxisStackedLayout3D(axis: axis, alignment: alignment, spacing: .one * spacing)
     }
 
     static func alignment(

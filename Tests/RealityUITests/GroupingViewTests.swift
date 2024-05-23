@@ -44,7 +44,7 @@ final class GroupingViewTests: XCTestCase {
     }
 
     func testLayoutView() {
-        let content = LayoutView3D(.alignment()) {
+        let content = Stack3D(.alignment()) {
             EmptyView3D()
             ForEach3D([0, 1, 2], id: \.self) { _ in EmptyView3D() }
         }
