@@ -4,6 +4,7 @@
 
 import RealityKit
 import Spatial
+import SwiftUI
 
 public struct _Alignment3D<Content: View3D>: View3D, CustomView3D {
     var content: Content
@@ -28,10 +29,20 @@ public struct _Alignment3D<Content: View3D>: View3D, CustomView3D {
 
         return makeEntity(
             value: alignment,
-            .translation(
-                alignment.offset(parent: size, child: childSize)
-            ),
-            children: content.renderWithSize(size, env)
+            children: content
+                .offset(alignment.offset(parent: size, child: childSize))
+                .renderWithSize(size, env)
         )
     }
 }
+
+#if os(visionOS)
+
+    #Preview {
+        RealityUIView {
+            Box3D()
+                .frame(size: 0.1)
+        }
+    }
+
+#endif

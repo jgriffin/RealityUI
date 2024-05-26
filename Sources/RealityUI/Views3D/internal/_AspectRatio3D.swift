@@ -32,26 +32,23 @@ public struct _AspectRatio3D<Content: View3D>: View3D, CustomView3D {
     }
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
-        let proposal = aspectRatio.map {
-            let proposalSize = AspectRatioMath.scaledToFit(
-                proposed.sizeOrInfinite,
-                aspectRatio: $0,
-                maxScale: nil
-            )
-            return ProposedSize3D(proposalSize)
-        } ?? proposed
-
-        let childSize = content.sizeThatFits(proposal, env)
-
-        return AspectRatioMath.scaledToFit(
-            childSize,
-            into: proposed.sizeOrInfinite,
-            maxScale: 1
+        let aspectRatio = AspectRatioMath.scaledToFit(
+            aspectRatio ?? content.sizeThatFits(proposed, env),
+            into: .one,
+            maxScale: nil
         )
+
+        let proposal = AspectRatioMath.scaledToFit(
+            aspectRatio,
+            into: proposed.sizeOrInfinite,
+            maxScale: maxScale
+        )
+
+        return content.sizeThatFits(.init(proposal), env)
     }
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        let childSize = content.sizeThatFits(.init(size), env)
+        let childSize = customSizeFor(.init(size), env)
         let scale = AspectRatioMath.scaleToFit(childSize, into: size)
         let scaleSize = Size3D.one * min(scale, maxScale ?? .greatestFiniteMagnitude)
 

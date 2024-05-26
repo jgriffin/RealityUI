@@ -36,5 +36,8 @@ public extension Material3D {
     }
 
     static let blue100: Material3D = .color(.blue)
+    static let blue80: Material3D = .color(.blue, alpha: 0.8)
+    static let blue20: Material3D = .color(.blue, alpha: 0.2)
     static let cyan20: Material3D = .color(.cyan, alpha: 0.2)
+    static let cyan60: Material3D = .color(.cyan, alpha: 0.6)
 }

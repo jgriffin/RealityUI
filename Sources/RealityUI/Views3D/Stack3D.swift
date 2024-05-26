@@ -4,6 +4,7 @@
 
 import RealityKit
 import Spatial
+import SwiftUI
 
 /// A Stack3D uses a Layout3D to determing the size and position of the (flattened) contents
 ///
@@ -32,6 +33,7 @@ public struct Stack3D<Layout: Layout3D, Content: View3D>: View3D, CustomView3D {
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         let contents = groupFlattened(content)
+        let childrenSize = customSizeFor(.init(size), env)
         let placements = layout.placeContents(contents, in: size, env)
 
         let children = placements.map { placement -> Entity in
@@ -43,13 +45,27 @@ public struct Stack3D<Layout: Layout3D, Content: View3D>: View3D, CustomView3D {
         }
 
         return makeEntity(
-            components: [],
+            value: layout,
+            .translation(-Alignment3D.center.offset(parent: size, child: childrenSize)),
             children: children
         )
     }
 }
 
 public extension Stack3D {
+    init(
+        @View3DBuilder content: () -> Content
+    ) where Layout == AlignmentLayout3D {
+        self.init(.alignment(alignment: .center), content: content)
+    }
+
+    init(
+        alignment: Alignment3D,
+        @View3DBuilder content: () -> Content
+    ) where Layout == AlignmentLayout3D {
+        self.init(.alignment(alignment: alignment), content: content)
+    }
+
     init(
         axis: Vector3D,
         alignment: Alignment3D = .center,
@@ -73,11 +89,21 @@ public extension Stack3D {
             content: content
         )
     }
-
-    init(
-        alignment: Alignment3D,
-        @View3DBuilder content: () -> Content
-    ) where Layout == AlignmentLayout3D {
-        self.init(.alignment(alignment: alignment), content: content)
-    }
 }
+
+#if os(visionOS)
+
+    #Preview {
+        RealityUIView {
+            Stack3D(alignment: .center) {
+                Box3D()
+                    .frame(size: .one * 0.2)
+                Sphere3D()
+                    .frame(size: .one * 0.2)
+                Box3D()
+            }
+            .foreground(.cyan20)
+        }
+    }
+
+#endif

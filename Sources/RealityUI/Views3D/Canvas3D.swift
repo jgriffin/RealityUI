@@ -6,9 +6,8 @@ import RealityKit
 import Spatial
 import SwiftUI
 
-/// Doesn't do any layout, just returns the proposed size and draws things where they are
-/// The canvas size itself does get aligned so it plays well with other stuff.
-public struct Canvas3D<Content: View3D>: View3D, CustomView3D {
+/// Volume takes the space it is offered and lays out it's contents with a Stack3D(alignment: .center)
+public struct Volume3D<Content: View3D>: View3D, CustomView3D {
     let content: Content
     let alignment: Alignment3D
 
@@ -27,12 +26,8 @@ public struct Canvas3D<Content: View3D>: View3D, CustomView3D {
     }
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        let contents = groupFlattened(content)
-
-        return makeEntity(
-            children: contents.map {
-                $0.renderWithSize(size, env)
-            }
+        makeEntity(
+            children: Stack3D(alignment: .center) { content }.renderWithSize(size, env)
         )
     }
 }
@@ -41,7 +36,7 @@ public struct Canvas3D<Content: View3D>: View3D, CustomView3D {
 
     #Preview(windowStyle: .volumetric) {
         RealityUIView {
-            Canvas3D {
+            Volume3D {
                 Box3D()
                     .foreground(.cyan20)
             }

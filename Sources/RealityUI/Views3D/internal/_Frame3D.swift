@@ -37,10 +37,9 @@ public struct _Frame3D<Content: View3D>: View3D, CustomView3D {
 
         return makeEntity(
             value: (width: width, height: height, depth: depth),
-            .translation(
-                alignment.offset(parent: proposed.sizeOrDefault, child: childSize)
-            ),
-            children: content.renderWithSize(childSize, env)
+            children: content
+                .offset(alignment.offset(parent: proposed.sizeOrDefault, child: childSize))
+                .renderWithSize(childSize, env)
         )
     }
 }

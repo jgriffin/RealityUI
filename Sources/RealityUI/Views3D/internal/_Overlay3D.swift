@@ -27,7 +27,6 @@ public struct _Overlay3D<Content: View3D, OverlayContent: View3D>: View3D, Custo
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
         let contentSize = content.sizeThatFits(.init(size), env)
-        let overlaySize = overlay.sizeThatFits(.init(contentSize), env)
 
         return makeEntity(
             children: content.renderWithSize(size, env),

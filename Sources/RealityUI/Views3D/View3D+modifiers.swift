@@ -29,10 +29,21 @@ public extension View3D {
         frame(width: size.width, height: size.height, depth: size.depth, alignment: alignment)
     }
 
+    @inlinable func frame(
+        size: Double,
+        alignment: Alignment3D = .center
+    ) -> some View3D {
+        frame(size: .one * size, alignment: alignment)
+    }
+
     // MARK: - overlay
 
     func overlay(alignment: Alignment3D = .center, @View3DBuilder _ content: () -> some View3D) -> some View3D {
         _Overlay3D(self, overlay: content(), alignment: alignment)
+    }
+
+    func border() -> some View3D {
+        overlay { _BorderBox3D() }
     }
 
     // MARK: - padding
@@ -100,6 +111,8 @@ public extension View3D {
     }
 
     @inlinable func scaledToFit() -> some View3D { aspectRatio(maxScale: 1) }
+
+    // MARK: - scale
 
     func scale(_ scale: Size3D) -> some View3D {
         _Scale3D(content: self, scale: scale)

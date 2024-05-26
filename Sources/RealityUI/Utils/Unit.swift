@@ -69,3 +69,13 @@ public extension Point3D {
     static let back = Self(x: .unitCenter, y: .unitCenter, z: .unitZero)
     static let front = Self(x: .unitCenter, y: .unitCenter, z: .unitOne)
 }
+
+public extension Rect3D {
+    func interpolate(_ unit: Point3D) -> Point3D {
+        Point3D(
+            x: (min.x ... max.x).interpolate(unit.x),
+            y: (min.y ... max.y).interpolate(unit.y),
+            z: (min.z ... max.z).interpolate(unit.z)
+        )
+    }
+}

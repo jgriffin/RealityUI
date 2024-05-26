@@ -20,10 +20,16 @@ let package = Package(
         ),
 
     ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.0"),
+    ],
     targets: [
         .target(
             name: "RealityUI",
-            dependencies: ["ColorPalette"]
+            dependencies: [
+                "ColorPalette",
+                .product(name: "Algorithms", package: "swift-algorithms"),
+            ]
         ),
         .testTarget(
             name: "RealityUITests",

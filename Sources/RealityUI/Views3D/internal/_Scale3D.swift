@@ -4,10 +4,11 @@
 
 import RealityKit
 import Spatial
+import SwiftUI
 
 public struct _Scale3D<Content: View3D>: View3D, CustomView3D {
-    var content: Content
-    var scale: Size3D
+    let content: Content
+    let scale: Size3D
 
     public init(
         content: Content,
@@ -23,11 +24,22 @@ public struct _Scale3D<Content: View3D>: View3D, CustomView3D {
     }
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        let childSize = content.sizeThatFits(.init(size), env)
-
-        return makeEntity(
+        makeEntity(
             .transform(AffineTransform3D(scale: scale)),
-            children: content.renderWithSize(childSize, env)
+            children: content.renderWithSize(size, env)
         )
     }
 }
+
+#if os(visionOS)
+
+    #Preview {
+        RealityUIView {
+            _Scale3D(
+                content: Box3D().frame(size: 0.2).offset(.init(.one * 0.2)),
+                scale: .one * 0.5
+            )
+        }
+    }
+
+#endif

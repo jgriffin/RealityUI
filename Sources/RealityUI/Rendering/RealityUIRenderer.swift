@@ -81,7 +81,7 @@ extension RealityUIRenderer {
             updatedRealityTree(existing, withRenderRoot: render)
         }
 
-        // MARK: update exitingRoot.children
+        // MARK: update existingRoot.children
 
         let previousChildIds = Set(existingRoot.children.map(\.id))
         let updatedIds = Set(updatedChildren.map(\.id))

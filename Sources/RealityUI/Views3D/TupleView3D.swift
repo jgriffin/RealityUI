@@ -27,13 +27,13 @@ public struct TupleView3D<each Content: View3D>: View3D, CustomView3D {
     // MARK: - CustomRealityContent
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
-        Stack3D(axis: .right) {
+        Stack3D(alignment: .center) {
             self
         }.sizeThatFits(proposed, env)
     }
 
     public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        Stack3D(axis: .right) {
+        Stack3D(alignment: .center) {
             self
         }.renderWithSize(size, env)
     }
