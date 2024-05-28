@@ -17,15 +17,12 @@ public struct Geometry3DReader<Content: View3D>: View3D, CustomView3D {
         proposed.sizeOrDefault
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         let content = content(size)
-        let childSize = content.sizeThatFits(.init(size), env)
 
         return makeEntity(
             value: "geometryReader",
-            children: content
-                .offset(Alignment3D.center.offset(parent: size, child: childSize))
-                .renderWithSize(size, env)
+            children: content.renderWithSize(size, proposed, env)
         )
     }
 }

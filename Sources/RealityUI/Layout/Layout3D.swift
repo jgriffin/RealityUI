@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public protocol Layout3D {
+public protocol Layout3D: CustomStringConvertible {
     var alignment: Alignment3D { get }
 
     // Calculate and return the size of the layout container.
@@ -25,7 +25,7 @@ public protocol Layout3D {
 public struct LayoutContentPlacement {
     let content: any View3D
     var size: Size3D
-    var position: Point3D
+    var position: Vector3D
 }
 
 public extension Layout3D {

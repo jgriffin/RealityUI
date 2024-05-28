@@ -11,7 +11,7 @@ public struct _BorderBox3D: View3D, CustomView3D {
         proposed.sizeOrDefault
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         let material = env.foregroundMaterial
         let bounds = Rect3D(center: .zero, size: size)
 
@@ -34,8 +34,7 @@ public struct _BorderBox3D: View3D, CustomView3D {
         }
         return makeEntity(
             value: "_Border3D",
-            children: borderView
-                .customRenderWithSize(size, env)
+            children: borderView.customRenderWithSize(size, proposed, env)
         )
     }
 }

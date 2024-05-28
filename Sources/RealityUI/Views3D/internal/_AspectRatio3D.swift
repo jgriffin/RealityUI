@@ -38,23 +38,34 @@ public struct _AspectRatio3D<Content: View3D>: View3D, CustomView3D {
             maxScale: nil
         )
 
-        let proposal = AspectRatioMath.scaledToFit(
-            aspectRatio,
-            into: proposed.sizeOrInfinite,
-            maxScale: maxScale
-        )
+        let proposal: Size3D =
+            switch contentMode {
+            case .fit:
+                AspectRatioMath.scaledToFit(
+                    aspectRatio,
+                    into: proposed.sizeOrInfinite,
+                    maxScale: maxScale
+                )
+
+            case .fill:
+                AspectRatioMath.scaledToFill(
+                    aspectRatio,
+                    into: proposed.sizeOrInfinite,
+                    maxScale: maxScale
+                )
+            }
 
         return content.sizeThatFits(.init(proposal), env)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        let childSize = customSizeFor(.init(size), env)
-        let scale = AspectRatioMath.scaleToFit(childSize, into: size)
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        let scale = AspectRatioMath.scaleToFit(size, into: proposed)
         let scaleSize = Size3D.one * min(scale, maxScale ?? .greatestFiniteMagnitude)
 
         return makeEntity(
-            .transform(AffineTransform3D(scale: scaleSize)),
-            children: content.renderWithSize(childSize, env)
+            value: scale,
+            component: .transform(AffineTransform3D(scale: scaleSize)),
+            content.renderWithSize(size, proposed, env)
         )
     }
 }

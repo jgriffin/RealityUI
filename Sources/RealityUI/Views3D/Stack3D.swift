@@ -22,31 +22,24 @@ public struct Stack3D<Layout: Layout3D, Content: View3D>: View3D, CustomView3D {
         self.content = content()
     }
 
-    public var description: String {
-        "\(contentType) \(layout)"
-    }
-
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         let contents = groupFlattened(content)
         return layout.sizeThatFitsContents(contents, proposal: proposed, env)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         let contents = groupFlattened(content)
-        let childrenSize = customSizeFor(.init(size), env)
         let placements = layout.placeContents(contents, in: size, env)
 
         let children = placements.map { placement -> Entity in
-            makeEntity(
-                value: "stackPosition",
-                .translation(.init(placement.position)),
-                children: placement.content.renderWithSize(placement.size, env)
-            )
+            placement.content
+                .renderWithSize(placement.size, proposed, env)
+                .translated(placement.position)
         }
 
         return makeEntity(
             value: layout,
-            .translation(-Alignment3D.center.offset(parent: size, child: childrenSize)),
+            components: [],
             children: children
         )
     }
@@ -90,20 +83,3 @@ public extension Stack3D {
         )
     }
 }
-
-#if os(visionOS)
-
-    #Preview {
-        RealityUIView {
-            Stack3D(alignment: .center) {
-                Box3D()
-                    .frame(size: .one * 0.2)
-                Sphere3D()
-                    .frame(size: .one * 0.2)
-                Box3D()
-            }
-            .foreground(.cyan20)
-        }
-    }
-
-#endif

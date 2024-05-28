@@ -25,9 +25,10 @@ public struct Volume3D<Content: View3D>: View3D, CustomView3D {
         proposed.sizeOrDefault
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         makeEntity(
-            children: Stack3D(alignment: .center) { content }.renderWithSize(size, env)
+            value: alignment,
+            Stack3D { content }.renderWithSize(size, proposed, env)
         )
     }
 }

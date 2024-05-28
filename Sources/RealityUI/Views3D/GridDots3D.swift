@@ -14,8 +14,8 @@ public struct GridDots3D: View3D, CustomView3D {
         proposed.sizeOrDefault
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        Stack3D(alignment: .center) {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        Stack3D {
             ForEach3D(gridPoints(), id: \.self) { point in
                 Sphere3D()
                     .frame(size: .one * 0.01)
@@ -23,7 +23,7 @@ public struct GridDots3D: View3D, CustomView3D {
             }
             .foreground(.cyan60)
         }
-        .renderWithSize(size, env)
+        .renderWithSize(size, proposed, env)
     }
 
     func gridPoints() -> [Point3D] {

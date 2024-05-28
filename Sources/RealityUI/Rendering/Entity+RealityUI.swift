@@ -21,7 +21,7 @@ public extension Entity {
         return entity
     }
 
-    static func make(
+    @inlinable static func make(
         _ content: some RealityContentProtocol,
         _ components: any Component...,
         children: Entity...
@@ -29,21 +29,15 @@ public extension Entity {
         make(content, components: components, children: children)
     }
 
-    func with(_ with: (Self) -> Void) -> Self {
-        with(self)
+    func translated(_ offset: Vector3D) -> Entity {
+        let before = AffineTransform3D(transform.matrix) ?? .identity
+        let after = before.translated(by: offset)
+        transform = .init(after)
         return self
     }
 
-    func withComponents(_ components: any Component...) -> Self {
-        with { $0.components.set(components) }
-    }
-
-    func withChildren(_ children: Entity...) -> Self {
-        with { $0.children.append(contentsOf: children) }
-    }
-
-    func withChildren(_ children: [Entity]) -> Self {
-        with { $0.children.append(contentsOf: children) }
+    func aligned(_ alignment: Alignment3D, parent: Size3D, child: Size3D) -> Entity {
+        translated(alignment.offset(parent: parent, child: child))
     }
 }
 

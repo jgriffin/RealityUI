@@ -37,7 +37,7 @@ public extension Chart3D {
     }
 
     func renderView(_ proxy: Chart3DProxy, _ env: Chart3DEnvironment) -> some View3D {
-        Canvas3D {
+        Stack3D {
             content.renderView(proxy, env)
         }
     }
@@ -48,7 +48,7 @@ public extension Chart3D {
         proposed.sizeOrDefault
     }
 
-    func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         let chartEnv = Chart3DEnvironment()
         let domains = plottableDomains()
         let proxy = Chart3DProxy(chartSize: size, domains: domains)
@@ -56,7 +56,7 @@ public extension Chart3D {
 
         let view = renderView(proxy, chartEnv)
             .overlay {
-                Canvas3D {
+                Stack3D {
                     marks.x.renderView(proxy.xDimensionProxy, chartEnv)
                     marks.y.renderView(proxy.yDimensionProxy, chartEnv)
                         .foreground(.color(.red))
@@ -66,6 +66,6 @@ public extension Chart3D {
             }
 
         return view
-            .renderWithSize(size, env)
+            .renderWithSize(size, proposed, env)
     }
 }

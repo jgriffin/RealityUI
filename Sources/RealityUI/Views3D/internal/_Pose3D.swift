@@ -13,11 +13,11 @@ public struct _Pose3D<Content: View3D>: View3D, CustomView3D {
         content.sizeThatFits(proposed, env)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         makeEntity(
             value: pose,
-            .transform(.init(pose: pose)),
-            children: content.renderWithSize(size, env)
+            component: .transform(.init(pose: pose)),
+            content.renderWithSize(size, proposed, env)
         )
     }
 }

@@ -18,7 +18,10 @@ struct _ID3D<Content: View3D, ID: Hashable>: View3D, CustomView3D {
         content.sizeThatFits(proposed, env)
     }
 
-    func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        makeEntity(value: id, children: content.renderWithSize(size, env))
+    func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        makeEntity(
+            value: id,
+            children: content.renderWithSize(size, proposed, env)
+        )
     }
 }

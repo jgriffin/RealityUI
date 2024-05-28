@@ -28,11 +28,11 @@ public extension View3D {
         }
     }
 
-    func renderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    func renderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         if let custom = self as? CustomView3D {
-            custom.customRenderWithSize(size, env)
+            custom.customRenderWithSize(size, proposed, env)
         } else {
-            body.renderWithSize(size, env)
+            body.renderWithSize(size, proposed, env)
         }
     }
 }
@@ -41,7 +41,7 @@ public extension View3D {
 
 public protocol CustomView3D {
     func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D
-    func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity
+    func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity
 }
 
 public extension View3D where Body == Never {

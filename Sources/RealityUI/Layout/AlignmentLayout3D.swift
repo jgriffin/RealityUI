@@ -11,6 +11,8 @@ public struct AlignmentLayout3D: Layout3D {
         self.alignment = alignment
     }
 
+    public var description: String { "AlignmentLayout3D \(alignment)" }
+
     public func sizeThatFitsContents(
         _ contents: [any View3D],
         proposal: ProposedSize3D,
@@ -36,7 +38,7 @@ public struct AlignmentLayout3D: Layout3D {
             return LayoutContentPlacement(
                 content: content,
                 size: childSize,
-                position: Point3D(alignment.offset(parent: size, child: childSize))
+                position: alignment.offset(parent: size, child: childSize)
             )
         }
     }

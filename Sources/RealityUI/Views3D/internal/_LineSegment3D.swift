@@ -18,7 +18,7 @@ struct _LineSegment3D: View3D, CustomView3D {
         .zero
     }
 
-    func customRenderWithSize(_: Size3D, _ env: Environment3D) -> Entity {
+    func customRenderWithSize(_: Size3D, _: Size3D, _ env: Environment3D) -> Entity {
         let radius = env.lineRadius
         let material = env.foregroundMaterial.makeMaterial()
 
@@ -34,8 +34,7 @@ struct _LineSegment3D: View3D, CustomView3D {
 
         return makeEntity(
             value: (from, to),
-            model,
-            .transform(pose: pose)
+            components: model, .transform(pose: pose)
         )
     }
 }

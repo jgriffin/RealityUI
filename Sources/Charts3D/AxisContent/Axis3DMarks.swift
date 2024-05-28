@@ -36,7 +36,7 @@ public struct Axis3DMarks<Content: Axis3DMark>: Axis3DContent {
     public func renderView(_ proxy: DimensionProxy, _ env: Chart3DEnvironment) -> some View3D {
         let marks = resolvedMarks(proxy)
 
-        Canvas3D {
+        Stack3D {
             ForEach3D(marks, id: \.value.index) { value, content in
                 content.renderView(value, proxy, env)
             }

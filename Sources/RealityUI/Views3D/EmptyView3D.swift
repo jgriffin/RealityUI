@@ -14,7 +14,7 @@ public struct EmptyView3D: View3D, CustomView3D {
 
     public func customSizeFor(_: ProposedSize3D, _: Environment3D) -> Size3D { .zero }
 
-    public func customRenderWithSize(_: Size3D, _: Environment3D) -> Entity {
-        makeEntity()
+    public func customRenderWithSize(_: Size3D, _: Size3D, _: Environment3D) -> Entity {
+        makeEntity(value: ())
     }
 }

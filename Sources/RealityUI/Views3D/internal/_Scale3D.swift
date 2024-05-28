@@ -23,10 +23,11 @@ public struct _Scale3D<Content: View3D>: View3D, CustomView3D {
         return childSize.scaled(by: scale)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    public func customRenderWithSize(_: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         makeEntity(
-            .transform(AffineTransform3D(scale: scale)),
-            children: content.renderWithSize(size, env)
+            value: scale,
+            component: .transform(AffineTransform3D(scale: scale)),
+            content.renderWithSize(proposed, proposed, env)
         )
     }
 }

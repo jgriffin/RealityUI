@@ -37,7 +37,7 @@ extension RealityUIRenderer {
     ) -> Entity {
         let env = Environment3D()
         let contentSize = content.sizeThatFits(.init(size), env)
-        return content.renderWithSize(contentSize, env)
+        return content.renderWithSize(contentSize, size, env)
     }
 
     /// Recursive method that returns an updated reality tree

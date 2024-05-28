@@ -5,6 +5,8 @@
 import Spatial
 
 enum AspectRatioMath {
+    // MARK: - fit
+
     static func scaleToFit(_ size: Size3D, into: Size3D) -> Double {
         let ratios = into.vector / size.vector
         return ratios.min()
@@ -17,6 +19,25 @@ enum AspectRatioMath {
     static func scaledToFit(_ size: Size3D, aspectRatio: Size3D, maxScale: Double?) -> Size3D {
         scaledToFit(
             scaledToFit(aspectRatio, into: size, maxScale: nil),
+            into: size,
+            maxScale: maxScale
+        )
+    }
+
+    // MARK: - fill
+
+    static func scaleToFill(_ size: Size3D, into: Size3D) -> Double {
+        let ratios = into.vector / size.vector
+        return ratios.max()
+    }
+
+    static func scaledToFill(_ size: Size3D, into: Size3D, maxScale: Double?) -> Size3D {
+        size * min(scaleToFill(size, into: into), maxScale ?? .greatestFiniteMagnitude)
+    }
+
+    static func scaledToFill(_ size: Size3D, aspectRatio: Size3D, maxScale: Double?) -> Size3D {
+        scaledToFill(
+            scaledToFill(aspectRatio, into: size, maxScale: nil),
             into: size,
             maxScale: maxScale
         )

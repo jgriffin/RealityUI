@@ -6,7 +6,7 @@ import RealityKit
 import Spatial
 import SwiftUI
 
-public struct ScaledGrid3D<Content: View3D, Overlay: View3D>: View3D {
+public struct ScaledGrid3D<Content: View3D, Overlay: View3D>: View3D, CustomView3D {
     let domain: Rect3D
     let gridScaleFor: GridScaleFor
     let content: Content
@@ -24,15 +24,18 @@ public struct ScaledGrid3D<Content: View3D, Overlay: View3D>: View3D {
         self.overlay = overlay
     }
 
-    public var body: some View3D {
-        Geometry3DReader { size in
-            let gridScale = gridScaleFor(domain: domain, size: size)
+    public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
+        proposed.sizeOrDefault
+    }
 
-            Stack3D {
-                content.scale(gridScale.scale)
-                overlay(gridScale) // .frame(size: gridScale.bounds.size)
-            }
-        }
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        let gridScale = gridScaleFor(domain: domain, size: size)
+
+        return makeEntity(
+            value: gridScale,
+            children: content.scale(gridScale.scale).renderWithSize(size, proposed, env),
+            overlay(gridScale).renderWithSize(size, proposed, env)
+        )
     }
 }
 
@@ -41,14 +44,14 @@ public struct ScaledGrid3D<Content: View3D, Overlay: View3D>: View3D {
     #Preview {
         RealityUIView {
             ScaledGrid3D(
-                domain: Rect3D(center: .zero, size: .one * 2),
+                domain: Rect3D(origin: .zero, size: .one * 1),
                 gridScaleFor: .uniformFit()
             ) {
                 Box3D()
                     .foreground(.blue20)
-                    .aspectRatio(.one)
-            } overlay: { gridScale in
-                GridDots3D(gridScale: gridScale)
+                    .frame(size: 0.2)
+            } overlay: { _ in
+//                GridDots3D(gridScale: gridScale)
             }
         }
     }

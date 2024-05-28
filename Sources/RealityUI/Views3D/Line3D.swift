@@ -66,7 +66,7 @@ public struct Line3D: View3D, CustomView3D {
         return .init(segment.to - segment.from).union(.one * 2 * env.lineRadius)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _: Size3D, _ env: Environment3D) -> Entity {
         let radius = env.lineRadius
         let material = env.foregroundMaterial.makeMaterial()
         let segments = segmentsFromPoints() ?? [segmentInSize(size, direction: points.first)]
@@ -106,8 +106,7 @@ public struct Line3D: View3D, CustomView3D {
 
         return makeEntity(
             value: (from, to),
-            model,
-            .transform(pose: pose)
+            components: model, .transform(pose: pose)
         )
     }
 }

@@ -32,10 +32,10 @@ public struct TupleView3D<each Content: View3D>: View3D, CustomView3D {
         }.sizeThatFits(proposed, env)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        Stack3D(alignment: .center) {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        Stack3D {
             self
-        }.renderWithSize(size, env)
+        }.renderWithSize(size, proposed, env)
     }
 }
 

@@ -31,15 +31,14 @@ public struct _Frame3D<Content: View3D>: View3D, CustomView3D {
         )
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        let proposed = newProposedSize(.init(size))
-        let childSize = content.sizeThatFits(proposed, env)
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        let newProposed = newProposedSize(.init(proposed)).sizeOrDefault
 
         return makeEntity(
-            value: (width: width, height: height, depth: depth),
+            value: (width: width ?? -1, height: height ?? -1, depth: depth ?? -1),
             children: content
-                .offset(alignment.offset(parent: proposed.sizeOrDefault, child: childSize))
-                .renderWithSize(childSize, env)
+                .renderWithSize(size, newProposed, env)
+                .aligned(alignment, parent: newProposed, child: size)
         )
     }
 }

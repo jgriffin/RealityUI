@@ -66,8 +66,8 @@ public extension View3D {
         offset(.init(x: x, y: y, z: z))
     }
 
-    func alignment(_ alignment: Alignment3D) -> some View3D {
-        _Alignment3D(self, alignment)
+    func aligned(_ alignment: Alignment3D) -> some View3D {
+        _Aligned3D(self, alignment)
     }
 
     // MARK: - pose
@@ -140,5 +140,5 @@ public extension View3D {
 }
 
 public enum ContentMode {
-    case fit // , fill
+    case fit, fill
 }

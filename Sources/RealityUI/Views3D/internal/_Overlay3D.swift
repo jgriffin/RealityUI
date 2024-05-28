@@ -25,12 +25,11 @@ public struct _Overlay3D<Content: View3D, OverlayContent: View3D>: View3D, Custo
         content.sizeThatFits(proposed, env)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        let contentSize = content.sizeThatFits(.init(size), env)
-
-        return makeEntity(
-            children: content.renderWithSize(size, env),
-            overlay.renderWithSize(contentSize, env)
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        makeEntity(
+            value: alignment,
+            children: content.renderWithSize(size, proposed, env),
+            overlay.aligned(alignment).renderWithSize(size, proposed, env)
         )
     }
 }
@@ -42,7 +41,7 @@ public struct _Overlay3D<Content: View3D, OverlayContent: View3D>: View3D, Custo
             _Overlay3D(
                 Box3D().foreground(.cyan20),
                 overlay: Sphere3D().foreground(.blue100),
-                alignment: .center
+                alignment: .leading
             )
         }
     }

@@ -13,15 +13,18 @@ public extension Alignment3DID {
 }
 
 public struct Alignment3D: Equatable, CustomStringConvertible {
-    public var horizontal: HorizontalAlignment3D
-    public var vertical: VerticalAlignment3D
-    public var depth: DepthAlignment3D
+    public let name: String
+    public let horizontal: HorizontalAlignment3D
+    public let vertical: VerticalAlignment3D
+    public let depth: DepthAlignment3D
 
     public init(
+        _ name: String,
         _ horizontal: HorizontalAlignment3D,
         _ vertical: VerticalAlignment3D,
         _ depth: DepthAlignment3D
     ) {
+        self.name = name
         self.horizontal = horizontal
         self.vertical = vertical
         self.depth = depth
@@ -35,13 +38,15 @@ public struct Alignment3D: Equatable, CustomStringConvertible {
         )
     }
 
-    public func offset(parent: Size3D, child: Size3D) -> Vector3D {
-        (point(for: parent) - point(for: child)) / 2
+    public func pointOffsetFromCenter(for size: Size3D) -> Vector3D {
+        point(for: size) - .init(size / 2)
     }
 
-    public var description: String {
-        "h: \(horizontal) v: \(vertical) d: \(depth)"
+    public func offset(parent: Size3D, child: Size3D) -> Vector3D {
+        pointOffsetFromCenter(for: child) - pointOffsetFromCenter(for: parent)
     }
+
+    public var description: String { name }
 }
 
 public struct HorizontalAlignment3D: Equatable, CustomStringConvertible {
@@ -77,33 +82,33 @@ public struct DepthAlignment3D: Equatable, CustomStringConvertible {
 // MARK: - values
 
 public extension Alignment3D {
-    static let center = Self(.center, .center, .center)
-    static let bottom = Self(.center, .bottom, .center)
-    static let bottomBack = Self(.center, .bottom, .back)
-    static let bottomFront = Self(.center, .bottom, .front)
-    static let bottomLeading = Self(.leading, .bottom, .center)
-    static let bottomLeadingBack = Self(.leading, .bottom, .back)
-    static let bottomLeadingFront = Self(.leading, .bottom, .front)
-    static let bottomTrailing = Self(.trailing, .bottom, .center)
-    static let bottomTrailingBack = Self(.trailing, .bottom, .back)
-    static let bottomTrailingFront = Self(.trailing, .bottom, .front)
-    static let leading = Self(.leading, .center, .center)
-    static let leadingBack = Self(.leading, .center, .back)
-    static let leadingFront = Self(.leading, .center, .front)
-    static let top = Self(.center, .top, .center)
-    static let topBack = Self(.center, .top, .back)
-    static let topFront = Self(.center, .top, .front)
-    static let topLeading = Self(.leading, .top, .center)
-    static let topLeadingBack = Self(.leading, .top, .back)
-    static let topLeadingFront = Self(.leading, .top, .front)
-    static let topTrailing = Self(.trailing, .top, .center)
-    static let topTrailingBack = Self(.trailing, .top, .back)
-    static let topTrailingFront = Self(.trailing, .top, .front)
-    static let trailing = Self(.trailing, .center, .center)
-    static let trailingBack = Self(.trailing, .center, .back)
-    static let trailingFront = Self(.trailing, .center, .front)
-    static let back = Self(.center, .center, .back)
-    static let front = Self(.center, .center, .front)
+    static let center = Self("center", .center, .center, .center)
+    static let bottom = Self("bottom", .center, .bottom, .center)
+    static let bottomBack = Self("bottomBack", .center, .bottom, .back)
+    static let bottomFront = Self("bottomFront", .center, .bottom, .front)
+    static let bottomLeading = Self("bottomLeading", .leading, .bottom, .center)
+    static let bottomLeadingBack = Self("bottomLeadingBack", .leading, .bottom, .back)
+    static let bottomLeadingFront = Self("bottomLeadingFront", .leading, .bottom, .front)
+    static let bottomTrailing = Self("bottomTrailing", .trailing, .bottom, .center)
+    static let bottomTrailingBack = Self("bottomTrailingBack", .trailing, .bottom, .back)
+    static let bottomTrailingFront = Self("bottomTrailingFront", .trailing, .bottom, .front)
+    static let leading = Self("leading", .leading, .center, .center)
+    static let leadingBack = Self("leadingBack", .leading, .center, .back)
+    static let leadingFront = Self("leadingFront", .leading, .center, .front)
+    static let top = Self("top", .center, .top, .center)
+    static let topBack = Self("topBack", .center, .top, .back)
+    static let topFront = Self("topFront", .center, .top, .front)
+    static let topLeading = Self("topLeading", .leading, .top, .center)
+    static let topLeadingBack = Self("topLeadingBack", .leading, .top, .back)
+    static let topLeadingFront = Self("topLeadingFront", .leading, .top, .front)
+    static let topTrailing = Self("topTrailing", .trailing, .top, .center)
+    static let topTrailingBack = Self("topTrailingBack", .trailing, .top, .back)
+    static let topTrailingFront = Self("topTrailingFront", .trailing, .top, .front)
+    static let trailing = Self("trailing", .trailing, .center, .center)
+    static let trailingBack = Self("trailingBack", .trailing, .center, .back)
+    static let trailingFront = Self("trailingFront", .trailing, .center, .front)
+    static let back = Self("back", .center, .center, .back)
+    static let front = Self("front", .center, .center, .front)
 }
 
 public extension HorizontalAlignment3D {

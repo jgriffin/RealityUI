@@ -55,7 +55,7 @@ final class AxisMarkValuesTests: XCTestCase {
         }
 
         let view = axisMarks.renderView(dimensionProxy, .init())
-        let render = view.renderWithSize(.one, .init())
+        let render = view.renderWithSize(.one, .one, .init())
         print(render)
     }
 
@@ -69,7 +69,7 @@ final class AxisMarkValuesTests: XCTestCase {
         }
 
         let view = axisMarks.renderView(dimensionProxy, .init())
-        let render = view.renderWithSize(.one, .init())
+        let render = view.renderWithSize(.one, .one, .init())
         print(render)
     }
 }

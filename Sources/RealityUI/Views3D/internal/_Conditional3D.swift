@@ -25,12 +25,12 @@ public enum _Conditional3D<First: View3D, Second: View3D>: View3D, CustomView3D 
         }
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         switch self {
         case let .first(content):
-            content.renderWithSize(size, env)
+            content.renderWithSize(size, proposed, env)
         case let .second(content):
-            content.renderWithSize(size, env)
+            content.renderWithSize(size, proposed, env)
         }
     }
 }

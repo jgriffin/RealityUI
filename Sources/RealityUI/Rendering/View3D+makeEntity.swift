@@ -3,6 +3,7 @@
 //
 
 import RealityKit
+import Spatial
 
 public extension View3D {
     // core api
@@ -13,19 +14,7 @@ public extension View3D {
         children: [Entity]
     ) -> Entity {
         .make(
-            .value(Self.self, value, hideChildDescriptions: hideChildDescriptions),
-            components: components,
-            children: children
-        )
-    }
-
-    // no value
-    @inlinable func makeEntity(
-        components: [any Component],
-        children: [Entity]
-    ) -> Entity {
-        makeEntity(
-            value: (),
+            .content(Self.self, value, hideChildDescriptions: hideChildDescriptions),
             components: components,
             children: children
         )
@@ -33,15 +22,27 @@ public extension View3D {
 
     // MARK: - variadic
 
-    // variadic components
+    // no component
     @inlinable func makeEntity(
         value: some Any,
-        _ components: (any Component)...,
-        children: [Entity] = []
+        _ children: Entity...
     ) -> Entity {
         makeEntity(
             value: value,
-            components: components,
+            components: [],
+            children: children
+        )
+    }
+
+    // variadic children
+    @inlinable func makeEntity(
+        value: some Any,
+        component: any Component,
+        _ children: Entity...
+    ) -> Entity {
+        makeEntity(
+            value: value,
+            components: [component],
             children: children
         )
     }
@@ -49,33 +50,11 @@ public extension View3D {
     // double variadic
     @inlinable func makeEntity(
         value: some Any,
-        _ components: (any Component)...,
+        components: (any Component)...,
         children: Entity...
     ) -> Entity {
         makeEntity(
             value: value,
-            components: components,
-            children: children
-        )
-    }
-
-    // no Value variadic components
-    @inlinable func makeEntity(
-        _ components: (any Component)...,
-        children: [Entity] = []
-    ) -> Entity {
-        makeEntity(
-            components: components,
-            children: children
-        )
-    }
-
-    // no Value double variadic
-    @inlinable func makeEntity(
-        _ components: (any Component)...,
-        children: Entity...
-    ) -> Entity {
-        makeEntity(
             components: components,
             children: children
         )

@@ -19,7 +19,7 @@ final class ChartRenderTests: XCTestCase {
         let chart = Chart3D {
             Point3DMark(("x", "y", "z"), (0, 0, 0))
         }
-        let result = chart.renderWithSize(.one, .init())
+        let result = chart.renderWithSize(.one, .one, .init())
         print(result.description)
     }
 
@@ -28,7 +28,7 @@ final class ChartRenderTests: XCTestCase {
             Point3DMark(("x", "y", "z"), (0, 0, 0))
             Point3DMark(("x", "y", "z"), (2, 2, 2))
         }
-        let result = chart.renderWithSize(.one, .init())
+        let result = chart.renderWithSize(.one, .one, .init())
         print(result.description)
     }
 }

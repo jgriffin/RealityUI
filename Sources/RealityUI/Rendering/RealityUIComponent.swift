@@ -36,13 +36,13 @@ public struct RealityContentType: Hashable, CustomStringConvertible {
 
     public init<T: View3D>(_: T.Type = T.self) {
         id = ObjectIdentifier(T.self)
-        description = "\(T.self)"
+        description = String("\(T.self)".prefix { ch in ch != "<" })
     }
 }
 
 public extension View3D {
     static var contentType: RealityContentType { RealityContentType(Self.self) }
-    var contentType: RealityContentType { RealityContentType(Self.self) }
+    var contentType: RealityContentType { Self.contentType }
 }
 
 // MARK: - RealityUIContentComponentProtocol
@@ -62,7 +62,7 @@ public extension RealityContentProtocol {
 }
 
 public extension RealityContentProtocol {
-    static func value<T: View3D, Value>(
+    static func content<T: View3D, Value>(
         _: T.Type = T.self,
         _ value: Value,
         hideChildDescriptions: Bool

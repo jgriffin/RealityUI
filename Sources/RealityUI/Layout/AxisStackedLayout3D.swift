@@ -20,6 +20,8 @@ public struct AxisStackedLayout3D: Layout3D {
         self.spacing = spacing
     }
 
+    public var description: String { "AxisStackedLayout3D \(axis) \(alignment) \(spacing)" }
+
     public func sizeThatFitsContents(
         _ contents: [any View3D],
         proposal: ProposedSize3D,
@@ -70,7 +72,7 @@ public struct AxisStackedLayout3D: Layout3D {
                 return LayoutContentPlacement(
                     content: content,
                     size: sp.0,
-                    position: Point3D(position)
+                    position: position
                 )
             }
         return placements

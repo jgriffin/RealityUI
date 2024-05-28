@@ -20,8 +20,8 @@ public struct AnyView3D: View3D, CustomView3D {
         content.sizeThatFits(proposed, env)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        content.renderWithSize(size, env)
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        content.renderWithSize(size, proposed, env)
     }
 }
 

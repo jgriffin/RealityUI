@@ -10,7 +10,7 @@ import Spatial
 public struct Box3D: Shape3DStyle {
     public init() {}
 
-    public var name = "Box"
+    public var name = "Box3D"
 
     public func shapeSizeFor(_ proposed: ProposedSize3D) -> Size3D {
         proposed.sizeOrDefault
@@ -24,7 +24,7 @@ public struct Box3D: Shape3DStyle {
 public struct Sphere3D: Shape3DStyle {
     public init() {}
 
-    public var name = "Sphere"
+    public var name = "Sphere3D"
 
     public func shapeSizeFor(_ proposed: ProposedSize3D) -> Size3D {
         AspectRatioMath.scaledToFit(proposed.sizeOrDefault, aspectRatio: .one, maxScale: nil)
@@ -38,7 +38,7 @@ public struct Sphere3D: Shape3DStyle {
 public struct Cylinder3D: Shape3DStyle {
     public init() {}
 
-    public var name = "Cylinder"
+    public var name = "Cylinder3D"
 
     public func shapeSizeFor(_ proposed: ProposedSize3D) -> Size3D {
         var size = proposed.sizeOrDefault

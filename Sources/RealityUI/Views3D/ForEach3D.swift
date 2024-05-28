@@ -41,15 +41,15 @@ public struct ForEach3D<Data: RandomAccessCollection, ID: Hashable, Content: Vie
     // MARK: - CustomRealityContent
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
-        Stack3D(alignment: .center) {
+        Stack3D {
             self
         }.sizeThatFits(proposed, env)
     }
 
-    public func customRenderWithSize(_ size: Size3D, _ env: Environment3D) -> Entity {
-        Stack3D(alignment: .center) {
+    public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
+        Stack3D {
             self
-        }.renderWithSize(size, env)
+        }.renderWithSize(size, proposed, env)
     }
 }
 
