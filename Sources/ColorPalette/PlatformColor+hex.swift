@@ -2,9 +2,15 @@
 // Created by John Griffin on 4/30/24
 //
 
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
 
-public extension UIColor {
+import SwiftUI
+
+public extension PlatformColor {
     convenience init(hex: String, alpha: CGFloat = 1.0) {
         var hexValue = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
 
@@ -23,7 +29,7 @@ public extension UIColor {
     }
 }
 
-public extension UIColor {
-    static let gridLine = UIColor(hex: "00FDFF")
-    static let lightGridLine = UIColor(hex: "73FDFF")
+public extension PlatformColor {
+    static let gridLine = PlatformColor(hex: "00FDFF")
+    static let lightGridLine = PlatformColor(hex: "73FDFF")
 }

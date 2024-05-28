@@ -2,16 +2,20 @@
 // Created by John Griffin on 4/30/24
 //
 
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
 
 protocol NamedColor {
     var name: String { get }
-    var uiColor: UIColor { get }
+    var uiColor: PlatformColor { get }
 }
 
-public extension UIColor {
-    static func css(basic: CSS.Basic) -> UIColor { basic.uiColor }
-    static func css(_ extended: CSS.Extended) -> UIColor { extended.uiColor }
+public extension PlatformColor {
+    static func css(basic: CSS.Basic) -> PlatformColor { basic.uiColor }
+    static func css(_ extended: CSS.Extended) -> PlatformColor { extended.uiColor }
 
     enum CSS {
         static let allNamed: [NamedColor] = Basic.allCases + Extended.allCases
@@ -35,7 +39,7 @@ public extension UIColor {
                  aqua = "#00FFFF" //    0,255,255
 
             var name: String { String(describing: self) }
-            var uiColor: UIColor { UIColor(hex: rawValue) }
+            var uiColor: PlatformColor { PlatformColor(hex: rawValue) }
         }
 
         public enum Extended: String, CaseIterable, NamedColor {
@@ -187,7 +191,7 @@ public extension UIColor {
                  yellowgreen = "#9acd32" //    154,205,50
 
             var name: String { String(describing: self) }
-            var uiColor: UIColor { UIColor(hex: rawValue) }
+            var uiColor: PlatformColor { PlatformColor(hex: rawValue) }
         }
     }
 }

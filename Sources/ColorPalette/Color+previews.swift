@@ -2,14 +2,19 @@
 // Created by John Griffin on 4/30/24
 //
 
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
+
 import SwiftUI
-import UIKit
 
 #Preview("CSS BASIC") {
     List {
         Section("Basic") {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
-                ForEach(UIColor.CSS.Basic.allCases, id: \.self) { c in
+                ForEach(PlatformColor.CSS.Basic.allCases, id: \.self) { c in
                     Color(uiColor: c.uiColor)
                         .aspectRatio(1.67, contentMode: .fill)
                         .overlay(
@@ -25,7 +30,7 @@ import UIKit
     List {
         Section("Extended") {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
-                ForEach(UIColor.CSS.Extended.allCases, id: \.self) { c in
+                ForEach(PlatformColor.CSS.Extended.allCases, id: \.self) { c in
                     Color(uiColor: c.uiColor)
                         .aspectRatio(1.67, contentMode: .fill)
                         .overlay(

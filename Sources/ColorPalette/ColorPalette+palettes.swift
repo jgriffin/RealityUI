@@ -2,8 +2,13 @@
 // Created by John Griffin on 4/30/24
 //
 
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
+
 import SwiftUI
-import UIKit
 
 protocol ColorPalettable {
     var palette: ColorPalette { get }
