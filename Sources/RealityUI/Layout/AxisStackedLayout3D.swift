@@ -63,7 +63,7 @@ public struct AxisStackedLayout3D: Layout3D {
 
         let placements = zip(contents, zip(fitSizes, centerOffsets))
             .map { content, sp in
-                let alignmentOffset = alignment.offset(parent: size, child: sp.0)
+                let alignmentOffset = alignment.offsetToAlign(sp.0, withParent: size)
                 let position = StackMath.mixVectors(
                     axis: axis,
                     onAxis: sp.1,

@@ -38,11 +38,12 @@ public struct _Overlay3D<Content: View3D, OverlayContent: View3D>: View3D, Custo
 
     #Preview(windowStyle: .volumetric) {
         RealityUIView {
-            _Overlay3D(
-                Box3D().foreground(.cyan20),
-                overlay: Sphere3D().foreground(.blue100),
-                alignment: .leading
-            )
+            Box3D()
+                .overlay(alignment: .bottomLeadingFront) {
+                    Box3D()
+                        .scale(by: 0.5)
+                }
+                .foreground(.cyan20)
         }
     }
 

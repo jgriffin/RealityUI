@@ -19,30 +19,6 @@ public extension Shape3DStyle {
     }
 }
 
-public struct Shape3DView<S: Shape3DStyle>: View3D, CustomView3D {
-    public var shape: S
-
-    public var description: String {
-        "\(contentType)"
-    }
-
-    public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
-        shape.shapeSizeFor(proposed)
-    }
-
-    public func customRenderWithSize(_ size: Size3D, _: Size3D, _ env: Environment3D) -> Entity {
-        let mesh = shape.mesh(in: customSizeFor(.init(size), env))
-        let material = env.foregroundMaterial.makeMaterial()
-        let materials = Array(repeating: material, count: mesh.expectedMaterialCount)
-        let model = ModelComponent(mesh: mesh, materials: materials)
-
-        return makeEntity(
-            value: size,
-            component: model
-        )
-    }
-}
-
 public struct AnyShapeStyle: Shape3DStyle {
     let shape: any Shape3DStyle
 

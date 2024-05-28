@@ -25,7 +25,7 @@ public struct _Aligned3D<Content: View3D>: View3D, CustomView3D {
     }
 
     public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
-        let offset = alignment.offset(parent: proposed, child: size)
+        let offset = alignment.offsetToAlign(size, withParent: proposed)
 
         guard !offset.isZero else {
             return content.renderWithSize(size, proposed, env)
@@ -34,7 +34,7 @@ public struct _Aligned3D<Content: View3D>: View3D, CustomView3D {
         return makeEntity(
             value: (alignment, offset),
             children: content.renderWithSize(size, proposed, env)
-                .translated(offset)
+                .translated(by: offset)
         )
     }
 }
@@ -45,6 +45,8 @@ public struct _Aligned3D<Content: View3D>: View3D, CustomView3D {
         RealityUIView {
             Box3D()
                 .frame(size: 0.1)
+                .frame(size: 0.3, alignment: .bottomLeadingFront)
+                .border()
         }
     }
 

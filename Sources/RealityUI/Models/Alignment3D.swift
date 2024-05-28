@@ -38,12 +38,14 @@ public struct Alignment3D: Equatable, CustomStringConvertible {
         )
     }
 
-    public func pointOffsetFromCenter(for size: Size3D) -> Vector3D {
-        point(for: size) - .init(size / 2)
+    /// the offset needed to align the point in the child with the point in the parent
+    public func offsetToAlign(_ child: Size3D, withParent parent: Size3D) -> Vector3D {
+        -(pointOffsetFromCenter(for: child) - pointOffsetFromCenter(for: parent))
     }
 
-    public func offset(parent: Size3D, child: Size3D) -> Vector3D {
-        pointOffsetFromCenter(for: child) - pointOffsetFromCenter(for: parent)
+    /// vector describing amount point is offset from the center
+    func pointOffsetFromCenter(for size: Size3D) -> Vector3D {
+        point(for: size) - .init(size / 2)
     }
 
     public var description: String { name }

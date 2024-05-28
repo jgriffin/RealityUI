@@ -28,7 +28,7 @@ final class RenderTreeTests: XCTestCase {
 
         XCTAssertEqual(result.View3D?.type, Shape3DView<Box3D>.contentType)
         XCTAssertTrue(result.children.isEmpty)
-        XCTAssertEqual(result.description, "Shape3DView (width: 1.0, height: 1.0, depth: 1.0)")
+        XCTAssertEqual(result.description, "Shape3DView Box3D")
     }
 
     func testFramedBox() throws {
@@ -43,13 +43,13 @@ final class RenderTreeTests: XCTestCase {
         XCTAssertEqual(result.children.first?.View3D?.type, Shape3DView<Box3D>.contentType)
         XCTAssertEqual(result.description, """
         _Frame3D (width: 2.0, height: 3.0, depth: 4.0)
-            Shape3DView (width: 2.0, height: 3.0, depth: 4.0)
+            Shape3DView Box3D
         """)
     }
 
     func testFramedSphere() throws {
         let framed = Sphere3D()
-            .frame(width: 2.0, height: 3.0, depth: 4.0)
+            .frame(width: 4.0, height: 3.0, depth: 2.0)
 
         let result = Renderer.renderTreeFor(framed, size: .one)
 
@@ -58,14 +58,14 @@ final class RenderTreeTests: XCTestCase {
         XCTAssertEqual(result.children.count, 1)
         XCTAssertEqual(result.children.first?.View3D?.type, Shape3DView<Sphere3D>.contentType)
         XCTAssertEqual(result.description, """
-        _Frame3D (width: 2.0, height: 3.0, depth: 4.0)
-            Shape3DView (width: 2.0, height: 3.0, depth: 4.0)
+        _Frame3D (width: 4.0, height: 3.0, depth: 2.0)
+            Shape3DView Sphere3D
         """)
     }
 
     func testFramedSphereAligned() throws {
         let framed = Sphere3D()
-            .frame(width: 2.0, height: 3.0, depth: 4.0, alignment: .bottomLeadingFront)
+            .frame(width: 4.0, height: 3.0, depth: 2.0, alignment: .leading)
 
         let result = Renderer.renderTreeFor(framed, size: .one)
 
@@ -74,8 +74,8 @@ final class RenderTreeTests: XCTestCase {
         XCTAssertEqual(result.children.count, 1)
         XCTAssertEqual(result.children.first?.View3D?.type, Shape3DView<Sphere3D>.contentType)
         XCTAssertEqual(result.description, """
-        _Frame3D (width: 2.0, height: 3.0, depth: 4.0)
-            Shape3DView (width: 2.0, height: 3.0, depth: 4.0)
+        _Frame3D (width: 4.0, height: 3.0, depth: 2.0)
+            Shape3DView Sphere3D translation: SIMD3<Float>(-1.0, 0.0, 0.0)
         """)
     }
 

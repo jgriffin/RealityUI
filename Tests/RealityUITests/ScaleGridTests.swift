@@ -19,27 +19,128 @@ final class ScaleGridTests: XCTestCase {
             domain: Rect3D(center: .zero, size: .one * 2),
             gridScaleFor: .uniformFit(padding: .zero)
         ) {
-//                Canvas3D {
             Box3D()
                 .frame(size: .one * 1)
-//                .offset(.init(x: 1, y: 1, z: 1))
-                //
-                //                Box3D()
-                //                    .frame(size: .one)
-                //                    .offset(.init(x: 9, y: 9, z: 9))
-//                }
-                .foreground(.cyan20)
-        } overlay: { _ in
-//            GridDots3D(gridScale: gridScale)
+        } overlay: { gridScale in
+            GridDots3D(gridScale: gridScale)
         }
 
         let result = Renderer.renderTreeFor(view, size: .one)
         XCTAssertEqual(result.description, """
         ScaledGrid3D domain: (origin: (x: -1.0, y: -1.0, z: -1.0), size: (width: 2.0, height: 2.0, depth: 2.0))
-            _Scale3D scale: SIMD3<Float>(0.5, 0.5, 0.5)
+            _Scale3D (width: 0.5, height: 0.5, depth: 0.5) scale: SIMD3<Float>(0.5, 0.5, 0.5)
                 _Frame3D (width: 1.0, height: 1.0, depth: 1.0)
-                    Shape3DView (width: 1.0, height: 1.0, depth: 1.0)
-            EmptyView3D
+                    Shape3DView Box3D
+            Stack3D AlignmentLayout3D center
+                Stack3D AlignmentLayout3D center
+                    _ID3D (x: -0.5, y: -0.5, z: -0.5)
+                        _Offset3D (x: -0.5, y: -0.5, z: -0.5) translation: SIMD3<Float>(-0.5, -0.5, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: -0.5, y: -0.5, z: 0.0)
+                        _Offset3D (x: -0.5, y: -0.5, z: 0.0) translation: SIMD3<Float>(-0.5, -0.5, 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: -0.5, y: -0.5, z: 0.5)
+                        _Offset3D (x: -0.5, y: -0.5, z: 0.5) translation: SIMD3<Float>(-0.5, -0.5, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: -0.5, y: 0.0, z: -0.5)
+                        _Offset3D (x: -0.5, y: 0.0, z: -0.5) translation: SIMD3<Float>(-0.5, 0.0, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: -0.5, y: 0.0, z: 0.0)
+                        _Offset3D (x: -0.5, y: 0.0, z: 0.0) translation: SIMD3<Float>(-0.5, 0.0, 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: -0.5, y: 0.0, z: 0.5)
+                        _Offset3D (x: -0.5, y: 0.0, z: 0.5) translation: SIMD3<Float>(-0.5, 0.0, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: -0.5, y: 0.5, z: -0.5)
+                        _Offset3D (x: -0.5, y: 0.5, z: -0.5) translation: SIMD3<Float>(-0.5, 0.5, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: -0.5, y: 0.5, z: 0.0)
+                        _Offset3D (x: -0.5, y: 0.5, z: 0.0) translation: SIMD3<Float>(-0.5, 0.5, 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: -0.5, y: 0.5, z: 0.5)
+                        _Offset3D (x: -0.5, y: 0.5, z: 0.5) translation: SIMD3<Float>(-0.5, 0.5, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: -0.5, z: -0.5)
+                        _Offset3D (x: 0.0, y: -0.5, z: -0.5) translation: SIMD3<Float>(0.0, -0.5, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: -0.5, z: 0.0)
+                        _Offset3D (x: 0.0, y: -0.5, z: 0.0) translation: SIMD3<Float>(0.0, -0.5, 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: -0.5, z: 0.5)
+                        _Offset3D (x: 0.0, y: -0.5, z: 0.5) translation: SIMD3<Float>(0.0, -0.5, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: 0.0, z: -0.5)
+                        _Offset3D (x: 0.0, y: 0.0, z: -0.5) translation: SIMD3<Float>(0.0, 0.0, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: 0.0, z: 0.0)
+                        _Offset3D (x: 0.0, y: 0.0, z: 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: 0.0, z: 0.5)
+                        _Offset3D (x: 0.0, y: 0.0, z: 0.5) translation: SIMD3<Float>(0.0, 0.0, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: 0.5, z: -0.5)
+                        _Offset3D (x: 0.0, y: 0.5, z: -0.5) translation: SIMD3<Float>(0.0, 0.5, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: 0.5, z: 0.0)
+                        _Offset3D (x: 0.0, y: 0.5, z: 0.0) translation: SIMD3<Float>(0.0, 0.5, 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.0, y: 0.5, z: 0.5)
+                        _Offset3D (x: 0.0, y: 0.5, z: 0.5) translation: SIMD3<Float>(0.0, 0.5, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: -0.5, z: -0.5)
+                        _Offset3D (x: 0.5, y: -0.5, z: -0.5) translation: SIMD3<Float>(0.5, -0.5, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: -0.5, z: 0.0)
+                        _Offset3D (x: 0.5, y: -0.5, z: 0.0) translation: SIMD3<Float>(0.5, -0.5, 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: -0.5, z: 0.5)
+                        _Offset3D (x: 0.5, y: -0.5, z: 0.5) translation: SIMD3<Float>(0.5, -0.5, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: 0.0, z: -0.5)
+                        _Offset3D (x: 0.5, y: 0.0, z: -0.5) translation: SIMD3<Float>(0.5, 0.0, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: 0.0, z: 0.0)
+                        _Offset3D (x: 0.5, y: 0.0, z: 0.0) translation: SIMD3<Float>(0.5, 0.0, 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: 0.0, z: 0.5)
+                        _Offset3D (x: 0.5, y: 0.0, z: 0.5) translation: SIMD3<Float>(0.5, 0.0, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: 0.5, z: -0.5)
+                        _Offset3D (x: 0.5, y: 0.5, z: -0.5) translation: SIMD3<Float>(0.5, 0.5, -0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: 0.5, z: 0.0)
+                        _Offset3D (x: 0.5, y: 0.5, z: 0.0) translation: SIMD3<Float>(0.5, 0.5, 0.0)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
+                    _ID3D (x: 0.5, y: 0.5, z: 0.5)
+                        _Offset3D (x: 0.5, y: 0.5, z: 0.5) translation: SIMD3<Float>(0.5, 0.5, 0.5)
+                            _Frame3D (width: 0.01, height: 0.01, depth: 0.01)
+                                Shape3DView Sphere3D
         """)
     }
 }

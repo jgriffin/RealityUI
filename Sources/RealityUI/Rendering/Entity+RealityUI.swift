@@ -29,15 +29,15 @@ public extension Entity {
         make(content, components: components, children: children)
     }
 
-    func translated(_ offset: Vector3D) -> Entity {
+    func translated(by offset: Vector3D) -> Entity {
         let before = AffineTransform3D(transform.matrix) ?? .identity
         let after = before.translated(by: offset)
         transform = .init(after)
         return self
     }
 
-    func aligned(_ alignment: Alignment3D, parent: Size3D, child: Size3D) -> Entity {
-        translated(alignment.offset(parent: parent, child: child))
+    func translated(toAlign alignment: Alignment3D, child: Size3D, withParent parent: Size3D) -> Entity {
+        translated(by: alignment.offsetToAlign(child, withParent: parent))
     }
 }
 

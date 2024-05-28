@@ -34,7 +34,7 @@ public struct Stack3D<Layout: Layout3D, Content: View3D>: View3D, CustomView3D {
         let children = placements.map { placement -> Entity in
             placement.content
                 .renderWithSize(placement.size, proposed, env)
-                .translated(placement.position)
+                .translated(by: placement.position)
         }
 
         return makeEntity(

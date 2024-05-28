@@ -118,6 +118,10 @@ public extension View3D {
         _Scale3D(content: self, scale: scale)
     }
 
+    @inlinable func scale(by scale: Double) -> some View3D {
+        self.scale(.one * scale)
+    }
+
     // MARK: - ID
 
     func id(_ id: some Hashable) -> some View3D {

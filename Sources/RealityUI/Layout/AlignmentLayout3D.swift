@@ -38,7 +38,7 @@ public struct AlignmentLayout3D: Layout3D {
             return LayoutContentPlacement(
                 content: content,
                 size: childSize,
-                position: alignment.offset(parent: size, child: childSize)
+                position: alignment.offsetToAlign(childSize, withParent: size)
             )
         }
     }

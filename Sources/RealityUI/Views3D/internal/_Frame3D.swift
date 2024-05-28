@@ -32,13 +32,14 @@ public struct _Frame3D<Content: View3D>: View3D, CustomView3D {
     }
 
     public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
-        let newProposed = newProposedSize(.init(proposed)).sizeOrDefault
+        let newProposed = newProposedSize(.init(proposed))
+        let childSize = content.sizeThatFits(newProposed, env)
 
         return makeEntity(
             value: (width: width ?? -1, height: height ?? -1, depth: depth ?? -1),
             children: content
-                .renderWithSize(size, newProposed, env)
-                .aligned(alignment, parent: newProposed, child: size)
+                .renderWithSize(childSize, newProposed.sizeOrDefault, env)
+                .translated(toAlign: alignment, child: childSize, withParent: size)
         )
     }
 }

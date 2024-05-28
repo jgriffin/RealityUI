@@ -27,7 +27,8 @@ public struct Sphere3D: Shape3DStyle {
     public var name = "Sphere3D"
 
     public func shapeSizeFor(_ proposed: ProposedSize3D) -> Size3D {
-        AspectRatioMath.scaledToFit(proposed.sizeOrDefault, aspectRatio: .one, maxScale: nil)
+        let min = proposed.sizeOrDefault.vector.min()
+        return .one * min
     }
 
     public func mesh(in size: Size3D) -> MeshResource {

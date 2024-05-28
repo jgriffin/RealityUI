@@ -11,19 +11,19 @@ import SwiftUI
             Stack3D {
                 Box3D()
                     .frame(size: .one * 0.1)
+                    .scale(by: 0.5)
+                    .offset(.init(x: -0.2, y: 0, z: 0))
 
                 Box3D()
                     .frame(size: .one * 0.1)
-                    .scale(.one * 0.5)
-                    .offset(.init(x: -0.2, y: 0, z: 0))
 
                 Sphere3D()
                     .frame(size: 0.1)
                     .offset(.init(x: 0.2, y: 0, z: 0))
             }
-            .foreground(.cyan20)
             .border()
             .frame(size: 0.2)
+            .foreground(.cyan20)
         }
     }
 

@@ -16,8 +16,8 @@ public struct _Offset3D<Content: View3D>: View3D, CustomView3D {
     public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         makeEntity(
             value: offset,
-            children: content.renderWithSize(size, proposed, env)
-                .translated(offset)
+            component: .translation(offset),
+            content.renderWithSize(size, proposed, env)
         )
     }
 }

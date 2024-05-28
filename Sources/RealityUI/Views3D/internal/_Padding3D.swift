@@ -38,7 +38,7 @@ public struct _Padding3D<Content: View3D>: View3D, CustomView3D {
             value: edgeInsets,
             children: content
                 .renderWithSize(size - edgeInsets.size, proposed - edgeInsets.size, env)
-                .translated(translation)
+                .translated(by: translation)
         )
     }
 }

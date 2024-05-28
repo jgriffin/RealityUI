@@ -24,7 +24,7 @@ final class StackTests: XCTestCase {
         XCTAssertEqual(result.description, """
         Stack3D AlignmentLayout3D center
             _Frame3D (width: 0.2, height: 0.2, depth: 0.2)
-                Shape3DView (width: 0.2, height: 0.2, depth: 0.2)
+                Shape3DView Sphere3D
         """)
     }
 }
