@@ -22,6 +22,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.0"),
+        .package(url: "https://github.com/maxxfrazer/RealityGeometries", from: "1.1.2"),
     ],
     targets: [
         .target(
@@ -29,6 +30,7 @@ let package = Package(
             dependencies: [
                 "ColorPalette",
                 .product(name: "Algorithms", package: "swift-algorithms"),
+                .product(name: "RealityGeometries", package: "RealityGeometries"),
             ]
         ),
         .testTarget(

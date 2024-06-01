@@ -1,6 +1,15 @@
 {
-  "originHash" : "d0c716cdebdee68ff1963886645ec1d5f14e0a5b052e26846e33831cb596d90e",
+  "originHash" : "84e023270f7e0c384aa27c7614507e9235d5ec158ed6ea9f620f79aab19b7f55",
   "pins" : [
+    {
+      "identity" : "realitygeometries",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/maxxfrazer/RealityGeometries.git",
+      "state" : {
+        "revision" : "e6eb54c7e9a41f2d63b5fd82300cfe4e578e1ac8",
+        "version" : "1.1.2"
+      }
+    },
     {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",

@@ -2,8 +2,10 @@
 // Created by John Griffin on 4/28/24
 //
 
+import RealityGeometries
 import RealityKit
 import Spatial
+import SwiftUI
 
 public struct Line3D: View3D, CustomView3D {
     public let points: [Point3D]
@@ -92,12 +94,12 @@ public struct Line3D: View3D, CustomView3D {
         from: Vector3D,
         to: Vector3D,
         lineRadius radius: Double,
-        material: some Material
+        material: some RealityKit.Material
     ) -> Entity {
         let length = (to - from).length
         let middle = (from + to) / 2
 
-        let mesh = MeshResource.generateCylinder(height: Float(length), radius: Float(radius))
+        let mesh = try! RealityGeometry.generateCylinder(radius: Float(radius), height: Float(length))
         let materials = Array(repeating: material, count: mesh.expectedMaterialCount)
         let model = ModelComponent(mesh: mesh, materials: materials)
 
@@ -118,3 +120,20 @@ public extension Line3D {
         .bottomLeadingFront,
     ].map { Point3D($0 * 0.2) }
 }
+
+
+#if os(visionOS)
+
+#Preview {
+    let points = [
+        Vector3D.bottomLeading, .bottomTrailing, .topTrailing, .topLeading, .bottomLeading,
+    ].map { Point3D($0 * 0.2) }
+
+    return RealityUIView {
+        Line3D(points)
+            .frame(size: 0.5)
+            .padding(0.01)
+    }
+}
+
+#endif

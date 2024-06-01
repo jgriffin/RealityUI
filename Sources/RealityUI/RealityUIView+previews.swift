@@ -7,7 +7,7 @@ import SwiftUI
 
 #if os(visionOS)
 
-    #Preview(windowStyle: .volumetric) {
+    #Preview {
         RealityUIView {
             Stack3D(axis: .right, alignment: .center, spacing: .one * 0.01) {
                 Sphere3D()

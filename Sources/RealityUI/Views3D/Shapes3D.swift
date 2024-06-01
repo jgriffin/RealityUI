@@ -2,6 +2,7 @@
 // Created by John Griffin on 4/21/24
 //
 
+import RealityGeometries
 import RealityKit
 import Spatial
 
@@ -52,9 +53,9 @@ public struct Cylinder3D: Shape3DStyle {
     }
 
     public func mesh(in size: Size3D) -> MeshResource {
-        .generateCylinder(
-            height: Float(size.height),
-            radius: Float(min(size.width, size.depth) / 2)
+        try! RealityGeometry.generateCylinder(
+            radius: Float(min(size.width, size.depth) / 2),
+            height: Float(size.height)
         )
     }
 }

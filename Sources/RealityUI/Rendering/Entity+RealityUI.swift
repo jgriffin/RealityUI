@@ -30,9 +30,7 @@ public extension Entity {
     }
 
     func translated(by offset: Vector3D) -> Entity {
-        let before = AffineTransform3D(transform.matrix) ?? .identity
-        let after = before.translated(by: offset)
-        transform = .init(after)
+        transform.translation += .init(offset)
         return self
     }
 
@@ -97,10 +95,10 @@ public extension Component where Self == Transform {
     }
 
     @inlinable static func transform(pose: Pose3D) -> Self {
-        transform(AffineTransform3D(pose: pose))
+        RealityKit.Transform(scale: .one, rotation: .init(pose.rotation), translation: .init(pose.position))
     }
 
     static func translation(_ translation: Vector3D) -> Self {
-        transform(AffineTransform3D(translation: translation))
+        RealityKit.Transform(translation: .init(translation))
     }
 }

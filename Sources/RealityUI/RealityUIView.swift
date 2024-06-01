@@ -30,7 +30,7 @@
         }
     }
 
-    #Preview(windowStyle: .volumetric) {
+    #Preview {
         RealityUIView { Sphere3D() }
     }
 #endif

@@ -2,6 +2,7 @@
 // Created by John Griffin on 4/28/24
 //
 
+import RealityGeometries
 import RealityKit
 import Spatial
 
@@ -25,7 +26,7 @@ struct _LineSegment3D: View3D, CustomView3D {
         let length = (to - from).length
         let middle = (from + to) / 2
 
-        let mesh = MeshResource.generateCylinder(height: Float(length), radius: Float(radius))
+        let mesh = try! RealityGeometry.generateCylinder(radius: Float(radius), height: Float(length))
         let materials = Array(repeating: material, count: mesh.expectedMaterialCount)
         let model = ModelComponent(mesh: mesh, materials: materials)
 

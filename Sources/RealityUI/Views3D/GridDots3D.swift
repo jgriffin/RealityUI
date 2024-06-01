@@ -10,6 +10,10 @@ import SwiftUI
 public struct GridDots3D: View3D, CustomView3D {
     let gridScale: GridScale3D
 
+    public init(gridScale: GridScale3D) {
+        self.gridScale = gridScale
+    }
+
     public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
         proposed.sizeOrDefault
     }
