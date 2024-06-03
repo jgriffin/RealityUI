@@ -38,16 +38,3 @@ public struct _Aligned3D<Content: View3D>: View3D, CustomView3D {
         )
     }
 }
-
-#if os(visionOS)
-
-    #Preview {
-        RealityUIView {
-            Box3D()
-                .frame(size: 0.1)
-                .frame(size: 0.3, alignment: .bottomLeadingFront)
-                .border()
-        }
-    }
-
-#endif

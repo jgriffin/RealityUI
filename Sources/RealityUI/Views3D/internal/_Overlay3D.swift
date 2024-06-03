@@ -33,18 +33,3 @@ public struct _Overlay3D<Content: View3D, OverlayContent: View3D>: View3D, Custo
         )
     }
 }
-
-#if os(visionOS)
-
-    #Preview(windowStyle: .volumetric) {
-        RealityUIView {
-            Box3D()
-                .overlay(alignment: .bottomLeadingFront) {
-                    Box3D()
-                        .scale(by: 0.5)
-                }
-                .foreground(.cyan20)
-        }
-    }
-
-#endif

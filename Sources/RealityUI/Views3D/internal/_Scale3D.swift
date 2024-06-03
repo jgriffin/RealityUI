@@ -31,16 +31,3 @@ public struct _Scale3D<Content: View3D>: View3D, CustomView3D {
         )
     }
 }
-
-#if os(visionOS)
-
-    #Preview {
-        RealityUIView {
-            _Scale3D(
-                content: Box3D().frame(size: 0.2).offset(.init(.one * 0.2)),
-                scale: .one * 0.5
-            )
-        }
-    }
-
-#endif

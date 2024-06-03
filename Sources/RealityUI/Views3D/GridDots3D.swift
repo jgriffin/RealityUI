@@ -43,22 +43,3 @@ public struct GridDots3D: View3D, CustomView3D {
         return points
     }
 }
-
-#if os(visionOS)
-
-    #Preview {
-        RealityUIView {
-            Geometry3DReader { size in
-                let gridScale = GridScaleFor.uniformFit()(
-                    domain: Rect3D(center: .zero, size: .one * 2),
-                    size: size
-                )
-//                Box3D()
-//                    .frame(size: gridScale.bounds.size)
-                GridDots3D(gridScale: gridScale)
-            }
-            .border()
-        }
-    }
-
-#endif

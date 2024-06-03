@@ -27,15 +27,11 @@ public struct Geometry3DReader<Content: View3D>: View3D, CustomView3D {
     }
 }
 
-#if os(visionOS)
-
-    #Preview {
-        RealityUIView {
-            Geometry3DReader { _ in
-                Box3D()
-                    .frame(size: 0.1)
-            }
+#Preview {
+    RealityUIView {
+        Geometry3DReader { _ in
+            Box3D()
+                .frame(size: 0.1)
         }
     }
-
-#endif
+}

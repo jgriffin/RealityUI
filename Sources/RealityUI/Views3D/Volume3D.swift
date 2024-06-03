@@ -32,16 +32,3 @@ public struct Volume3D<Content: View3D>: View3D, CustomView3D {
         )
     }
 }
-
-#if os(visionOS)
-
-    #Preview(windowStyle: .volumetric) {
-        RealityUIView {
-            Volume3D {
-                Box3D()
-                    .foreground(.cyan20)
-            }
-        }
-    }
-
-#endif

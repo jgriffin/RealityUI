@@ -38,13 +38,3 @@ public struct _BorderBox3D: View3D, CustomView3D {
         )
     }
 }
-
-#if os(visionOS)
-
-    #Preview {
-        RealityUIView {
-            _BorderBox3D()
-        }
-    }
-
-#endif
