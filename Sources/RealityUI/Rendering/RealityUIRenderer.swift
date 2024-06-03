@@ -15,7 +15,7 @@ public class RealityUIRenderer {
 
     public func update(
         with content: any View3D,
-        size: Size3D
+        size: Size3D?
     ) {
         let renderTree = RealityUIRenderer.renderTreeFor(content, size: size)
 
@@ -33,11 +33,12 @@ extension RealityUIRenderer {
     /// returns a whole Entity tree independent of realityRoot
     static func renderTreeFor(
         _ content: any View3D,
-        size: Size3D
+        size: Size3D?
     ) -> Entity {
         let env = Environment3D()
-        let contentSize = content.sizeThatFits(.init(size), env)
-        return content.renderWithSize(contentSize, size, env)
+        let proposed: ProposedSize3D = size.map(ProposedSize3D.init) ?? ProposedSize3D(width: nil, height: nil, depth: nil)
+        let contentSize = content.sizeThatFits(proposed, env)
+        return content.renderWithSize(contentSize, proposed.sizeOrInfinite, env)
     }
 
     /// Recursive method that returns an updated reality tree

@@ -3,31 +3,28 @@
 //
 
 import ColorPalette
+import Spatial
 import SwiftUI
 
-#if os(visionOS)
-
-    #Preview {
-        RealityUIView {
-            Stack3D(axis: .right, alignment: .center, spacing: .one * 0.01) {
-                Sphere3D()
-                Box3D()
-                Sphere3D()
-                    .offset(y: -0.1)
-                Cylinder3D()
-            }
-            .padding(.init(0.1))
-        }
-    }
-
-    #Preview {
-        RealityUIView {
+#Preview {
+    RealityUIView {
+        Stack3D(axis: .right, alignment: .center, spacing: .one * 0.01) {
             Sphere3D()
-                .foreground(.color(.css(basic: .lime)))
-                .frame(width: 0.5)
-                .scaledToFit()
-                .padding(0.01)
+            Box3D()
+            Sphere3D()
+                .offset(y: -0.1)
+            Cylinder3D()
         }
+        .padding(.init(0.1))
     }
+}
 
-#endif
+#Preview {
+    RealityUIView {
+        Box3D()
+            .foreground(.color(.css(basic: .lime)))
+            .frame(size: 0.5)
+            .scaledToFit()
+            .padding(0.01)
+    }
+}

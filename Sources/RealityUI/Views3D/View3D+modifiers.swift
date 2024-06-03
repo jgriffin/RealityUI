@@ -22,14 +22,14 @@ public extension View3D {
         )
     }
 
-    @inlinable func frame(
+    func frame(
         size: Size3D,
         alignment: Alignment3D = .center
     ) -> some View3D {
         frame(width: size.width, height: size.height, depth: size.depth, alignment: alignment)
     }
 
-    @inlinable func frame(
+    func frame(
         size: Double,
         alignment: Alignment3D = .center
     ) -> some View3D {
@@ -62,7 +62,7 @@ public extension View3D {
         _Offset3D(content: self, offset: offset)
     }
 
-    @inlinable func offset(x: Double = 0, y: Double = 0, z: Double = 0) -> some View3D {
+    func offset(x: Double = 0, y: Double = 0, z: Double = 0) -> some View3D {
         offset(.init(x: x, y: y, z: z))
     }
 

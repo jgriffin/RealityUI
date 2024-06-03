@@ -121,19 +121,18 @@ public extension Line3D {
     ].map { Point3D($0 * 0.2) }
 }
 
-
 #if os(visionOS)
 
-#Preview {
-    let points = [
-        Vector3D.bottomLeading, .bottomTrailing, .topTrailing, .topLeading, .bottomLeading,
-    ].map { Point3D($0 * 0.2) }
+    #Preview {
+        let points = [
+            Vector3D.bottomLeading, .bottomTrailing, .topTrailing, .topLeading, .bottomLeading,
+        ].map { Point3D($0 * 0.2) }
 
-    return RealityUIView {
-        Line3D(points)
-            .frame(size: 0.5)
-            .padding(0.01)
+        return RealityUIView {
+            Line3D(points)
+                .frame(size: 0.5)
+                .padding(0.01)
+        }
     }
-}
 
 #endif
