@@ -59,3 +59,20 @@ public struct Cylinder3D: Shape3DStyle {
         )
     }
 }
+
+public struct Cone3D: Shape3DStyle {
+    public init() {}
+
+    public var name = "Cone3D"
+
+    public func shapeSizeFor(_ proposed: ProposedSize3D) -> Size3D {
+        proposed.sizeOrDefault
+    }
+
+    public func mesh(in size: Size3D) -> MeshResource {
+        try! RealityGeometry.generateCone(
+            radius: Float(min(size.width, size.depth) / 2),
+            height: Float(size.height)
+        )
+    }
+}

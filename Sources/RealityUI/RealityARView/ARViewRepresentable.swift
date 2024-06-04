@@ -17,7 +17,7 @@ import SwiftUI
         typealias PlatformViewRepresentable = NSViewRepresentable
     #endif
 
-    struct _ARViewRepresentable: PlatformViewRepresentable {
+    struct ARViewRepresentable: PlatformViewRepresentable {
         let arView: ARView
         let setupScene: (RealityKit.Scene) -> Void
         let update: (ARView) -> Void
@@ -53,9 +53,9 @@ import SwiftUI
         }
 
         class ARViewCoordinator {
-            public var representable: _ARViewRepresentable
+            public var representable: ARViewRepresentable
 
-            public init(_ representableContainer: _ARViewRepresentable) {
+            public init(_ representableContainer: ARViewRepresentable) {
                 representable = representableContainer
             }
         }

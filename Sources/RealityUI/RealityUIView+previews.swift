@@ -21,10 +21,14 @@ import SwiftUI
 
 #Preview {
     RealityUIView {
-        Box3D()
-            .foreground(.color(.css(basic: .lime)))
-            .frame(size: 0.5)
-            .scaledToFit()
-            .padding(0.01)
+        Stack3D(axis: .up) {
+            Box3D()
+                .padding(.init(back: 0.25 / 2))
+                .frame(size: .init(width: 0.4, height: 0.1, depth: 0.25))
+                .foreground(.color(.css(basic: .fuchsia)))
+            Cone3D()
+                .foreground(.color(.css(basic: .lime)))
+                .frame(size: .init(width: 0.25, height: 0.5, depth: 0.25))
+        }
     }
 }
