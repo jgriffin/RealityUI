@@ -6,7 +6,7 @@ import RealityKit
 import Spatial
 import SwiftUI
 
-#Preview("Alignment center") {
+#Preview(".center") {
     RealityUIView {
         Stack3D {
             Box3D()
@@ -20,6 +20,22 @@ import SwiftUI
             Sphere3D()
                 .frame(size: 0.1)
                 .offset(.init(x: 0.2, y: 0, z: 0))
+        }
+        .border()
+        .frame(size: 0.2)
+        .foreground(.cyan20)
+    }
+}
+
+
+#Preview(".right bottom") {
+    RealityUIView {
+        Stack3D(axis: .right, alignment: .bottom) {
+            Box3D()
+                .frame(size: .init(width: 0.2, height: 0.5, depth: 0.2))
+
+            Box3D()
+                .frame(size: .init(width: 0.2, height: 0.8, depth: 0.2))
         }
         .border()
         .frame(size: 0.2)

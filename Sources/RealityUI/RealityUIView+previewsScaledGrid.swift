@@ -8,9 +8,8 @@ import SwiftUI
 
 #Preview {
     RealityUIView {
-        ScaledGrid3D(
-            domain: Rect3D(origin: .zero, size: .one * 4),
-            gridScaleFor: .uniformFit(padding: .one * 0.1)
+        DomainView3D(
+            domain: Rect3D(origin: .zero, size: .one * 4)
         ) {
 //                Canvas3D {
             Box3D()

@@ -8,9 +8,9 @@ import Spatial
 import SwiftUI
 
 public struct GridDots3D: View3D, CustomView3D {
-    let gridScale: GridScale3D
+    let gridScale: DomainScale3D
 
-    public init(gridScale: GridScale3D) {
+    public init(gridScale: DomainScale3D) {
         self.gridScale = gridScale
     }
 

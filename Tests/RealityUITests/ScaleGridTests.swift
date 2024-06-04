@@ -15,7 +15,7 @@ final class ScaleGridTests: XCTestCase {
     }
 
     func testScaledGrid() {
-        let view = ScaledGrid3D(
+        let view = DomainView3D(
             domain: Rect3D(center: .zero, size: .one * 2),
             gridScaleFor: .uniformFit(padding: .zero)
         ) {

@@ -7,9 +7,9 @@ import Spatial
 /// The information needed for scaling a coordinate space into volume
 ///
 /// For example, say you've got an arbitrarily sized group of 3d blocks that you want to display in a volume,
-/// GridScale3D is meant to represent the information needed to render a set of axis in an overlay that matches
+/// DomainScale3D is meant to represent the information needed to render a set of axis in an overlay that matches
 /// the rendered content
-public struct GridScale3D: CustomStringConvertible {
+public struct DomainScale3D: CustomStringConvertible {
     // the "natural" units ... that got scaled into the volume
     public let domain: Rect3D
     // an origin + size of output volume domain is mapped into
@@ -32,7 +32,7 @@ public struct GridScale3D: CustomStringConvertible {
     }
 }
 
-public extension GridScale3D {
+public extension DomainScale3D {
     var domainX: DoubleRange { domain.min.x ... domain.max.x }
     var domainY: DoubleRange { domain.min.y ... domain.max.y }
     var domainZ: DoubleRange { domain.min.z ... domain.max.z }
@@ -60,26 +60,26 @@ public extension GridScale3D {
 }
 
 /// wrapper around logic to scale domain into (proposed) size
-public struct GridScaleFor {
-    let gridScaleFor: (_ domain: Rect3D, _ size: Size3D) -> GridScale3D
+public struct DomainScaleFor {
+    let gridScaleFor: (_ domain: Rect3D, _ size: Size3D) -> DomainScale3D
 
-    public init(gridScaleFor: @escaping (_ domain: Rect3D, _ size: Size3D) -> GridScale3D) {
+    public init(gridScaleFor: @escaping (_ domain: Rect3D, _ size: Size3D) -> DomainScale3D) {
         self.gridScaleFor = gridScaleFor
     }
 
-    public func callAsFunction(domain: Rect3D, size: Size3D) -> GridScale3D {
+    public func callAsFunction(domain: Rect3D, size: Size3D) -> DomainScale3D {
         gridScaleFor(domain, size)
     }
 
     /// calculates uniformly sclaed fit with some padding so we can draw stuff at the edges and stay inside the volume
-    public static func uniformFit(padding: Size3D = .one * 0.01) -> GridScaleFor {
-        GridScaleFor { domain, size in
+    public static func uniformFit(padding: Size3D = .one * 0.01) -> DomainScaleFor {
+        DomainScaleFor { domain, size in
             let domainAspectRatio = domain.size
             let sizeThatFits = AspectRatioMath.scaledToFit(domainAspectRatio, into: size, maxScale: nil)
             let bounds = Rect3D(center: .zero, size: sizeThatFits).inset(by: padding)
             let scale = AspectRatioMath.scaleToFit(domain.size, into: bounds.size)
 
-            return GridScale3D(
+            return DomainScale3D(
                 domain: domain,
                 bounds: bounds,
                 scale: .one * scale

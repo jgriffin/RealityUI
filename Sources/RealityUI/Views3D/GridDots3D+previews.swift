@@ -8,7 +8,7 @@ import SwiftUI
 #Preview {
     RealityUIView {
         Geometry3DReader { size in
-            let gridScale = GridScaleFor.uniformFit()(
+            let gridScale = DomainScaleFor.uniformFit()(
                 domain: Rect3D(center: .zero, size: .one * 2),
                 size: size
             )
