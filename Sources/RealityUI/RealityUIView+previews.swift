@@ -24,7 +24,5 @@ import SwiftUI
         Box3D()
             .foreground(.color(.css(basic: .lime)))
             .frame(size: 0.5)
-            .scaledToFit()
-            .padding(0.01)
     }
 }

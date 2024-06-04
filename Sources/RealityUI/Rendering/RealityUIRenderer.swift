@@ -27,6 +27,10 @@ public class RealityUIRenderer {
             realityRoot.children.append(updatedRoot)
         }
     }
+
+    public func setScale(_ scale: Double) {
+        realityRoot.scale = .one * .init(scale)
+    }
 }
 
 extension RealityUIRenderer {

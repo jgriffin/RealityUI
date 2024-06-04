@@ -27,7 +27,6 @@ import SwiftUI
     }
 }
 
-
 #Preview(".right bottom") {
     RealityUIView {
         Stack3D(axis: .right, alignment: .bottom) {

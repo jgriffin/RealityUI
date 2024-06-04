@@ -8,18 +8,15 @@ import SwiftUI
 
 public struct RealityUIView: View {
     var view3D: any View3D
+    @State private var renderer = RealityUIRenderer()
 
     public init(@View3DBuilder _ view3D: () -> some View3D) {
         self.view3D = view3D()
     }
 
-    @State private var renderer = RealityUIRenderer()
-}
+    #if os(visionOS)
 
-#if os(visionOS)
-
-    public extension RealityUIView {
-        var body: some View {
+        public var body: some View {
             GeometryReader3D { proxy in
                 let localFrame = proxy.frame(in: .local)
 
@@ -34,26 +31,32 @@ public struct RealityUIView: View {
                 }
             }
         }
-    }
 
-#else
+    #else
 
-    public extension RealityUIView {
-        var body: some View {
-            _RealityARView(
-                setupScene: { scene in
-                    let anchor = AnchorEntity(world: .zero)
-                    anchor.addChild(renderer.realityRoot)
-                    scene.anchors.append(anchor)
-                }) { _ in
+        @State private var scale: Size3D = .one
+
+        public var body: some View {
+            GeometryReader { _ in
+                RealityARView(
+                    setupScene: { scene in
+                        let anchor = AnchorEntity(world: .zero)
+                        anchor.addChild(renderer.realityRoot)
+                        scene.anchors.append(anchor)
+
+                        renderer.setScale(4)
+                        renderer.update(with: view3D, size: defaultVolumeSize)
+                    }
+                ) { _ in
                     renderer.update(with: view3D, size: defaultVolumeSize)
                 }
                 .edgesIgnoringSafeArea(.all)
+            }
         }
 
         var defaultVolumeSize: Size3D {
             .init(width: 0.94117648, height: 0.5294118, depth: 0.3970588)
         }
-    }
 
-#endif
+    #endif
+}

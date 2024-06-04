@@ -23,7 +23,7 @@ public struct DomainView3D<Content: View3D, Overlay: View3D>: View3D, CustomView
         self.content = content()
         self.overlay = overlay
     }
-    
+
     public init(
         domain: Rect3D,
         gridScaleFor: DomainScaleFor = .uniformFit(),
@@ -36,7 +36,6 @@ public struct DomainView3D<Content: View3D, Overlay: View3D>: View3D, CustomView
             overlay: { _ in EmptyView3D() }
         )
     }
-    
 
     public func customSizeFor(_ proposed: ProposedSize3D, _: Environment3D) -> Size3D {
         let size = AspectRatioMath.scaledToFit(
@@ -49,7 +48,7 @@ public struct DomainView3D<Content: View3D, Overlay: View3D>: View3D, CustomView
 
     public func customRenderWithSize(_ size: Size3D, _ proposed: Size3D, _ env: Environment3D) -> Entity {
         let domainScale = gridScaleFor(domain: domain, size: size)
-        
+
         let domainContent = content
             .frame(size: domain.size, alignment: .bottomLeadingBack)
             .offset(-.init(domain.origin))
