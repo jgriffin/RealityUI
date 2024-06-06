@@ -70,18 +70,18 @@ public extension View3D {
         _Padding3D(content: self, edgeInsets: insets)
     }
 
-    @inlinable func padding(_ all: Double) -> some View3D {
-        padding(.init(all: all))
-    }
-
     // MARK: - offset
 
-    func offset(_ offset: Vector3D) -> some View3D {
-        _Offset3D(content: self, offset: offset)
+    func offset(_ offset: Vector3D, anchor: Alignment3D = .center) -> some View3D {
+        _Offset3D(content: self, offset: offset, anchor: anchor)
     }
 
-    func offset(x: Double = 0, y: Double = 0, z: Double = 0) -> some View3D {
+    @inlinable func offset(x: Double = 0, y: Double = 0, z: Double = 0) -> some View3D {
         offset(.init(x: x, y: y, z: z))
+    }
+
+    @inlinable func offset(anchor: Alignment3D) -> some View3D {
+        offset(.zero, anchor: anchor)
     }
 
     func aligned(_ alignment: Alignment3D) -> some View3D {

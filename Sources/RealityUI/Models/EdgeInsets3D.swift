@@ -40,7 +40,7 @@ public struct EdgeInsets3D {
         )
     }
 
-    public init(all: Double) {
+    public init(_ all: Double) {
         self.init(
             leading: all, trailing: all,
             top: all, bottom: all,
@@ -48,7 +48,26 @@ public struct EdgeInsets3D {
         )
     }
 
-    var size: Size3D {
+    public static let zero: EdgeInsets3D = .init()
+
+    /// offset for origin
+    public var leadingBottomBack: Vector3D {
+        Vector3D(x: leading, y: bottom, z: back)
+    }
+
+    public var size: Size3D {
         Size3D(width: leading + trailing, height: top + bottom, depth: front + back)
+    }
+}
+
+public extension Rect3D {
+    func padded(_ padding: EdgeInsets3D) -> Rect3D {
+        Rect3D(origin: origin - padding.leadingBottomBack, size: size + padding.size)
+    }
+}
+
+public extension Size3D {
+    func padded(_ padding: EdgeInsets3D) -> Size3D {
+        self + padding.size
     }
 }

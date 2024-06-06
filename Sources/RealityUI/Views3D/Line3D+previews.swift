@@ -13,6 +13,6 @@ import SwiftUI
     return RealityUIView {
         Line3D(points)
             .frame(size: 0.5)
-            .padding(0.01)
+            .padding(.init(0.01))
     }
 }

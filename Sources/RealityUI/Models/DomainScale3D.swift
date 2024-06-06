@@ -12,6 +12,8 @@ import Spatial
 public struct DomainScale3D: CustomStringConvertible {
     // the "natural" units ... that got scaled into the volume
     public let domain: Rect3D
+    // padding in domain units
+    public let domainPadding: EdgeInsets3D
     // an origin + size of output volume domain is mapped into
     public let bounds: Rect3D
     // scale used to fit domain into bounds
@@ -19,10 +21,12 @@ public struct DomainScale3D: CustomStringConvertible {
 
     public init(
         domain: Rect3D,
+        domainPadding: EdgeInsets3D,
         bounds: Rect3D,
         scale: Size3D
     ) {
         self.domain = domain
+        self.domainPadding = domainPadding
         self.bounds = bounds
         self.scale = scale
     }
@@ -33,12 +37,17 @@ public struct DomainScale3D: CustomStringConvertible {
 }
 
 public extension DomainScale3D {
-    var domainX: DoubleRange { domain.min.x ... domain.max.x }
-    var domainY: DoubleRange { domain.min.y ... domain.max.y }
-    var domainZ: DoubleRange { domain.min.z ... domain.max.z }
-    var boundsX: DoubleRange { bounds.min.x ... bounds.max.x }
-    var boundsY: DoubleRange { bounds.min.y ... bounds.max.y }
-    var boundsZ: DoubleRange { bounds.min.z ... bounds.max.z }
+    private var paddedDomain: Rect3D { domain.padded(domainPadding) }
+    private var paddedDomainX: DoubleRange { paddedDomain.min.x ... paddedDomain.max.x }
+    private var paddedDomainY: DoubleRange { paddedDomain.min.y ... paddedDomain.max.y }
+    private var paddedDomainZ: DoubleRange { paddedDomain.min.z ... paddedDomain.max.z }
+    private var paddedDoundsX: DoubleRange { bounds.min.x ... bounds.max.x }
+    private var paddedDoundsY: DoubleRange { bounds.min.y ... bounds.max.y }
+    private var paddedDoundsZ: DoubleRange { bounds.min.z ... bounds.max.z }
+
+    private var boundsX: DoubleRange { bounds.min.x ... bounds.max.x }
+    private var boundsY: DoubleRange { bounds.min.y ... bounds.max.y }
+    private var boundsZ: DoubleRange { bounds.min.z ... bounds.max.z }
 
     func boundsPointFrom(domain: Point3D) -> Point3D {
         Point3D(x: boundsXFrom(domainX: domain.x),
@@ -47,43 +56,46 @@ public extension DomainScale3D {
     }
 
     func boundsXFrom(domainX x: Double) -> Double {
-        boundsX.lerp(x, in: domainX)
+        boundsX.lerp(x, in: paddedDomainX)
     }
 
     func boundsYFrom(domainY y: Double) -> Double {
-        boundsY.lerp(y, in: domainY)
+        boundsY.lerp(y, in: paddedDomainY)
     }
 
     func boundsZFrom(domainZ z: Double) -> Double {
-        boundsZ.lerp(z, in: domainZ)
+        boundsZ.lerp(z, in: paddedDomainZ)
     }
 }
 
 /// wrapper around logic to scale domain into (proposed) size
 public struct DomainScaleFor {
-    let gridScaleFor: (_ domain: Rect3D, _ size: Size3D) -> DomainScale3D
+    let gridScaleFor: (_ domain: Rect3D, _ domainPadding: EdgeInsets3D, _ size: Size3D) -> DomainScale3D
 
-    public init(gridScaleFor: @escaping (_ domain: Rect3D, _ size: Size3D) -> DomainScale3D) {
+    public init(gridScaleFor: @escaping (_ domain: Rect3D, _ domainPadding: EdgeInsets3D, _ size: Size3D) -> DomainScale3D) {
         self.gridScaleFor = gridScaleFor
     }
 
-    public func callAsFunction(domain: Rect3D, size: Size3D) -> DomainScale3D {
-        gridScaleFor(domain, size)
+    public func callAsFunction(domain: Rect3D, domainPadding: EdgeInsets3D, size: Size3D) -> DomainScale3D {
+        gridScaleFor(domain, domainPadding, size)
     }
 
     /// calculates uniformly sclaed fit with some padding so we can draw stuff at the edges and stay inside the volume
-    public static func uniformFit(padding: Size3D = .one * 0.01) -> DomainScaleFor {
-        DomainScaleFor { domain, size in
-            let domainAspectRatio = domain.size
-            let sizeThatFits = AspectRatioMath.scaledToFit(domainAspectRatio, into: size, maxScale: nil)
-            let bounds = Rect3D(center: .zero, size: sizeThatFits).inset(by: padding)
-            let scale = AspectRatioMath.scaleToFit(domain.size, into: bounds.size)
+    public static let uniformFit = DomainScaleFor { domain, domainPadding, size in
+        let paddedDomain = domain.padded(domainPadding)
+        let sizeThatFits = AspectRatioMath.scaledToFit(
+            paddedDomain.size,
+            into: size,
+            maxScale: nil
+        )
+        let bounds = Rect3D(center: .zero, size: sizeThatFits)
+        let scale = AspectRatioMath.scaleToFit(paddedDomain.size, into: bounds.size)
 
-            return DomainScale3D(
-                domain: domain,
-                bounds: bounds,
-                scale: .one * scale
-            )
-        }
+        return DomainScale3D(
+            domain: domain,
+            domainPadding: domainPadding,
+            bounds: bounds,
+            scale: .one * scale
+        )
     }
 }

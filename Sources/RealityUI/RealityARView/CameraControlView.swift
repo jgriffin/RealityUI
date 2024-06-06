@@ -101,12 +101,6 @@ import SwiftUI
             case .arc:
                 let start = ndcPoint(ratioPoint: startRatio)
                 let end = ndcPoint(ratioPoint: endRatio)
-
-//                let ndcToCamera = original.direction.rotation(to: .init(x: 0, y: 0, z: 1)).inverse
-//                let startCamera = start.rotated(by: ndcToCamera)
-//                let endCamera = end.rotated(by: ndcToCamera)
-//                let rotation = endCamera.rotation(to: startCamera)
-
                 let rotation = end.rotation(to: start)
 
                 let direction = (original.direction).rotated(by: rotation)
