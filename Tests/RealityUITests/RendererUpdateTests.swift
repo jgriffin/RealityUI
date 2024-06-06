@@ -39,7 +39,7 @@ final class RendererUpdateTests: XCTestCase {
         renderer.update(with: framed, size: .one)
 
         XCTAssertEqual(root.children.count, 1)
-        XCTAssertEqual(contentRoot?.View3D?.type, _Frame3D<Box3D>.contentType)
+        XCTAssertEqual(contentRoot?.View3D?.type, _FixedFrame3D<Box3D>.contentType)
         XCTAssertEqual(contentRoot?.children.count, 1)
         XCTAssertEqual(contentRoot?.children.first?.View3D?.type, Shape3DView<Box3D>.contentType)
     }
@@ -50,7 +50,7 @@ final class RendererUpdateTests: XCTestCase {
         renderer.update(with: framed, size: .one)
 
         XCTAssertEqual(root.children.count, 1)
-        XCTAssertEqual(contentRoot?.View3D?.type, _Frame3D<Sphere3D>.contentType)
+        XCTAssertEqual(contentRoot?.View3D?.type, _FixedFrame3D<Sphere3D>.contentType)
         XCTAssertEqual(contentRoot?.children.count, 1)
         XCTAssertEqual(contentRoot?.children.first?.View3D?.type, Shape3DView<Sphere3D>.contentType)
     }
@@ -62,7 +62,7 @@ final class RendererUpdateTests: XCTestCase {
         renderer.update(with: framed, size: .one)
 
         XCTAssertEqual(root.children.count, 1)
-        XCTAssertEqual(contentRoot?.View3D?.type, _Frame3D<Sphere3D>.contentType)
+        XCTAssertEqual(contentRoot?.View3D?.type, _FixedFrame3D<Sphere3D>.contentType)
         XCTAssertEqual(contentRoot?.children.count, 1)
         XCTAssertEqual(contentRoot?.children.first?.View3D?.type, Shape3DView<Sphere3D>.contentType)
     }

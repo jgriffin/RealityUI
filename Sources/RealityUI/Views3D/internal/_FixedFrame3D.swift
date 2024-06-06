@@ -5,12 +5,12 @@
 import RealityKit
 import Spatial
 
-public struct _Frame3D<Content: View3D>: View3D, CustomView3D {
-    var content: Content
-    var width: Double?
-    var height: Double?
-    var depth: Double?
-    var alignment: Alignment3D
+public struct _FixedFrame3D<Content: View3D>: View3D, CustomView3D {
+    let content: Content
+    let width: Double?
+    let height: Double?
+    let depth: Double?
+    let alignment: Alignment3D
 
     private func newProposedSize(_ proposed: ProposedSize3D) -> ProposedSize3D {
         .init(

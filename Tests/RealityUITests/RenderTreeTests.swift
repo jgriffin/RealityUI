@@ -37,12 +37,12 @@ final class RenderTreeTests: XCTestCase {
 
         let result = Renderer.renderTreeFor(framed, size: .one)
 
-        XCTAssertEqual(result.View3D?.type, _Frame3D<Box3D>.contentType)
+        XCTAssertEqual(result.View3D?.type, _FixedFrame3D<Box3D>.contentType)
         XCTAssertEqual(result.transform.translation, .zero)
         XCTAssertEqual(result.children.count, 1)
         XCTAssertEqual(result.children.first?.View3D?.type, Shape3DView<Box3D>.contentType)
         XCTAssertEqual(result.description, """
-        _Frame3D (width: 2.0, height: 3.0, depth: 4.0)
+        _FixedFrame3D (width: 2.0, height: 3.0, depth: 4.0)
             Shape3DView Box3D
         """)
     }
@@ -53,12 +53,12 @@ final class RenderTreeTests: XCTestCase {
 
         let result = Renderer.renderTreeFor(framed, size: .one)
 
-        XCTAssertEqual(result.View3D?.type, _Frame3D<Sphere3D>.contentType)
+        XCTAssertEqual(result.View3D?.type, _FixedFrame3D<Sphere3D>.contentType)
         XCTAssertEqual(result.transform.translation, .zero)
         XCTAssertEqual(result.children.count, 1)
         XCTAssertEqual(result.children.first?.View3D?.type, Shape3DView<Sphere3D>.contentType)
         XCTAssertEqual(result.description, """
-        _Frame3D (width: 4.0, height: 3.0, depth: 2.0)
+        _FixedFrame3D (width: 4.0, height: 3.0, depth: 2.0)
             Shape3DView Sphere3D
         """)
     }
@@ -69,12 +69,12 @@ final class RenderTreeTests: XCTestCase {
 
         let result = Renderer.renderTreeFor(framed, size: .one)
 
-        XCTAssertEqual(result.View3D?.type, _Frame3D<Sphere3D>.contentType)
+        XCTAssertEqual(result.View3D?.type, _FixedFrame3D<Sphere3D>.contentType)
         XCTAssertEqual(result.transform.translation, .zero)
         XCTAssertEqual(result.children.count, 1)
         XCTAssertEqual(result.children.first?.View3D?.type, Shape3DView<Sphere3D>.contentType)
         XCTAssertEqual(result.description, """
-        _Frame3D (width: 4.0, height: 3.0, depth: 2.0)
+        _FixedFrame3D (width: 4.0, height: 3.0, depth: 2.0)
             Shape3DView Sphere3D translation: SIMD3<Float>(-1.0, 0.0, 0.0)
         """)
     }

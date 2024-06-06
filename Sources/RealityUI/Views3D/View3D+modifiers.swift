@@ -14,7 +14,7 @@ public extension View3D {
         depth: Double? = nil,
         alignment: Alignment3D = .center
     ) -> some View3D {
-        _Frame3D(
+        _FixedFrame3D(
             content: self,
             width: width,
             height: height,
@@ -35,6 +35,23 @@ public extension View3D {
         alignment: Alignment3D = .center
     ) -> some View3D {
         frame(size: .one * size, alignment: alignment)
+    }
+
+    func frame(
+        minWidth: Double? = nil,
+        maxWidth: Double? = nil,
+        minHeight: Double? = nil,
+        maxHeight: Double? = nil,
+        alignment: Alignment3D = .center
+    ) -> some View3D {
+        _FlexibleFrame3D(
+            content: self,
+            minWidth: minWidth,
+            maxWidth: maxWidth,
+            minHeight: minHeight,
+            maxHeight: maxHeight,
+            alignment: alignment
+        )
     }
 
     // MARK: - overlay
