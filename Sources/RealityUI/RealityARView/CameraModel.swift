@@ -10,7 +10,7 @@ import Spatial
 
     struct CameraModel {
         var lookAtPoint: Point3D = .zero
-        var direction: Vector3D = .init(x: -0.5, y: 1, z: 3)
+        var direction: Vector3D = .init(x: 0, y: 0, z: 3)
         var radius: Double = 3
     }
 
@@ -42,8 +42,8 @@ import Spatial
             lookAtEntity.position = .init(cameraModel.lookAtPoint.vector)
             perpectiveCamera.position = .init(cameraModel.direction.vector * cameraModel.radius)
             perpectiveCamera.look(
-                at: .zero,
-                from: perpectiveCamera.position,
+                at: lookAtEntity.position(relativeTo: nil),
+                from: perpectiveCamera.position(relativeTo: nil),
                 relativeTo: nil
             )
         }
