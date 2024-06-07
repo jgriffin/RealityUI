@@ -10,10 +10,10 @@ import SwiftUI
 
     struct CameraControlView: View {
         let camera: CameraHolder
-        @State private var mode: Mode = .arc
+        @State private var mode: Mode = .orbit
 
         enum Mode {
-            case interact, move, orbit, radius, arc
+            case interact, move, orbit, radius
         }
 
         @GestureState private var originalModel: CameraModel?
@@ -24,7 +24,7 @@ import SwiftUI
                     .contentShape(Rectangle())
                     .gesture(cameraDragGesture(proxy.size))
                     .simultaneousGesture(cameraZoomGesture)
-                    .coordinateSpace(.named("ArcBallView"))
+                    .coordinateSpace(.named("CameraControlView"))
                     .overlay(alignment: .bottomLeading) { modeBar }
                     .padding()
             }
@@ -38,7 +38,6 @@ import SwiftUI
                 button(.move, "arrow.up.and.down.and.arrow.left.and.right")
                 button(.orbit, "rotate.3d")
                 button(.radius, "arrow.up.left.and.down.right.magnifyingglass")
-                button(.arc, "rotate.3d.circle")
                 Button(action: { camera.cameraModel = .init() }) {
                     Image(systemName: "scope")
                 }
@@ -65,27 +64,24 @@ import SwiftUI
             case .interact:
                 break
             case .move:
-                break
-
-            case .orbit:
                 let deltaX = endRatio.x - startRatio.y
                 let deltaY = endRatio.y - startRatio.y
 
-                let euler = EulerAngles(
-                    x: .zero,
-                    y: .degrees(-deltaX * 180),
-                    z: .degrees(-deltaY * 180),
-                    order: .xyz
-                )
-                let rotation = Rotation3D(eulerAngles: euler)
-                let direction = original.direction.rotated(by: rotation.quaternion)
+                let speed: Double = 5
+                let offset = Vector3D(x: deltaX * speed, y: deltaY * speed, z: 0)
 
-//            let rotFromX = Rotation3D(angle: .degrees(-deltaX * 180), axis: .y)
-//            let rotFromY = Rotation3D(angle: .degrees(deltaY * 180), axis: .x)
-//            let direction = original.direction
-//                .rotated(by: rotFromX.quaternion)
-//                .rotated(by: rotFromY.quaternion)
+                let lookRotation = Vector3D(x: 0, y: 0, z: 1).rotation(to: original.direction)
+                let rotatedOffset = offset.rotated(by: lookRotation)
 
+                let lookAtPoint = original.lookAtPoint - rotatedOffset
+                camera.cameraModel.lookAtPoint = lookAtPoint
+
+            case .orbit:
+                let start = ndcPoint(ratioPoint: startRatio)
+                let end = ndcPoint(ratioPoint: endRatio)
+                let rotation = end.rotation(to: start)
+
+                let direction = (original.direction).rotated(by: rotation)
                 camera.cameraModel.direction = direction
 
             case .radius:
@@ -97,19 +93,11 @@ import SwiftUI
                 let radius = original.radius / max(0.1, min(1 + magnification, 10))
 
                 camera.cameraModel.radius = max(1, radius)
-
-            case .arc:
-                let start = ndcPoint(ratioPoint: startRatio)
-                let end = ndcPoint(ratioPoint: endRatio)
-                let rotation = end.rotation(to: start)
-
-                let direction = (original.direction).rotated(by: rotation)
-                camera.cameraModel.direction = direction
             }
         }
 
         func cameraDragGesture(_ viewSize: CGSize) -> some Gesture {
-            DragGesture(coordinateSpace: .named("ArcBallView"))
+            DragGesture(coordinateSpace: .named("CameraControlView"))
                 .updating($originalModel) { value, state, _ in
                     guard let original = state else {
                         state = camera.cameraModel
