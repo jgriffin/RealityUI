@@ -36,7 +36,7 @@
         // MARK: - setup
 
         func innerSetupScene(_ scene: RealityKit.Scene) {
-            camera.addToScene(scene)
+            camera.addToScene(scene, arView)
             setupScene(scene)
         }
     }
