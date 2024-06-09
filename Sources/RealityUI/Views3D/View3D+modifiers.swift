@@ -140,6 +140,12 @@ public extension View3D {
         self.scale(.one * scale)
     }
 
+    // MARK: - fixedSize
+
+    func fixedSize(horizontal: Bool = true, vertical: Bool = true) -> some View3D {
+        _FixedSize3D(content: self, horizontal: horizontal, vertical: vertical)
+    }
+
     // MARK: - ID
 
     func id(_ id: some Hashable) -> some View3D {
