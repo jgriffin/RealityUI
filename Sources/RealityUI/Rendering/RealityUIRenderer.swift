@@ -69,10 +69,11 @@ extension RealityUIRenderer {
         // MARK: components
 
         if !existingContent.isEqual(renderContent) {
-            for componentType in Entity.realityUIComponentTypes {
-                if let c = renderRoot.components[componentType.self] {
-                    existingRoot.components[componentType] = c
-                }
+            if let transform = renderRoot.components[Transform.self] {
+                existingRoot.components.set(transform)
+            }
+            if let model = renderRoot.components[ModelComponent.self] {
+                existingRoot.components.set(model)
             }
         }
 

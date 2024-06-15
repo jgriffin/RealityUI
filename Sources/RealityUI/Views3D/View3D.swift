@@ -48,6 +48,7 @@ public extension View3D where Body == Never {
     var body: Never { fatalError("This should never be called.") }
 }
 
+extension Never: @retroactive CustomStringConvertible {}
 extension Never: View3D {
     public typealias Body = Never
 }
