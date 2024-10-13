@@ -4,7 +4,7 @@
 
 import RealityKit
 
-public protocol Materializable {
+@MainActor public protocol Materializable {
     func makeMaterial() -> RealityKit.Material
 }
 

@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct Environment3D {
+@MainActor public struct Environment3D {
     private var values: [ObjectIdentifier: Any]
 
     init(values: [ObjectIdentifier: Any]) {
@@ -31,7 +31,7 @@ public struct Environment3D {
     }
 }
 
-public protocol Environment3DKey {
+@MainActor public protocol Environment3DKey {
     associatedtype Value
 
     static var defaultValue: Self.Value { get }

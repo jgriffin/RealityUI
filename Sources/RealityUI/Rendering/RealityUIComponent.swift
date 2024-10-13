@@ -41,8 +41,8 @@ public struct RealityContentType: Hashable, CustomStringConvertible {
 }
 
 public extension View3D {
-    static var contentType: RealityContentType { RealityContentType(Self.self) }
-    var contentType: RealityContentType { Self.contentType }
+    nonisolated static var contentType: RealityContentType { RealityContentType(Self.self) }
+    nonisolated var contentType: RealityContentType { Self.contentType }
 }
 
 // MARK: - RealityUIContentComponentProtocol

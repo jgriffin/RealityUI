@@ -4,7 +4,7 @@
 
 import RealityUI
 
-public protocol Chart3DContent: CustomStringConvertible {
+@MainActor public protocol Chart3DContent: CustomStringConvertible {
     associatedtype View3DBody: View3D
 
     func plottableDomains() -> PlottableDomains
@@ -12,7 +12,7 @@ public protocol Chart3DContent: CustomStringConvertible {
 }
 
 public extension Chart3DContent {
-    var description: String { "\(Self.self)" }
+    nonisolated var description: String { "\(Self.self)" }
 }
 
 // MARK: - EmptyChartContent

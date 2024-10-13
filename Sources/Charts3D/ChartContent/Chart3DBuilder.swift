@@ -5,7 +5,7 @@
 import Foundation
 
 @resultBuilder
-public enum Chart3DBuilder {
+@MainActor public enum Chart3DBuilder {
     public static func buildBlock() -> EmptyChart3DContent { EmptyChart3DContent() }
     public static func buildBlock<C: Chart3DContent>(_ content: C) -> C { content }
     public static func buildBlock<each C: Chart3DContent>(_ content: repeat each C) -> TupleChart3DContent< repeat each C> {

@@ -23,12 +23,14 @@ public struct _AspectRatio3D<Content: View3D>: View3D, CustomView3D {
         self.contentMode = contentMode
     }
 
-    public var description: String {
-        [
-            "\(contentType)",
-            aspectRatio.map { "aspectRatio: \($0)" },
-            maxScale.map { "maxScale: \($0)" },
-        ].compactMap { $0 }.joined(separator: " ")
+    public nonisolated var description: String {
+        MainActor.assumeIsolated {
+            [
+                "\(contentType)",
+                aspectRatio.map { "aspectRatio: \($0)" },
+                maxScale.map { "maxScale: \($0)" },
+            ].compactMap { $0 }.joined(separator: " ")
+        }
     }
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {

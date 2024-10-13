@@ -64,6 +64,7 @@ import SwiftUI
             switch mode {
             case .interact:
                 break
+
             case .move:
                 guard let startLook = camera.lookPoint(startLocation),
                       let endLook = camera.lookPoint(endLocation)

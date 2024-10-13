@@ -4,7 +4,7 @@
 
 import Spatial
 
-public protocol Alignment3DID: CustomStringConvertible {
+public protocol Alignment3DID: CustomStringConvertible, Sendable {
     static func defaultValue(in context: Size3D) -> Double
 }
 
@@ -12,7 +12,7 @@ public extension Alignment3DID {
     var description: String { "\(Self.self)" }
 }
 
-public struct Alignment3D: Equatable, CustomStringConvertible {
+public struct Alignment3D: Equatable, CustomStringConvertible, Sendable {
     public let name: String
     public let horizontal: HorizontalAlignment3D
     public let vertical: VerticalAlignment3D
@@ -51,7 +51,7 @@ public struct Alignment3D: Equatable, CustomStringConvertible {
     public var description: String { name }
 }
 
-public struct HorizontalAlignment3D: Equatable, CustomStringConvertible {
+public struct HorizontalAlignment3D: Equatable, CustomStringConvertible, Sendable {
     public var alignmentID: Alignment3DID.Type
 
     public static func == (lhs: HorizontalAlignment3D, rhs: HorizontalAlignment3D) -> Bool {
@@ -61,7 +61,7 @@ public struct HorizontalAlignment3D: Equatable, CustomStringConvertible {
     public var description: String { "\(alignmentID)" }
 }
 
-public struct VerticalAlignment3D: Equatable, CustomStringConvertible {
+public struct VerticalAlignment3D: Equatable, CustomStringConvertible, Sendable {
     public var alignmentID: Alignment3DID.Type
 
     public static func == (lhs: VerticalAlignment3D, rhs: VerticalAlignment3D) -> Bool {
@@ -71,7 +71,7 @@ public struct VerticalAlignment3D: Equatable, CustomStringConvertible {
     public var description: String { "\(alignmentID)" }
 }
 
-public struct DepthAlignment3D: Equatable, CustomStringConvertible {
+public struct DepthAlignment3D: Equatable, CustomStringConvertible, Sendable {
     public var alignmentID: Alignment3DID.Type
 
     public static func == (lhs: DepthAlignment3D, rhs: DepthAlignment3D) -> Bool {

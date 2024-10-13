@@ -38,7 +38,7 @@ extension TupleChart3DContent: ChartTupling {}
 
 // MARK: - ChartTupling
 
-protocol ChartTupling {
+@MainActor protocol ChartTupling {
     var contents: [any Chart3DContent] { get }
 }
 

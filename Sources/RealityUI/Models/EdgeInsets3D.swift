@@ -4,7 +4,7 @@
 
 import Spatial
 
-public struct EdgeInsets3D {
+public struct EdgeInsets3D: Sendable {
     var leading: Double
     var trailing: Double
     var top: Double

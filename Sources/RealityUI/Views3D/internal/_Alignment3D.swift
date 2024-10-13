@@ -18,7 +18,9 @@ public struct _Aligned3D<Content: View3D>: View3D, CustomView3D {
         self.alignment = alignment
     }
 
-    public var description: String { "\(contentType)" }
+    public nonisolated var description: String {
+        "\(contentType)"
+    }
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {
         content.sizeThatFits(proposed, env)

@@ -2,7 +2,7 @@
 // Created by John Griffin on 4/22/24
 //
 
-public struct Chart3DEnvironment {
+@MainActor public struct Chart3DEnvironment {
     private var values: [ObjectIdentifier: Any]
 
     init(values: [ObjectIdentifier: Any]) {
@@ -29,7 +29,7 @@ public extension Chart3DEnvironment {
     }
 }
 
-public protocol ChartEnvironmentKey {
+@MainActor public protocol ChartEnvironmentKey {
     associatedtype Value
 
     static var defaultValue: Self.Value { get }

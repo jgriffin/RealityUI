@@ -13,7 +13,7 @@ public struct Chart3D<Content: Chart3DContent>: Chart3DContent, View3D, CustomVi
         self.content = content()
     }
 
-    public var description: String {
+    public nonisolated var description: String {
         "\(Self.self)"
     }
 }

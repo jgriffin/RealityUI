@@ -71,7 +71,7 @@ public extension Entity {
 }
 
 public extension Component where Self == ModelComponent {
-    static func model(
+    @MainActor static func model(
         mesh: MeshResource,
         material: Material3D
     ) -> Self {
@@ -84,14 +84,7 @@ public extension Component where Self == ModelComponent {
 
 public extension Component where Self == Transform {
     static func transform(_ affine: AffineTransform3D) -> Self {
-        #if os(visionOS)
-            let transform = RealityKit.Transform(affine)
-        #else
-            let cols = affine.matrix4x4.columns
-            let floatMatrix = matrix_float4x4(columns: (.init(cols.0), .init(cols.1), .init(cols.2), .init(cols.3)))
-            let transform = RealityKit.Transform(matrix: floatMatrix)
-        #endif
-        return transform
+        RealityKit.Transform(affine)
     }
 
     @inlinable static func transform(pose: Pose3D) -> Self {

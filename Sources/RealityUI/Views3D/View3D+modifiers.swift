@@ -167,6 +167,6 @@ public extension View3D {
     }
 }
 
-public enum ContentMode {
+public enum ContentMode: Sendable {
     case fit, fill
 }

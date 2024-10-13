@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public class RealityUIRenderer {
+@MainActor public class RealityUIRenderer {
     public let realityRoot: Entity
 
     public init() {

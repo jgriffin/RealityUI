@@ -17,7 +17,7 @@ public struct _Overlay3D<Content: View3D, OverlayContent: View3D>: View3D, Custo
         self.alignment = alignment
     }
 
-    public var description: String {
+    public nonisolated var description: String {
         "\(contentType) alignment: ???"
     }
 

@@ -19,9 +19,9 @@ public extension Environment3D {
 // MARK: - Environment3DKeys
 
 enum ForegroundMaterialKey: Environment3DKey {
-    static var defaultValue: Material3D = .color(.blue)
+    static let defaultValue: Material3D = .color(.blue)
 }
 
 enum LineRadiusKey: Environment3DKey {
-    static var defaultValue: Double = 0.001
+    static let defaultValue: Double = 0.001
 }

@@ -9,7 +9,7 @@ public enum _Conditional3D<First: View3D, Second: View3D>: View3D, CustomView3D 
     case first(First),
          second(Second)
 
-    public var description: String {
+    public nonisolated var description: String {
         switch self {
         case .first: "\(contentType) .first"
         case .second: "\(contentType) .second"

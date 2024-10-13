@@ -9,7 +9,7 @@ import SwiftUI
 public struct Shape3DView<S: Shape3DStyle>: View3D, CustomView3D {
     public var shape: S
 
-    public var description: String {
+    public nonisolated var description: String {
         "\(contentType)"
     }
 

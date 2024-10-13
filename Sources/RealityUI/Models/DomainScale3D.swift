@@ -9,7 +9,7 @@ import Spatial
 /// For example, say you've got an arbitrarily sized group of 3d blocks that you want to display in a volume,
 /// DomainScale3D is meant to represent the information needed to render a set of axis in an overlay that matches
 /// the rendered content
-public struct DomainScale3D: CustomStringConvertible {
+public struct DomainScale3D: CustomStringConvertible, Sendable {
     // the "natural" units ... that got scaled into the volume
     public let domain: Rect3D
     // padding in domain units
@@ -69,10 +69,10 @@ public extension DomainScale3D {
 }
 
 /// wrapper around logic to scale domain into (proposed) size
-public struct DomainScaleFor {
-    let gridScaleFor: (_ domain: Rect3D, _ domainPadding: EdgeInsets3D, _ size: Size3D) -> DomainScale3D
+public struct DomainScaleFor: Sendable {
+    let gridScaleFor: @Sendable (_ domain: Rect3D, _ domainPadding: EdgeInsets3D, _ size: Size3D) -> DomainScale3D
 
-    public init(gridScaleFor: @escaping (_ domain: Rect3D, _ domainPadding: EdgeInsets3D, _ size: Size3D) -> DomainScale3D) {
+    public init(gridScaleFor: @Sendable @escaping (_ domain: Rect3D, _ domainPadding: EdgeInsets3D, _ size: Size3D) -> DomainScale3D) {
         self.gridScaleFor = gridScaleFor
     }
 

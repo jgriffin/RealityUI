@@ -8,7 +8,7 @@
     import AppKit
 #endif
 
-protocol NamedColor {
+protocol NamedColor: Sendable {
     var name: String { get }
     var uiColor: PlatformColor { get }
 }

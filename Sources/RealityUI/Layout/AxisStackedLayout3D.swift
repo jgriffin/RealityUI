@@ -20,7 +20,9 @@ public struct AxisStackedLayout3D: Layout3D {
         self.spacing = spacing
     }
 
-    public var description: String { "AxisStackedLayout3D \(axis) \(alignment) \(spacing)" }
+    public nonisolated var description: String {
+        "AxisStackedLayout3D \(axis) \(alignment) \(spacing)"
+    }
 
     public func sizeThatFitsContents(
         _ contents: [any View3D],

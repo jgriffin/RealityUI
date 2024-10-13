@@ -12,8 +12,8 @@ public struct AnyView3D: View3D, CustomView3D {
         self.content = content
     }
 
-    public var description: String {
-        "\(contentType) \(content)"
+    public nonisolated var description: String {
+        MainActor.assumeIsolated { "\(contentType) \(content)" }
     }
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {

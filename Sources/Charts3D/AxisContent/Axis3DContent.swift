@@ -5,7 +5,7 @@
 import RealityUI
 
 /// essentially Axis3DMarks
-public protocol Axis3DContent {
+@MainActor public protocol Axis3DContent {
     associatedtype View3DBody: View3D
 
     @View3DBuilder

@@ -20,8 +20,10 @@ public struct _Environment3D<Content: View3D, V>: View3D, CustomView3D {
         self.value = value
     }
 
-    public var description: String {
-        "\(contentType) \(keyPath) \(value)"
+    public nonisolated var description: String {
+        MainActor.assumeIsolated {
+            "\(contentType) \(keyPath) \(value)"
+        }
     }
 
     public func customSizeFor(_ proposed: ProposedSize3D, _ env: Environment3D) -> Size3D {

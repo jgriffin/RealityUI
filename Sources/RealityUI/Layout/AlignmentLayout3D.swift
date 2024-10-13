@@ -11,7 +11,9 @@ public struct AlignmentLayout3D: Layout3D {
         self.alignment = alignment
     }
 
-    public var description: String { "AlignmentLayout3D \(alignment)" }
+    public nonisolated var description: String {
+        "AlignmentLayout3D \(alignment)"
+    }
 
     public func sizeThatFitsContents(
         _ contents: [any View3D],

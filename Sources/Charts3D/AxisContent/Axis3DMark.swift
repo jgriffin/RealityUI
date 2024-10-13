@@ -6,7 +6,7 @@ import RealityUI
 import Spatial
 
 /// GridLInes, Ticks, Labels
-public protocol Axis3DMark {
+@MainActor public protocol Axis3DMark {
     associatedtype View3DBody: View3D
 
     @View3DBuilder

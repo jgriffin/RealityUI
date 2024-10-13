@@ -5,7 +5,7 @@
 import Foundation
 
 @resultBuilder
-public enum View3DBuilder {
+@MainActor public enum View3DBuilder {
     public static func buildBlock() -> EmptyView3D { EmptyView3D() }
     public static func buildBlock<Content: View3D>(_ content: Content) -> Content { content }
     public static func buildBlock<each C: View3D>(_ content: repeat each C) -> TupleView3D< repeat each C> {

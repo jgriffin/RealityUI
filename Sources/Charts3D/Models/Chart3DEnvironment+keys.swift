@@ -30,17 +30,17 @@ public extension Chart3DEnvironment {
 // MARK: - environment keys
 
 enum ChartForegroundMaterialKey: ChartEnvironmentKey {
-    static var defaultValue: Material3D = .blue100
+    static let defaultValue: Material3D = .blue100
 }
 
 enum ChartSymbolShapeKey: ChartEnvironmentKey {
-    static var defaultValue: any Shape3DStyle = Box3D()
+    static let defaultValue: any Shape3DStyle = Box3D()
 }
 
 enum ChartSymbolSizeKey: ChartEnvironmentKey {
-    static var defaultValue: Size3D = .one * 0.1
+    static let defaultValue: Size3D = .one * 0.1
 }
 
 enum ChartLineMaterialKey: ChartEnvironmentKey {
-    static var defaultValue: Material3D = .blue100
+    static let defaultValue: Material3D = .blue100
 }

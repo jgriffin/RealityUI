@@ -10,12 +10,12 @@
 
 import SwiftUI
 
-public struct ColorPalette {
+public struct ColorPalette: Sendable {
     public let name: String
     public let type: PaletteType
     public let uiColors: [PlatformColor]
 
-    public enum PaletteType {
+    public enum PaletteType: Sendable {
         case categorical, sequential, divergent
     }
 

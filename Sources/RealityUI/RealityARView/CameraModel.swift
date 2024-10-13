@@ -9,13 +9,13 @@ import SwiftUI
 
 #if !os(visionOS)
 
-    struct CameraModel {
+    @MainActor struct CameraModel {
         var lookAtPoint: Point3D = .zero
         var direction: Vector3D = .init(x: 0, y: 0, z: 3)
         var radius: Double = 3
     }
 
-    class CameraHolder {
+    @MainActor class CameraHolder {
         var cameraModel: CameraModel = .init() {
             didSet { updateScene() }
         }

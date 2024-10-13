@@ -5,7 +5,7 @@
 import RealityKit
 import Spatial
 
-public protocol Layout3D: CustomStringConvertible {
+@MainActor public protocol Layout3D: CustomStringConvertible {
     var alignment: Alignment3D { get }
 
     // Calculate and return the size of the layout container.
