@@ -7,7 +7,7 @@ import Spatial
 import SwiftUI
 
 #Preview {
-    RealityUIView {
+    RealityView3D {
         Box3D()
             .overlay(alignment: .bottomLeadingFront) {
                 Box3D()

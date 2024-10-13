@@ -7,7 +7,7 @@ import Spatial
 import SwiftUI
 
 #Preview(".center") {
-    RealityUIView {
+    RealityView3D {
         Stack3D {
             Box3D()
                 .frame(size: 0.1)
@@ -28,7 +28,7 @@ import SwiftUI
 }
 
 #Preview(".right bottom") {
-    RealityUIView {
+    RealityView3D {
         Stack3D(axis: .right, alignment: .bottom) {
             Box3D()
                 .frame(size: .init(width: 0.2, height: 0.5, depth: 0.2))

@@ -6,7 +6,7 @@ import Spatial
 import SwiftUI
 
 #Preview {
-    RealityUIView {
+    RealityView3D {
         Geometry3DReader { size in
             let gridScale = DomainScaleFor.uniformFit(
                 domain: Rect3D(center: .zero, size: .one * 2),

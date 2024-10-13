@@ -6,7 +6,7 @@ import Spatial
 import SwiftUI
 
 #Preview {
-    RealityUIView {
+    RealityView3D {
         _BorderBox3D()
     }
 }

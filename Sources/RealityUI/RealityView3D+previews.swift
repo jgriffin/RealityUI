@@ -6,8 +6,29 @@ import ColorPalette
 import Spatial
 import SwiftUI
 
-#Preview {
-    RealityUIView {
+#Preview("Box") {
+    RealityView3D {
+        Box3D()
+            .foreground(.cyan20)
+    }
+}
+
+#Preview("Stack") {
+    RealityView3D {
+        Stack3D(axis: .right, alignment: .center, spacing: .one * 0.01) {
+            Sphere3D()
+            Box3D()
+
+            Sphere3D()
+                .offset(y: -0.1)
+            Cylinder3D()
+        }
+        .padding(.init(0.1))
+    }
+}
+
+#Preview("GridDots") {
+    RealityView3D {
         DomainView3D(
             domain: Rect3D(origin: .zero, size: .one * 4)
         ) {
@@ -25,4 +46,5 @@ import SwiftUI
             GridDots3D(gridScale: gridScale)
         }
     }
+    .background(.black)
 }

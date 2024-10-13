@@ -7,7 +7,7 @@ import Spatial
 import SwiftUI
 
 #Preview {
-    RealityUIView {
+    RealityView3D {
         DomainView3D(
             domain: Rect3D(origin: .zero, size: .one * 5),
             domainPadding: .init(0.5)
@@ -30,7 +30,7 @@ import SwiftUI
 }
 
 #Preview {
-    RealityUIView {
+    RealityView3D {
         Stack3D(axis: .right, alignment: .bottom, spacing: 0.01) {
             DomainView3D(
                 domain: Rect3D(origin: .zero, size: .init(width: 10, height: 100, depth: 10))

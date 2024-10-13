@@ -28,7 +28,7 @@ public struct Geometry3DReader<Content: View3D>: View3D, CustomView3D {
 }
 
 #Preview {
-    RealityUIView {
+    RealityView3D {
         Geometry3DReader { _ in
             Box3D()
                 .frame(size: 0.1)

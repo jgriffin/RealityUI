@@ -7,7 +7,7 @@ import Spatial
 import SwiftUI
 
 #Preview {
-    RealityUIView {
+    RealityView3D {
         Box3D()
             .frame(height: 1)
             .border()
